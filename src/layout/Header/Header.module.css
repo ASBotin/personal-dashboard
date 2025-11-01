@@ -1,0 +1,19 @@
+.header {
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 998;
+    background-color: #B0CAD4;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    display:  flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.logo {
+    border-top: 4px solid #454449;
+    padding: 22px 0 22px 0;
+    font-weight: bold;
+    color: #454449;
+    font-size: 18px; 
+}

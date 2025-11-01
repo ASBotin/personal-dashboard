@@ -1,10 +1,10 @@
 import styles from "./Header.module.css"
 
-export default function Header({ children }) {
+export default function Header({children}) {
     return (
         <header className = {styles.header}>
-            Тут будет шапка
-            { children }
+            <div className={styles.logo}>Persanal<br />Dashboard</div>
+            {children}
         </header>
     )
 }

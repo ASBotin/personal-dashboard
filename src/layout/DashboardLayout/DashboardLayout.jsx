@@ -21,7 +21,22 @@ export default function DashboardLayout() {
             ...prev,
             widgets: [...prev.widgets, newWidget]
         }))
+    }
 
+    function removeWidget(id) {
+        setBoard(prev => ({
+            ...prev,
+            widgets: prev.widgets.filter(widget => widget.id !== id)
+        }))
+    }
+
+    function updateWidget(updatedWidget) {
+        setBoard(prev => ({
+            ...prev,
+            widgets: prev.widgets.map(widget =>
+                widget.id === updatedWidget.id ? updatedWidget : widget
+            )
+        }))
     }
 
     return (    
@@ -38,6 +53,8 @@ export default function DashboardLayout() {
                 <Header />
                 <WidgetBoard 
                     widgets = {board.widgets}
+                    removeWidget = {removeWidget}
+                    updateWidget = {updateWidget}
                 />
 
             </div>

@@ -1,7 +1,43 @@
 .note {
-    background-color: #fff8c4;
-    border: 1px solid #f0e68c;
+    position: relative;
+    background-color: #ffecc4;
+    border: 1px solid #f0d58c;
     border-radius: 8px;
     padding: 16px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);   
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    min-width: 120px;
+    min-height: 120px;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 8px;
+    color:#454449;
+    font-weight: 600;
+    background-color: transparent;
+    border: none;
+    width: 100%;
+}
+.text {
+    font-size: 16px;
+    color:#454449;
+    background-color: transparent;
+    border: none;  
+    width: 100%;
+    height: calc(100% - 32px);
+    resize: none;
+    overflow: hidden;
+}
+.text:focus, .title:focus {
+    outline: none;
+}
+.deleteButton {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #454449a8;
 }

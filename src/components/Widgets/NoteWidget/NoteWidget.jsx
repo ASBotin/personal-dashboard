@@ -1,5 +1,6 @@
 import styles from "./NoteWidget.module.css"
 import {useState, useRef, useEffect} from "react";
+import CrossButton from "../../CrossButton/crossButton";
 
 export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
     const [title, setTitle] = useState(widgetModel.data.title || "");
@@ -30,10 +31,9 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
 
     return (
         <div className={styles.note}>
-            <button 
-                className={styles.deleteButton}
-                onClick={() => removeWidget(widgetModel.id)}
-            >×</button>
+            <CrossButton 
+                onClick = {() => removeWidget(widgetModel.id)}
+            />
 
             <textarea
                 ref={titleRef}

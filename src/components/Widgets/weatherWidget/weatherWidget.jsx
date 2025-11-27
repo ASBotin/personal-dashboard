@@ -1,12 +1,12 @@
-import styles from './weatherWidget.module.css'
+import styles from './WeatherWidget.module.css'
+import CrossButton from '../../CrossButton/crossButton';
 
 export default function WeatherWidget({widgetModel, removeWidget, updateWidget}) {
     return (
         <div className={styles.weatherWidget}>
-            <button 
-                className={styles.deleteButton}
-                onClick={() => removeWidget(widgetModel.id)}
-            >×</button>
+            <CrossButton 
+                onClick = {() => removeWidget(widgetModel.id)}
+            />
         </div>
     )
 }

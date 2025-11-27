@@ -4,10 +4,10 @@ import Widget from "../../components/Widget/Widget"
 export default function WidgetBoard({widgets, removeWidget, updateWidget}) {
     return (
         <div className = {styles.widgetBoard}>
-            {widgets.map(widget => (
+            {widgets.map(widgetModel => (
                 <Widget 
-                    key = {widget.id}
-                    widget = {widget}
+                    key = {widgetModel.id}
+                    widgetModel = {widgetModel}
                     removeWidget = {removeWidget}
                     updateWidget = {updateWidget}
                 />

@@ -47,6 +47,6 @@
     text-decoration: underline;
 }
 
-.addNote {
+.button:first-of-type {
     margin-top: 50px;
 }

@@ -1,16 +1,16 @@
 import styles from "./NoteWidget.module.css"
 import {useState, useRef, useEffect} from "react";
 
-export default function NoteWidget({model, removeWidget, updateWidget}) {
-    const [title, setTitle] = useState(model.data.title || "");
-    const [text, setText] = useState(model.data.text || "");
+export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
+    const [title, setTitle] = useState(widgetModel.data.title || "");
+    const [text, setText] = useState(widgetModel.data.text || "");
 
     const titleRef = useRef(null);
     const textRef = useRef(null);
 
     function saveChanges() {
         updateWidget({
-            ...model,
+            ...widgetModel,
             data: { title, text }
         });
     }
@@ -32,7 +32,7 @@ export default function NoteWidget({model, removeWidget, updateWidget}) {
         <div className={styles.note}>
             <button 
                 className={styles.deleteButton}
-                onClick={() => removeWidget(model.id)}
+                onClick={() => removeWidget(widgetModel.id)}
             >×</button>
 
             <textarea

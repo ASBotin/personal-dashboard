@@ -1,7 +1,10 @@
 const cityDB = [
-  { name: "Moscow", lat: 55.75, lon: 37.61 },
-  { name: "Moscow (US)", lat: 46.73, lon: -117.00 },
-  { name: "Berlin", lat: 52.52, lon: 13.40 }
+    { name: "Moscow", lat: 55.7558, lon: 37.6176 },
+    { name: "Moscow (US)", lat: 46.7324, lon: -117.0002 },
+    { name: "Saint Petersburg", lat: 59.9311, lon: 30.3609 },
+    { name: "London", lat: 51.5072, lon: -0.1276 },
+    { name: "Berlin", lat: 52.52, lon: 13.405 },
+    { name: "Tokyo", lat: 35.6895, lon: 139.6917 }
 ];
 
 function delay(ms) {

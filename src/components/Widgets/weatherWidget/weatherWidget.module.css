@@ -5,9 +5,12 @@
     position: relative;
     background-color: #B0CAD4;
     border: none;
-    border-radius: 8px;
+    border-radius: 15px;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     min-width: 120px;
     min-height: 120px;
+}
+.select {
+    width: 100%;
 }

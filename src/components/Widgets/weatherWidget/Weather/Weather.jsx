@@ -3,21 +3,18 @@ import { weatherApi } from '../../../../api/mocks/weatherApiMock';
 import { useState, useEffect } from 'react'; 
 
 export default function Weather({ widgetModel }) {
-    const { lat, lon, city } = widgetModel.data;
+    const { lat, lon} = widgetModel.data;
     const [weatherData, setWeatherData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         if (lat && lon) {
             const fetchWeather = async () => {
                 setIsLoading(true);
-                setError(null);
                 try {
                     const data = await weatherApi.getWeather(lat, lon);
                     setWeatherData(data);
                 } catch (err) {
-                    setError("Failed to fetch weather data.");
                     console.error("Weather fetch error:", err);
                 } finally {
                     setIsLoading(false);

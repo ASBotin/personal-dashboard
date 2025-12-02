@@ -1,5 +1,5 @@
 import styles from './Weather.module.css';
-import { weatherApi } from '../../../../api/mocks/weatherApiMock';
+import { weatherApi } from '../../../../api/weatherApi';
 import { useState, useEffect } from 'react'; 
 
 export default function Weather({ widgetModel }) {

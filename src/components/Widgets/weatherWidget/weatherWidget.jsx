@@ -1,6 +1,6 @@
 import styles from './WeatherWidget.module.css'
 import CrossButton from '../../CrossButton/crossButton';
-import {weatherApi} from '../../../api/mocks/weatherApiMock'
+import {weatherApi} from '../../../api/weatherApi'
 import {useState} from 'react'; 
 import AsyncSelect from 'react-select/async';
 import Weather from './Weather/Weather';

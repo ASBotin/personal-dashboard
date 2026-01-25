@@ -18,7 +18,8 @@ export default function WeatherWidget({widgetModel, removeWidget, updateWidget})
             label: city.name,
             value: city.name,
             lat: city.lat,
-            lon: city.lon
+            lon: city.lon,
+            timezone: city.timezone
         }));
     }
     async function handleChange(option) {

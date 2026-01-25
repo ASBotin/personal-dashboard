@@ -55,7 +55,8 @@ export const weatherApi = {
                 lat: city.latitude,
                 lon: city.longitude,
                 country: city.country,
-                admin1: city.admin1 
+                admin1: city.admin1,
+                timezone: city.timezone 
             }));
         } catch (error) {
             console.error("City search error:", error);
@@ -69,7 +70,7 @@ export const weatherApi = {
             const params = new URLSearchParams({
                 latitude: lat,
                 longitude: lon,
-                current: "temperature_2m,wind_speed_10m,weather_code",
+                current: "temperature_2m,wind_speed_10m,weather_code,relative_humidity_2m",
                 wind_speed_unit: "ms" 
             });
 
@@ -84,7 +85,8 @@ export const weatherApi = {
                 temperature: current.temperature_2m,
                 windspeed: current.wind_speed_10m,
                 code: current.weather_code,
-                description: wmoWeatherCodes[current.weather_code] || "Unknown weather"
+                description: wmoWeatherCodes[current.weather_code] || "Unknown weather",
+                humidity: current.relative_humidity_2m
             };
 
         } catch (error) {

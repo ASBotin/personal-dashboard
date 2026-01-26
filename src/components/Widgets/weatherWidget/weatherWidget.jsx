@@ -1,9 +1,10 @@
 import styles from './WeatherWidget.module.css'
 import CrossButton from '../../CrossButton/crossButton';
 import {weatherApi} from '../../../api/weatherApi'
-import {useState} from 'react'; 
+import {useState, useMemo} from 'react'; 
 import AsyncSelect from 'react-select/async';
 import Weather from './Weather/Weather';
+import { debounce } from 'lodash-es';
 
 export default function WeatherWidget({widgetModel, removeWidget, updateWidget}) {
      const [value, setValue] = useState(
@@ -11,17 +12,21 @@ export default function WeatherWidget({widgetModel, removeWidget, updateWidget})
             ? { label: widgetModel.data.city, value: widgetModel.data.city }
             : null
     );
-    async function loadOptions(inputValue) {
-        if(!inputValue) return [];
-        const cities = await weatherApi.searchCity(inputValue.trim());
-        return cities.map(city => ({
-            label: city.name,
-            value: city.name,
-            lat: city.lat,
-            lon: city.lon,
-            timezone: city.timezone
-        }));
-    }
+    const loadOptions = useMemo(() => {
+        return debounce((inputValue, callback) => {
+            (async () => {
+                const cities = await weatherApi.searchCity(inputValue.trim());
+                callback(cities.map(city => ({
+                    label: city.name,
+                    value: city.name,
+                    lat: city.lat,
+                    lon: city.lon,
+                    timezone: city.timezone
+                })));
+            })();
+        }, 500);
+    }, []);
+
     async function handleChange(option) {
         setValue(option);
         updateWidget({

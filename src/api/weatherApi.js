@@ -1,9 +1,6 @@
-// URLs для Open-Meteo
 const WEATHER_API_URL = "https://api.open-meteo.com/v1/forecast";
 const GEOCODING_API_URL = "https://geocoding-api.open-meteo.com/v1/search";
 
-// Карта кодов WMO для перевода кода погоды в текст
-// Источник: https://open-meteo.com/en/docs
 const wmoWeatherCodes = {
     0: "Clear sky",
     1: "Mainly clear",

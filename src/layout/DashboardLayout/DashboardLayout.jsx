@@ -3,13 +3,35 @@ import Header from "../Header/Header"
 import BurgerButton from "../../components/Burger/BurgerButton"
 import styles from "./DashboardLayout.module.css" 
 import WidgetBoard from "../WidgetBoard/WidgetBoard"
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {createBoard} from "../../models/board";
 import {createWidget} from "../../models/widget";
 
 export default function DashboardLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [board, setBoard] = useState(createBoard());
+    const [board, setBoard] = useState(() => {
+        const boardFromStorage = localStorage.getItem('boardString');
+        if (boardFromStorage) {
+            try {
+                const restoredBoard = JSON.parse(boardFromStorage);
+                return restoredBoard;
+            }
+            catch (err){
+                console.error("failed parsing board", err);
+                return createBoard();
+            }
+        }
+        else {
+            return createBoard();
+        }
+    });
+
+    useEffect(() => {
+        if (board) {
+            const boardString = JSON.stringify(board);
+            localStorage.setItem('boardString', boardString);
+        }
+    }, [board]);
 
     function toggleSidebar() {
         setIsSidebarOpen(prev => !prev);

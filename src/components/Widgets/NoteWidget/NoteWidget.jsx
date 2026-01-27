@@ -1,6 +1,8 @@
 import styles from "./NoteWidget.module.css"
 import {useState, useRef, useEffect} from "react";
-import CrossButton from "../../CrossButton/crossButton";
+import CrossButton from "../../ButtonPane/CrossButton";
+import ActionButton from "../../ButtonPane/ActionButton";
+import ButtonPane from "../../ButtonPane/ButtonPane";
 
 export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
     const [title, setTitle] = useState(widgetModel.data.title || "");
@@ -31,10 +33,12 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
 
     return (
         <div className={styles.note}>
-            <CrossButton 
-                onClick = {() => removeWidget(widgetModel.id)}
-            />
-
+            <ButtonPane>
+                <ActionButton/>
+                <CrossButton 
+                    onClick = {() => removeWidget(widgetModel.id)}
+                /> 
+            </ButtonPane>
             <textarea
                 ref={titleRef}
                 rows={1}

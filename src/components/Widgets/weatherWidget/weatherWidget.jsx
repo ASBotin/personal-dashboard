@@ -1,10 +1,12 @@
 import styles from './WeatherWidget.module.css'
-import CrossButton from '../../CrossButton/crossButton';
+import CrossButton from '../../ButtonPane/crossButton';
 import {weatherApi} from '../../../api/weatherApi'
 import {useState, useMemo} from 'react'; 
 import AsyncSelect from 'react-select/async';
 import Weather from './Weather/Weather';
 import { debounce } from 'lodash-es';
+import ActionButton from "../../ButtonPane/ActionButton";
+import ButtonPane from "../../ButtonPane/ButtonPane";
 
 export default function WeatherWidget({widgetModel, removeWidget, updateWidget}) {
      const [value, setValue] = useState(
@@ -71,9 +73,12 @@ export default function WeatherWidget({widgetModel, removeWidget, updateWidget})
 
     return (
         <div className={styles.weatherWidget}>
-            <CrossButton 
-                onClick = {() => removeWidget(widgetModel.id)}
-            />
+            <ButtonPane>
+                <ActionButton/>
+                <CrossButton 
+                    onClick = {() => removeWidget(widgetModel.id)}
+                /> 
+            </ButtonPane>
             <AsyncSelect
                 value = {value}
                 loadOptions = {loadOptions}

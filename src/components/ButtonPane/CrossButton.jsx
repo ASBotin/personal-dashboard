@@ -1,4 +1,4 @@
-import styles from './CrossButton.module.css';
+import styles from './ButtonPane.module.css';
 
 export default function CrossButton({ onClick }) {
     return (

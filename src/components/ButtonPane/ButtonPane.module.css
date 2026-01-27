@@ -1,0 +1,35 @@
+.buttonPane {
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    background-color: transparent;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center; 
+    top: 8px;
+    right: 4px;
+}
+.actionButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+    background: transparent;
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #454449a8;
+    padding-bottom: 2px;
+}
+.crossButton {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #454449a8;
+}
+
+.crossButton:hover, .actionButton:hover {
+    color: #000000a8;
+}

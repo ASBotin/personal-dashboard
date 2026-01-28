@@ -1,0 +1,10 @@
+.crossButton {
+    background: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #454449a8;
+}
+.crossButton:hover {
+    color: #000000c5;
+}

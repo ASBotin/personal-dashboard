@@ -1,18 +1,20 @@
 .note {
     position: relative;
-    background-color: #ffecc4;
-    border: 1px solid #f0d58c;
+    background-color: #ecd4b0;
+    border: none;
     border-radius: 15px;
-    padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     min-width: 120px;
-    min-height: 120px;
+    min-height: 154px;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .title {
     font-size: 24px;
     margin-bottom: 8px;
-    margin-top: 18px;
     color:#454449;
     font-weight: 600;
     background-color: transparent;
@@ -43,4 +45,15 @@
 }
 .title::placeholder {
     color: #454449;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    background-color: #ffecc4;
+    flex-grow: 1;
+    margin-top: 34px;
+    padding: 16px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: 100%;
 }

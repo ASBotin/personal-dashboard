@@ -10,6 +10,7 @@
     width: 100%;
     margin-top: 16px;
     border: 1px solid #4544491a;
+    flex-grow: 1;
 }
 .rightSection {
     display: flex;

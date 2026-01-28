@@ -1,7 +1,7 @@
 import styles from "./NoteWidget.module.css"
 import {useState, useRef, useEffect} from "react";
-import CrossButton from "../../ButtonPane/CrossButton";
-import ActionButton from "../../ButtonPane/ActionButton";
+import CrossButton from "../../ButtonPane/CrossButton/CrossButton";
+import ActionButton from "../../ButtonPane/ActionButton/ActionButton";
 import ButtonPane from "../../ButtonPane/ButtonPane";
 
 export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
@@ -39,33 +39,36 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
                     onClick = {() => removeWidget(widgetModel.id)}
                 /> 
             </ButtonPane>
-            <textarea
-                ref={titleRef}
-                rows={1}
-                className={styles.title}
-                value={title}
-                placeholder="Заметка"
-                onChange={e => {
-                    setTitle(e.target.value);
-                    autoResize(titleRef);
-                }}
-                onBlur={saveChanges}
-            />
+            <div className = {styles.content}>
+                
+                <textarea
+                    ref={titleRef}
+                    rows={1}
+                    className={styles.title}
+                    value={title}
+                    placeholder="Заметка"
+                    onChange={e => {
+                        setTitle(e.target.value);
+                        autoResize(titleRef);
+                    }}
+                    onBlur={saveChanges}
+                />
 
-            <textarea
-                ref={textRef}
-                className={styles.text}
-                value={text}
-                placeholder="Введите текст заметки..."
-                onChange={e => {
-                    setText(e.target.value);
-                    autoResize(textRef);
-                }}
-                onBlur={() => {
-                    saveChanges();
-                    autoResize(textRef);
-                }}
-            />
+                <textarea
+                    ref={textRef}
+                    className={styles.text}
+                    value={text}
+                    placeholder="Введите текст заметки..."
+                    onChange={e => {
+                        setText(e.target.value);
+                        autoResize(textRef);
+                    }}
+                    onBlur={() => {
+                        saveChanges();
+                        autoResize(textRef);
+                    }}
+                />
+            </div>
         </div>
     );
 }

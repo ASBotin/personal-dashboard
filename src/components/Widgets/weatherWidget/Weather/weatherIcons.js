@@ -41,7 +41,7 @@ export const weatherIcons = [
         icon: Rain
     },
     {
-        codes: [65],
+        codes: [65, 80, 81, 82],
         icon: Heavy_rain
     },
     {

@@ -37,7 +37,8 @@ export default function WeatherWidget({widgetModel, removeWidget, updateWidget})
                 ...widgetModel.data,
                 city: option.value,
                 lat: option.lat,
-                lon: option.lon 
+                lon: option.lon,
+                timezone: option.timezone
             }
         })
     }

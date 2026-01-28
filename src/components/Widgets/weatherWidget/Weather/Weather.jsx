@@ -56,7 +56,8 @@ export default function Weather({ widgetModel }) {
             timeZone: timezone,
             hour12: false
         });
-        const hour = Number.parseInt(formatter.format(new Date()), 10);
+
+        const hour = Number.parseInt(formatter.format(new Date()), 10)
 
         const timesOfDay = (hour > 19 || hour < 5) ? 'night' : 'day';
 

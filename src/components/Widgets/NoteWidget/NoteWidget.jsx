@@ -7,6 +7,7 @@ import ButtonPane from "../../ButtonPane/ButtonPane";
 export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
     const [title, setTitle] = useState(widgetModel.data.title || "");
     const [text, setText] = useState(widgetModel.data.text || "");
+    const [type, setType] = useState(widgetModel.data.type || "text");
 
     const titleRef = useRef(null);
     const textRef = useRef(null);
@@ -31,10 +32,23 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
         autoResize(textRef);
     }, []);
 
+    const handleTypeChange = (newType) => {
+        setType(newType);
+        updateWidget({
+            ...widgetModel,
+            data: { ...widgetModel.data, type: newType }
+        });
+    }
+
+    const actionsOptions = [
+        { label: "Текст", onClick: () => handleTypeChange("text"), isActive: type === "text" },
+        { label: "Список", onClick: () => handleTypeChange("list"), isActive: type === "list" },
+    ];
+
     return (
         <div className={styles.note}>
             <ButtonPane>
-                <ActionButton/>
+                <ActionButton options={actionsOptions} />
                 <CrossButton 
                     onClick = {() => removeWidget(widgetModel.id)}
                 /> 

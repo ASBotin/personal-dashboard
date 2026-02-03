@@ -1,5 +1,5 @@
 import styles from "./ListItem.module.css";
-import { useRef, useState} from "react";
+import { useRef, useState, useEffect} from "react";
 
 export default function ListItem({id, text, isCompleted, handleUpdateItem, handleDeleteItem}) {
     const textRef = useRef(null);
@@ -21,6 +21,10 @@ export default function ListItem({id, text, isCompleted, handleUpdateItem, handl
             }
         }
     }
+
+    useEffect(() => {
+        autoResize(textRef);
+    }, [textareaText]);
 
     return (
         <div className={styles.listItem}>

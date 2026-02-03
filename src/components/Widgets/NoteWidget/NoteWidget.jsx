@@ -41,7 +41,7 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
     useEffect(() => {
         autoResize(titleRef);
         autoResize(textRef);
-    }, []);
+    }, [text, title, type]);
 
     const handleTypeChange = (newType) => {
         if (newType === type) return;
@@ -60,7 +60,7 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
             }
         } else if (newType === "text") {
             if (listItems.length > 0) {
-                updatedText = listItems.map(item => item.text).join('\n');
+                updatedText = active.map(item => item.text).join('\n');
             }
         }
 

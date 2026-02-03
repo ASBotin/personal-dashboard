@@ -1,0 +1,18 @@
+.addButton {
+    color: #ffecc4;
+    background-color: #454449;
+    border: none;
+    cursor: pointer;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    align-self: center;
+    border-radius: 100%;
+    width: 24px;
+    height: 24px;
+    margin: 0 0 10px 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.addButton:hover {
+    background-color: #36343a;
+    box-shadow: none;
+}

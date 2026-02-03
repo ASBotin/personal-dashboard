@@ -48,7 +48,6 @@ export default function Weather({ widgetModel }) {
     }
 
     const { temperature, description, windspeed, code, humidity } = weatherData;
-    console.log(humidity);
 
     const getWeatherIcon = () => {
         const formatter = new Intl.DateTimeFormat('en-US', {

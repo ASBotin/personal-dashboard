@@ -46,14 +46,36 @@
 .title::placeholder {
     color: #454449;
 }
-.content {
+.content, .completedItems {
     display: flex;
     flex-direction: column;
-    background-color: #ffecc4;
-    flex-grow: 1;
-    margin-top: 34px;
     padding: 16px;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.034);
+}
+.content {
+    background-color: #ffecc4;
+    margin-top: 34px;
+    min-height: 154px;
+}
+.hide {
+    box-shadow: none;
+    flex-grow: 1;
+}
+.showCompletedButton {
+    color: #454449;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    align-self: flex-start;
+    text-align: left;
+    padding: 10px 0 10px 5px;
+    margin-top: auto;
+}
+.showCompletedButton:hover {
+    text-decoration: underline;
 }

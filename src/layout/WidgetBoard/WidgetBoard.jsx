@@ -14,4 +14,4 @@ export default function WidgetBoard({widgets, removeWidget, updateWidget}) {
             ))}
         </div>
     )
-}
+}   

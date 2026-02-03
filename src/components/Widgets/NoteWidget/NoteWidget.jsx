@@ -3,19 +3,30 @@ import {useState, useRef, useEffect} from "react";
 import CrossButton from "../../ButtonPane/CrossButton/CrossButton";
 import ActionButton from "../../ButtonPane/ActionButton/ActionButton";
 import ButtonPane from "../../ButtonPane/ButtonPane";
+import ListItem from "./ListItem/ListItem";
+import AddListItemButton from "./AddListItemButton/AddListItemButton";
 
 export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
     const [title, setTitle] = useState(widgetModel.data.title || "");
     const [text, setText] = useState(widgetModel.data.text || "");
     const [type, setType] = useState(widgetModel.data.type || "text");
+    const [listItems, setListItems] = useState(widgetModel.data.listItems || []);
+    const [showCompleted, setShowCompleted] = useState(false);
 
     const titleRef = useRef(null);
     const textRef = useRef(null);
 
-    function saveChanges() {
+    function saveChanges(newListItems) {
+        const itemsToSave = newListItems || listItems;
         updateWidget({
             ...widgetModel,
-            data: { title, text }
+            data: { 
+                ...widgetModel.data, 
+                title, 
+                text, 
+                type, 
+                listItems: itemsToSave 
+            }
         });
     }
 
@@ -33,11 +44,80 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
     }, []);
 
     const handleTypeChange = (newType) => {
+        if (newType === type) return;
+
+        let updatedText = text;
+        let updatedListItems = [...listItems];
+
+        if (newType === "list") {
+            if (text.trim()) {
+                const lines = text.split('\n').filter(line => line.trim() !== "");
+                updatedListItems = lines.map(line => ({
+                    id: crypto.randomUUID(),
+                    text: line,
+                    isCompleted: false
+                }));
+            }
+        } else if (newType === "text") {
+            if (listItems.length > 0) {
+                updatedText = listItems.map(item => item.text).join('\n');
+            }
+        }
+
         setType(newType);
+        setText(updatedText);
+        setListItems(updatedListItems);
+
         updateWidget({
             ...widgetModel,
-            data: { ...widgetModel.data, type: newType }
+            data: { 
+                ...widgetModel.data, 
+                type: newType,
+                listItems: updatedListItems,
+                text: updatedText
+            }
         });
+    }
+
+    const handleAddListItem = () => {
+        const newItem = {
+            id: crypto.randomUUID(),
+            text: "",
+            isCompleted: false
+        };
+        const newListItems = [...listItems, newItem];
+        setListItems(newListItems);
+        saveChanges(newListItems);
+    }
+
+    const handleUpdateItem = (id, newText, newIsCompleted) => {
+        const newList = listItems.map(item => 
+            item.id !== id ? item : { id, text: newText, isCompleted: newIsCompleted }
+        );
+        setListItems(newList); 
+        saveChanges(newList);
+    }
+
+    const handleDeleteItem = (id) => {
+        const newList = listItems.filter(item => item.id !== id);
+        setListItems(newList);
+        saveChanges(newList);
+    }
+
+    const active = listItems.filter(item => !item.isCompleted);
+    const completed = listItems.filter(item => item.isCompleted);
+
+    const pluralize = (length) => {
+        const mod10 = length % 10;
+        const mod100 = length % 100;
+
+        if (mod10 === 1 && mod100 !== 11) {
+        return "отмеченный пункт";
+        }
+        if ([2, 3, 4].includes(mod10) && ![12, 13, 14].includes(mod100)) {
+            return "отмеченных пункта";
+        }
+        return "отмеченных пунктов";
     }
 
     const actionsOptions = [
@@ -53,36 +133,70 @@ export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
                     onClick = {() => removeWidget(widgetModel.id)}
                 /> 
             </ButtonPane>
-            <div className = {styles.content}>
-                
+            <div className = {`${styles.content} ${(!showCompleted || completed.length === 0 || type === 'text') ? styles.hide : ''}`}>
                 <textarea
                     ref={titleRef}
                     rows={1}
                     className={styles.title}
                     value={title}
-                    placeholder="Заметка"
+                    placeholder={type === "text" ? "Заметка" : "Список"}
                     onChange={e => {
                         setTitle(e.target.value);
                         autoResize(titleRef);
                     }}
-                    onBlur={saveChanges}
+                    onBlur={() => saveChanges()}
                 />
-
-                <textarea
-                    ref={textRef}
-                    className={styles.text}
-                    value={text}
-                    placeholder="Введите текст заметки..."
-                    onChange={e => {
-                        setText(e.target.value);
-                        autoResize(textRef);
-                    }}
-                    onBlur={() => {
-                        saveChanges();
-                        autoResize(textRef);
-                    }}
-                />
+                {type === 'text' && (
+                    <textarea
+                        ref={textRef}
+                        className={styles.text}
+                        value={text}
+                        placeholder="Введите текст заметки..."
+                        onChange={e => {
+                            setText(e.target.value);
+                            autoResize(textRef);
+                        }}
+                        onBlur={() => {
+                            saveChanges();
+                            autoResize(textRef);
+                        }}
+                    />
+                )}
+                {type === 'list' && (
+                    <>
+                        {active.map(item => (
+                            <ListItem
+                                key = {item.id}
+                                id = {item.id}
+                                text = {item.text}
+                                isCompleted = {item.isCompleted}
+                                handleUpdateItem = {handleUpdateItem}
+                                handleDeleteItem = {handleDeleteItem}
+                            />
+                        ))}
+                        <AddListItemButton onAdd = {handleAddListItem}/>
+                        {completed.length > 0 && (
+                            <button className={styles.showCompletedButton} onClick={() => setShowCompleted(!showCompleted)}>
+                                {!showCompleted ? "+ Показать" : "- Скрыть"} {completed.length} {pluralize(completed.length)}
+                            </button>
+                        )}
+                    </>
+                )}
             </div>
+            {((type === 'list') && showCompleted && completed.length > 0) && (
+                <div className={styles.completedItems}>
+                    {completed.map(item => (
+                        <ListItem
+                            key = {item.id}
+                            id = {item.id}
+                            text = {item.text}
+                            isCompleted = {item.isCompleted}
+                            handleUpdateItem = {handleUpdateItem}
+                            handleDeleteItem = {handleDeleteItem}
+                        />
+                ))}
+                </div>
+            )}
         </div>
     );
 }

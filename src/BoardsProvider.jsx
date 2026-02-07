@@ -1,7 +1,7 @@
-import {useEffect, useState, createContext} from 'react';
+import {useEffect, useState} from 'react';
 import { createBoard } from './models/board';
 import { createWidget } from './models/widget';
-import { BoardsContext } from './boardsContext';
+import { BoardsContext } from './BoardsContext';
 
 export function BoardsProvider({ children }) {
     const [boards, setBoards] = useState(() => {
@@ -24,8 +24,7 @@ export function BoardsProvider({ children }) {
     const [activeBoardId, setActiveBoardId] = useState(() => {
         const activeIdFromStorage = localStorage.getItem("idString");
         if (activeIdFromStorage) {
-            const restoredActiveId = localStorage.getItem("idString");
-            return restoredActiveId;
+            return activeIdFromStorage;
         }
         else {
             return boards[0].id;
@@ -51,7 +50,26 @@ export function BoardsProvider({ children }) {
         ))
     }
 
-    const value = { boards, activeBoardId, setBoards, setActiveBoardId, addWidget };
+    function removeWidget(id) {
+        setBoards(prev => prev.map(board => 
+            board.id === activeBoardId ? {
+                ...board,
+                widgets: board.widgets.filter(widget => widget.id !== id)
+            } : board
+        ))
+    }
+
+    function updateWidget(updatedWidget) {
+        setBoards(prev => prev.map(board => 
+            board.id === activeBoardId ? {
+                ...board,
+                widgets: board.widgets.map(widget => 
+                    widget.id === updatedWidget.id ? updatedWidget : widget)
+            } : board
+        ))
+    }
+
+    const value = { boards, activeBoardId, setBoards, setActiveBoardId, addWidget, removeWidget, updateWidget };
 
     return (
         <BoardsContext.Provider value={value}>

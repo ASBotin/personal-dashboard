@@ -1,17 +1,20 @@
 import styles from "./NoteWidget.module.css"
-import {useState, useRef, useEffect} from "react";
+import {useState, useRef, useEffect, useContext} from "react";
 import CrossButton from "../../ButtonPane/CrossButton/CrossButton";
 import ActionButton from "../../ButtonPane/ActionButton/ActionButton";
 import ButtonPane from "../../ButtonPane/ButtonPane";
 import ListItem from "./ListItem/ListItem";
 import AddListItemButton from "./AddListItemButton/AddListItemButton";
+import { BoardsContext } from "../../../BoardsContext";
 
-export default function NoteWidget({widgetModel, removeWidget, updateWidget}) {
+export default function NoteWidget({widgetModel}) {
     const [title, setTitle] = useState(widgetModel.data.title || "");
     const [text, setText] = useState(widgetModel.data.text || "");
     const [type, setType] = useState(widgetModel.data.type || "text");
     const [listItems, setListItems] = useState(widgetModel.data.listItems || []);
     const [showCompleted, setShowCompleted] = useState(false);
+
+    const {updateWidget, removeWidget} = useContext(BoardsContext);
 
     const titleRef = useRef(null);
     const textRef = useRef(null);

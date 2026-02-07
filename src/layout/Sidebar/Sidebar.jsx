@@ -1,6 +1,11 @@
-import styles from "./Sidebar.module.css"
+import styles from "./Sidebar.module.css";
+import { BoardsContext } from "../../BoardsContext";
+import { useContext } from "react";
 
-export default function Sidebar({isOpen, addWidget}) {
+export default function Sidebar({isOpen}) {
+
+    const {addWidget} = useContext(BoardsContext)
+
     return (
         <aside className = {`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
             <h2 className={styles.title}>Виджеты</h2>

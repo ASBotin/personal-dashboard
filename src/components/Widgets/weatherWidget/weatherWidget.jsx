@@ -1,14 +1,17 @@
 import styles from './WeatherWidget.module.css'
 import CrossButton from '../../ButtonPane/CrossButton/CrossButton';
 import {weatherApi} from '../../../api/weatherApi'
-import {useState, useMemo} from 'react'; 
+import {useState, useMemo, useContext} from 'react'; 
 import AsyncSelect from 'react-select/async';
 import Weather from './Weather/Weather';
 import { debounce } from 'lodash-es';
 import ActionButton from "../../ButtonPane/ActionButton/ActionButton";
 import ButtonPane from "../../ButtonPane/ButtonPane";
+import { BoardsContext } from '../../../BoardsContext';
 
-export default function WeatherWidget({widgetModel, removeWidget, updateWidget}) {
+export default function WeatherWidget({widgetModel}) {
+    const {updateWidget, removeWidget} = useContext(BoardsContext);
+
      const [value, setValue] = useState(
         widgetModel.data.city
             ? { label: widgetModel.data.city, value: widgetModel.data.city }

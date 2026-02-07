@@ -1,10 +1,11 @@
 import DashBoardLayout from "./layout/DashboardLayout/DashboardLayout"
+import {BoardsProvider} from "./BoardsProvider";  
 
 export default function App() {
   return (
-    <DashBoardLayout>
-      
-    </DashBoardLayout>
+    <BoardsProvider>
+      <DashBoardLayout/>
+    </BoardsProvider>
   )
 }
 

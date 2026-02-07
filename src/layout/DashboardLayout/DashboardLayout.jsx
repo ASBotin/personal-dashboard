@@ -6,6 +6,7 @@ import WidgetBoard from "../WidgetBoard/WidgetBoard"
 import {useEffect, useState} from 'react';
 import {createBoard} from "../../models/board";
 import {createWidget} from "../../models/widget";
+
 export default function DashboardLayout() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [board, setBoard] = useState(() => {
@@ -77,7 +78,6 @@ export default function DashboardLayout() {
                     removeWidget = {removeWidget}
                     updateWidget = {updateWidget}
                 />
-
             </div>
         </div>
     )    

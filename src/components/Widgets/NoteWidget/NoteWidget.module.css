@@ -1,6 +1,6 @@
 .note {
     position: relative;
-    background-color: #ecd4b0;
+    background-color: #cebfaa;
     border: none;
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
@@ -15,7 +15,7 @@
 .title {
     font-size: 24px;
     margin-bottom: 8px;
-    color:#454449;
+    color:#4A4A4A;
     font-weight: 600;
     background-color: transparent;
     border: none;
@@ -26,7 +26,7 @@
 }
 .text {
     font-size: 16px;
-    color:#454449;
+    color:#4A4A4A;
     background-color: transparent;
     border: none;  
     width: 100%;
@@ -44,7 +44,7 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 .title::placeholder {
-    color: #454449;
+    color: #4A4A4A;
 }
 .content, .completedItems {
     display: flex;
@@ -56,7 +56,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.034);
 }
 .content {
-    background-color: #ffecc4;
+    background-color: #E6D9C5;
     margin-top: 34px;
     min-height: 154px;
 }
@@ -65,7 +65,7 @@
     flex-grow: 1;
 }
 .showCompletedButton {
-    color: #454449;
+    color: #4A4A4A;
     background: none;
     border: none;
     cursor: pointer;

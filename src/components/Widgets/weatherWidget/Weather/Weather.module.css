@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    background-color: #D6E0E5;
+    background-color: #D9E4E8;
     border-radius: 15px;
     width: 100%;
     margin-top: 16px;
@@ -21,13 +21,13 @@
 .icon {
     width: 80px;
     height: 80px;
-    color: #454449;
+    color: #3b3f41;
 }
 .temperature {
     display: inline-block;
     font-size: 3rem; 
     font-weight: bold;
-    color: #454449; 
+    color: #3b3f41; 
 }
 
 .details {
@@ -39,5 +39,5 @@
 
 .description, .windspeed, .humidity {
     font-size: 1rem;
-    color: #454449;
+    color: #3b3f41;
 }

@@ -1,10 +1,10 @@
-import styles from "./Header.module.css"
+import styles from "./Header.module.css";
+import TabsContainer from "./Tabs/TabsContainer/TabsContainer"
 
-export default function Header({children}) {
+export default function Header() {
     return (
         <header className = {styles.header}>
-            <div className={styles.logo}>Persanal<br />Dashboard</div>
-            {children}
+            <TabsContainer/>
         </header>
     )
 }

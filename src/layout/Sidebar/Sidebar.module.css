@@ -4,7 +4,7 @@
     right: 0;
     width: 360px;
     height: 100vh;
-    background-color: #454449c7;
+    background-color: #5d6466d3;
     z-index: 999;
     transform: translateX(100%);
     transition: transform 0.3s ease-in-out;
@@ -20,10 +20,10 @@
 
 .title {
     position: relative;
-    top: 30px;
-    left: 20px;
-    color: #D6E0E5;
-    font-size: 24px;
+    top: 14px;
+    left: 16px;
+    color: #F1E9E1;
+    font-size: 20px;
     opacity: 0;
     transition: opacity 0.1s ease-in-out;
 }
@@ -32,15 +32,16 @@
     opacity: 1;
 }
 .button {
-    padding: 20px;
+    padding: 16px;
     font-size: 20px;
     background-color: transparent;
     border: none;
-    color: #D6E0E5;
+    color: #F1E9E1;
     cursor: pointer;
     font-weight: 100;
     opacity: 0;
     transition: opacity 0.1s ease-in-out;
+    align-self: center;
 }
 
 .button:hover {
@@ -48,5 +49,5 @@
 }
 
 .button:first-of-type {
-    margin-top: 50px;
+    margin-top: 24px;
 }

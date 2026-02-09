@@ -49,10 +49,10 @@ export default function WeatherWidget({widgetModel}) {
     const selectStyle = {
         control: (base) => ({
             ...base,
-            border: "1px solid #454449",
+            border: "1px solid #4544491a",
             borderRadius: "15px",
             boxShadow: "none",
-            backgroundColor: "#D6E0E5",
+            backgroundColor: "#D9E4E8",
             ':hover': {
                 borderColor: "#908F8A"
             },
@@ -60,7 +60,7 @@ export default function WeatherWidget({widgetModel}) {
         }),
         menu: (base) => ({
             ...base,
-            backgroundColor: "#D6E0E5",
+            backgroundColor: "#D9E4E8",
             border: "1px solid #4544491a",
             borderRadius: "15px",
             boxShadow: "none",

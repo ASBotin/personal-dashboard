@@ -13,7 +13,7 @@ export function BoardsProvider({ children }) {
             }
             catch (err) {
                 console.error("failed parsing boards:", err);
-                return [createBoard()];
+                return [createBoard()]; 
             }
         }
         else {
@@ -69,7 +69,41 @@ export function BoardsProvider({ children }) {
         ))
     }
 
-    const value = { boards, activeBoardId, setBoards, setActiveBoardId, addWidget, removeWidget, updateWidget };
+    function addBoard() {
+        const newBoard = createBoard();
+        setBoards(prev => [...prev, newBoard]);
+        setActiveBoardId(newBoard.id);
+    }
+
+    function removeBoard(id) {
+        if (id === activeBoardId) {
+            const currentBoardIndex = boards.findIndex(board => board.id === id);
+            const newActiveBoardId = boards[currentBoardIndex - 1]?.id || boards[currentBoardIndex + 1]?.id;
+            if (newActiveBoardId) {
+                setActiveBoardId(newActiveBoardId);
+            }
+        }
+        setBoards(prev => {
+            const newBoards = prev.filter(board => board.id !== id)
+            if (prev.length === 1) {
+                const newBoard = createBoard();
+                newBoards.push(newBoard);
+                setActiveBoardId(newBoard.id);
+            }
+            return newBoards;
+        })
+    }
+
+    function renameBoard(id, newName) {
+        setBoards(prev => prev.map(board => 
+            board.id === id ? {
+                ...board,
+                name: newName
+            } : board
+        ))
+    }
+
+    const value = { boards, activeBoardId, setBoards, setActiveBoardId, addWidget, removeWidget, updateWidget, addBoard, removeBoard, renameBoard };
 
     return (
         <BoardsContext.Provider value={value}>

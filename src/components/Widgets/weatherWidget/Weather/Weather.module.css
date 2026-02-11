@@ -5,11 +5,12 @@
     align-items: center;
     justify-content: space-between;
     padding: 15px;
-    background-color: #D9E4E8;
+    background: #a2c6f5;
+    background: linear-gradient(180deg,rgba(162, 198, 245, 1) 0%, rgba(152, 192, 245, 1) 67%, rgba(138, 180, 235, 1) 88%);
     border-radius: 15px;
     width: 100%;
     margin-top: 16px;
-    border: 1px solid #4544491a;
+    border: 1px solid #2e313c3a;
     flex-grow: 1;
 }
 .rightSection {
@@ -21,13 +22,13 @@
 .icon {
     width: 80px;
     height: 80px;
-    color: #3b3f41;
+    color: #2e313c;
 }
 .temperature {
     display: inline-block;
     font-size: 3rem; 
     font-weight: bold;
-    color: #3b3f41; 
+    color: #2e313c; 
 }
 
 .details {
@@ -39,5 +40,5 @@
 
 .description, .windspeed, .humidity {
     font-size: 1rem;
-    color: #3b3f41;
+    color: #2e313c;
 }

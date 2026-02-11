@@ -131,9 +131,13 @@ export default function NoteWidget({widgetModel}) {
     return (
         <div className={styles.note}>
             <ButtonPane>
-                <ActionButton options={actionsOptions} />
+                <ActionButton 
+                    options={actionsOptions}
+                    color="#2a2f3ad0"
+                />
                 <CrossButton 
                     onClick = {() => removeWidget(widgetModel.id)}
+                    color="#2a2f3ad0" 
                 /> 
             </ButtonPane>
             <div className = {`${styles.content} ${(!showCompleted || completed.length === 0 || type === 'text') ? styles.hide : ''}`}>

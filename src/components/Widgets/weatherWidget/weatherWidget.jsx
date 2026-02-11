@@ -49,28 +49,36 @@ export default function WeatherWidget({widgetModel}) {
     const selectStyle = {
         control: (base) => ({
             ...base,
-            border: "1px solid #4544491a",
+            border: "1px solid #2e313c3a",
             borderRadius: "15px",
             boxShadow: "none",
-            backgroundColor: "#D9E4E8",
+            background: "linear-gradient(180deg,rgba(168, 202, 247, 1) 0%, rgba(144, 182, 232, 1) 100%)",
             ':hover': {
-                borderColor: "#908F8A"
+                borderColor: "#2e313c"
             },
             cursor: "text",
         }),
+        clearIndicator: (base) => ({
+            ...base,
+            color: "#2e313cd0",
+            cursor: "pointer",
+            '&:hover': {
+                color: "#2e313c",
+            },
+        }),
         menu: (base) => ({
             ...base,
-            backgroundColor: "#D9E4E8",
+            backgroundColor: "#a8ceff",
             border: "1px solid #4544491a",
             borderRadius: "15px",
             boxShadow: "none",
-            color: "#454449",
+            color: "#2e313c",
             marginTop: "4px",
         }),
         option: (base, state) => ({
             ...base,
             backgroundColor: "transparent",
-            color: state.isFocused ? "#000000" : "#454449",
+            color: state.isFocused ? "#000000" : "#2e313c",
             cursor: "pointer",
         })
     }
@@ -78,9 +86,12 @@ export default function WeatherWidget({widgetModel}) {
     return (
         <div className={styles.weatherWidget}>
             <ButtonPane>
-                <ActionButton/>
+                <ActionButton 
+                    color="#2e313cd0"
+                />
                 <CrossButton 
                     onClick = {() => removeWidget(widgetModel.id)}
+                    color="#2e313cd0"
                 /> 
             </ButtonPane>
             <div className={styles.content}>

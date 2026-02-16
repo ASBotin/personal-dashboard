@@ -1,5 +1,5 @@
 import styles from "./WidgetBoard.module.css" 
-import Widget from "../../components/Widget/Widget"
+import Widget from "../../components/Widgets/Widget"
 
 export default function WidgetBoard({widgets}) {
     return (

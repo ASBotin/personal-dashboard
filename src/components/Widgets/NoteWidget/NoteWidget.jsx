@@ -19,6 +19,10 @@ export default function NoteWidget({widgetModel}) {
     const titleRef = useRef(null);
     const textRef = useRef(null);
 
+    const active = listItems.filter(item => !item.isCompleted);
+    const completed = listItems.filter(item => item.isCompleted);
+
+
     function saveChanges(newListItems) {
         const itemsToSave = newListItems || listItems;
         updateWidget({
@@ -107,9 +111,6 @@ export default function NoteWidget({widgetModel}) {
         saveChanges(newList);
     }
 
-    const active = listItems.filter(item => !item.isCompleted);
-    const completed = listItems.filter(item => item.isCompleted);
-
     const pluralize = (length) => {
         const mod10 = length % 10;
         const mod100 = length % 100;
@@ -133,11 +134,11 @@ export default function NoteWidget({widgetModel}) {
             <ButtonPane>
                 <ActionButton 
                     options={actionsOptions}
-                    color="#2a2f3ad0"
+                    className= "note"
                 />
                 <CrossButton 
                     onClick = {() => removeWidget(widgetModel.id)}
-                    color="#2a2f3ad0" 
+                    className="note"
                 /> 
             </ButtonPane>
             <div className = {`${styles.content} ${(!showCompleted || completed.length === 0 || type === 'text') ? styles.hide : ''}`}>

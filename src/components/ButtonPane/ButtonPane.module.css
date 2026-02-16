@@ -8,4 +8,5 @@
     align-items: center; 
     top: 8px;
     right: 4px;
+    user-select: none;
 }

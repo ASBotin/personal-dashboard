@@ -1,0 +1,115 @@
+.moreButton {
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #e3eaf5;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    margin-left: 6px;
+    user-select: none;
+}
+.moreButton:hover {
+    background-color: #e3eaf513;
+    border-radius: 50%;
+}   
+.moreButton svg {
+    transition: transform 0.2s ease;
+}
+
+.moreButton.open svg {
+    transform: rotate(180deg);
+}
+.dropdownMenu {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 24px;
+    right: 0px;
+    background-color: #131822a9;
+    backdrop-filter: blur(7px);
+    border: none;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    z-index: 1000;
+    min-width: 100px;
+    overflow: hidden;
+    max-height: 193px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.hiddenTab {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #e3eaf5;
+    width: 200px;
+    min-width: 200px;
+    border: none;
+    padding: 10px;
+    user-select: none;
+}
+.hiddenTab:hover {
+    background-color: #141a25a9;
+}   
+.tabName {
+    white-space: nowrap;
+    overflow: hidden;
+    font-weight: 100;
+    font-size: 16px;
+    mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+    width: calc(100% - 20px);
+    min-width: 0;
+
+}
+.crossButton {
+    background: none;
+    border: none;
+    color: #e3eaf5;
+    padding: 1px 5px;
+}
+.crossButton:hover {
+    background-color: #cdd5e210;
+    border-radius: 50%;
+}
+
+.dropdownMenu li {
+    border-bottom: 1px solid #00000046;
+}
+.dropdownMenu li:last-child {
+    border-bottom: none;
+}
+
+.dropdownMenu::-webkit-scrollbar {
+    width: 4px; 
+}
+
+.dropdownMenu::-webkit-scrollbar-track {
+    background: transparent; 
+}
+
+.dropdownMenu::-webkit-scrollbar-thumb {
+    background-color: rgba(227, 234, 245, 0.2);
+    border-radius: 20px;
+}
+
+.dropdownMenu::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(227, 234, 245, 0.4);
+}
+
+.dropdownMenu {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(227, 234, 245, 0.2) transparent;
+}
+.renameInput {
+    width: 100%;
+    border: none;
+    background: none;
+    color: #e3eaf5;
+    outline: none;
+    font-size: 16px;
+}

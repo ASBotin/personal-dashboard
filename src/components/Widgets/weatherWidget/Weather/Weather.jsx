@@ -81,9 +81,9 @@ export default function Weather({ widgetModel }) {
                     {Math.round(temperature)}°C
                 </div>
                 <div className={styles.details}>
+                    <div className={styles.description}>{description}</div>
                     <p className={styles.humidity}>Humidity: {humidity}%</p>
                     <p className={styles.windspeed}>Wind: {windspeed} m/s</p>
-                    <div className={styles.description}>{description}</div>
                 </div>
             </div>
             <div className={styles.rightSection}>

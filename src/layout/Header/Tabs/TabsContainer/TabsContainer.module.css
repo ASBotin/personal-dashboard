@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    align-items: center;
+    width: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    max-width: calc(100% - 72px);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    justify-content: space-around;
+}
+
+.addButton {
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 18px;
+    color: #e3eaf5;
+    border-radius: 100%;
+    transition: all 0.2s ease;
+    margin-left: 10px;
+    user-select: none;
+}
+
+.addButton:hover {
+    background-color: #e3eaf513;
+}

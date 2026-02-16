@@ -1,5 +1,5 @@
-import NoteWidget from "../Widgets/NoteWidget/NoteWidget";    
-import WeatherWidget from "../Widgets/WeatherWidget/WeatherWidget";
+import NoteWidget from "./NoteWidget/NoteWidget";    
+import WeatherWidget from "./WeatherWidget/WeatherWidget";
 
 export default function Widget({widgetModel}) {
     switch (widgetModel.type) {

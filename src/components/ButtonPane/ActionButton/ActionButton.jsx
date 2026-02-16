@@ -1,7 +1,7 @@
 import styles from './ActionButton.module.css';
 import { useState, useRef, useEffect } from 'react';
 
-export default function ActionButton({options, color}) {
+export default function ActionButton({options, className}) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
@@ -20,9 +20,8 @@ export default function ActionButton({options, color}) {
     return (
         <div ref = {menuRef} style = {{position: 'relative'}}>
             <button
-                className = {styles.actionButton}
+                className = {`${styles.actionButton} ${styles[className] || ''}`}
                 onClick = {() => setIsMenuOpen(!isMenuOpen)}
-                style={{ color }}
             >
                 ⋮
             </button>

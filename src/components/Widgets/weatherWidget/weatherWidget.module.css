@@ -10,6 +10,7 @@
     min-width: 120px;
     min-height: 154px;
     overflow: hidden;
+    user-select: none;
 }
 .select {
     width: 100%;

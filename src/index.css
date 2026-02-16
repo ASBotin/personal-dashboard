@@ -52,6 +52,6 @@ table {
 
 /* ========== Глобальные стили ========== */
 body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background: radial-gradient(circle,rgba(62, 74, 97, 1) 0%, rgba(46, 55, 73, 1) 100%);
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: radial-gradient(circle,rgba(62, 74, 97, 1) 0%, rgba(46, 55, 73, 1) 100%);
 }

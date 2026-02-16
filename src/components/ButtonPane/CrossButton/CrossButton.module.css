@@ -8,3 +8,15 @@
 .crossButton:hover {
     color: #000000c5;
 }
+.note {
+    color: #2a2f3aa8;
+}
+.note:hover {
+    color: #2a2f3a;
+}
+.weather {
+    color: #2e313ca8;
+}
+.weather:hover {
+    color: #2e313c;
+}

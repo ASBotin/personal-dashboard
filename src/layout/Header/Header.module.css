@@ -4,10 +4,8 @@
     position: sticky;
     top: 0;
     z-index: 998;
-    background-color: #242c3a;
-    opacity: 80%;
-    backdrop-filter: blur(7px);
-    padding: 0 20px;
+    background-color: #212735;
+    padding: 0 6px;
     margin-bottom: 20px;
     display:  flex;
     justify-content: space-between;

@@ -87,11 +87,11 @@ export default function WeatherWidget({widgetModel}) {
         <div className={styles.weatherWidget}>
             <ButtonPane>
                 <ActionButton 
-                    color="#2e313cd0"
+                    className="weather"
                 />
                 <CrossButton 
                     onClick = {() => removeWidget(widgetModel.id)}
-                    color="#2e313cd0"
+                    className="weather"
                 /> 
             </ButtonPane>
             <div className={styles.content}>

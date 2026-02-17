@@ -1,0 +1,19 @@
+.pomodoro {
+    position: relative;
+    background-color: #545e8a;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    min-width: 120px;
+    min-height: 154px;
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+.content {
+    background-color: #6671a5;
+    margin-top: 34px;
+    min-height: 154px;
+    flex-grow: 1;
+}

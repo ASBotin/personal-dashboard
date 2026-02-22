@@ -63,6 +63,36 @@ export default function Pomodoro({widgetModel}) {
     }
 
     useEffect(() => {
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission();
+        }
+    }, []);
+
+    const alarmSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+
+    const notify = (title, message) => {
+        alarmSound.play().catch(e => console.log("Ошибка звука:", e));
+        if (Notification.permission === "granted") {
+            new Notification(title, {
+                body: message,
+            });
+        } else {
+            alert(`${title}: ${message}`);
+        }
+    };
+
+    useEffect(() => {
+        if (remainingTime === -1) {
+            const message = activeMode === "work" 
+                ? "Время поработать закончилось! Пора отдохнуть." 
+                : "Перерыв окончен! За работу.";
+            
+            notify("Pomodoro", message);
+            handleNextMode();
+        }
+    }, [remainingTime]); 
+
+    useEffect(() => {
         if (isTimerRunning) {
             timerRef.current = setInterval(() => {
                 setRemainingTime(prev => {
@@ -79,12 +109,6 @@ export default function Pomodoro({widgetModel}) {
         }
         return () => clearInterval(timerRef.current);
     }, [isTimerRunning, autoNext, activeMode]);
-
-    useEffect(() => {
-        if (remainingTime === -1) {
-            handleNextMode();
-        }
-    })
 
     return (
         <div className = {styles.pomodoro}>

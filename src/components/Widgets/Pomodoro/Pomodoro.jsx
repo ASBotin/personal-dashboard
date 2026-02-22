@@ -55,7 +55,12 @@ export default function Pomodoro({widgetModel}) {
             setActiveMode("work");
             setRemainingTime(timerSettings.work);
         }
-    } 
+    }
+    
+    const handleModeChange = (mode) => {
+        setActiveMode(mode);
+        setRemainingTime(timerSettings[mode]);
+    }
 
     useEffect(() => {
         if (isTimerRunning) {
@@ -85,6 +90,7 @@ export default function Pomodoro({widgetModel}) {
         <div className = {styles.pomodoro}>
             <ButtonPane>
                 <ActionButton
+                    options = {[{label: "Настройки"}]}
                     className = "pomodoro"
                 />
                 <CrossButton
@@ -93,11 +99,30 @@ export default function Pomodoro({widgetModel}) {
                 />
             </ButtonPane>
             <div className ={styles.content}>
+                <div className={styles.modeToggle}>
+                    <button 
+                        className={`${styles.modeButton} ${activeMode === "work" ? styles.activeMode : ""}`}
+                        onClick={() => handleModeChange("work")}
+                    >
+                        Pomodoro
+                    </button>
+                    <button 
+                        className={`${styles.modeButton} ${activeMode === "shortBreak" ? styles.activeMode : ""}`}
+                        onClick={() => handleModeChange("shortBreak")}
+                    >
+                        Short Break
+                    </button>
+                    <button 
+                        className={`${styles.modeButton} ${activeMode === "longBreak" ? styles.activeMode : ""}`}
+                        onClick={() => handleModeChange("longBreak")}
+                    >
+                        Long Break
+                    </button>
+                </div>
                 <div className={styles.timerContainer}>
                     <div className={styles.timer}>
-                        {Math.floor(remainingTime/60)}:{(remainingTime % 60).toString().padStart(2, '0')}
+                        {Math.floor(remainingTime/60).toString().padStart(2, '0')}:{(remainingTime % 60).toString().padStart(2, '0')}
                     </div>
-                    
                 </div>
                 <div className={styles.buttons}>
                     <button 

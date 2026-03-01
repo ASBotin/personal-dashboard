@@ -1,6 +1,7 @@
 import NoteWidget from "./NoteWidget/NoteWidget";    
 import WeatherWidget from "./WeatherWidget/WeatherWidget";
 import Pomodoro from "./Pomodoro/Pomodoro"
+import RepositoryTracker from "./RepositoryTracker/RepositoryTracker";
 
 export default function Widget({widgetModel}) {
     switch (widgetModel.type) {
@@ -14,6 +15,10 @@ export default function Widget({widgetModel}) {
             />;
         case "pomodoro":
             return <Pomodoro
+                widgetModel={widgetModel}
+            />
+        case "repositoryTracker":
+            return <RepositoryTracker
                 widgetModel={widgetModel}
             />
         default:

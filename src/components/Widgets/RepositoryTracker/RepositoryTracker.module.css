@@ -1,0 +1,152 @@
+.reposTracker {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    background-color: #212631;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    min-width: 120px;
+    min-height: 154px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    background-color: #252c3b;
+    flex-grow: 1;
+    margin-top: 34px;
+    padding: 12px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: 100%;
+}
+
+.reposName {
+    font-size: 22px;
+    font-weight: 600;
+    color: #c9d1d9;
+    margin: 0 0 8px 0;
+}
+.reposDescription {
+    font-size: 16px;
+    font-weight: 100;
+    color: #c9d1d9;
+    line-height: 1.5;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    background: #323a52;
+    background: linear-gradient(180deg,rgba(50, 58, 82, 1) 0, rgba(43, 51, 69, 1) 70%);
+    border-radius: 15px;
+    padding: 12px;
+}
+.details {
+    margin-top: 12px;
+}
+.reposStats {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    color: #c9d1d9;
+}
+.statItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 30px;
+    height: 18px;
+}
+.starIcon {
+    height: 13px;
+    width: 13px;
+    align-self: center;
+}
+.forkIcon {
+    height: 15px;
+    width: 15px;
+    align-self: center;
+}
+.issueIcon {
+    height: 13px;
+    width: 13px;
+    align-self: center;
+}
+.watchIcon {
+    height: 15px;
+    width: 15px;
+    align-self: center;
+}
+
+.otherData {
+    margin-top: 12px;
+    color: #abb6be;
+    font-size: 12px;
+    font-weight: 100;
+}
+.otherDataItem {
+    padding-bottom: 7px;
+}
+.otherDataItem:last-of-type {
+    padding-bottom: 0;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+}
+.repoInput {
+    background: none;
+    border: 2px solid #444c6b;
+    border-radius: 15px;
+    padding: 8px 12px;
+    color: #c9d1d9;
+    font-size: 14px;
+    margin-bottom: 12px;
+    outline: none;
+}
+.repoInput::placeholder {
+    color: #6e7681;
+}
+.submitBtn {
+    background: #323a52;
+    color: #c9d1d9;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.submitBtn:hover {
+    background-color: #444c6b;
+}
+.submitBtn:disabled {
+    background-color: #2a3248;
+    cursor: not-allowed;
+    color: #6e7681;
+}
+.formTitle {
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #c9d1d9;
+    margin-bottom: 12px;
+}

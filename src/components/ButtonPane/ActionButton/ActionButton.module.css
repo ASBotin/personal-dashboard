@@ -20,9 +20,9 @@
     flex-direction: column;
     top: 12px;
     right: 6px;
-    background-color: #212836;
+    background-color: #273041;
     border: 1px solid #212836;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.45);
     border-radius: 10px;
     z-index: 1000;
     min-width: 100px;
@@ -33,8 +33,10 @@
     width: 100%; 
     border: none;
     background-color: transparent;
-    padding: 6px 0;
-    text-align: center;
+    padding: 6px 8px;
+    text-align: left;
+    align-self: center;
+    justify-self: center;
     font-size: 14px;
     color: #e3eaf5;
     font-weight: 100;
@@ -70,3 +72,9 @@
 .pomodoro:hover {
     color: #2d3554;
 }
+.reposTracker {
+    color: #c9d1d95e;
+}
+.reposTracker:hover {
+    color: #c9d1d9;
+}       

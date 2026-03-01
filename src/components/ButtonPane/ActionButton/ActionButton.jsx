@@ -35,7 +35,6 @@ export default function ActionButton({options, className}) {
                                     onClick={() => {
                                         option.onClick();
                                         setIsMenuOpen(false);
-                                        
                                     }}
                                 >
                                     {option.label}

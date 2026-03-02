@@ -9,7 +9,7 @@ import Pause from '../../../assets/controls/Pause.svg?react';
 import Next from '../../../assets/controls/Next.svg?react';
 
 export default function Pomodoro({widgetModel}) {
-    const {removeWidget} = useContext(BoardsContext);
+    const {removeWidget, updateWidget} = useContext(BoardsContext);
 
     const [timerSettings, setTimerSettings] = useState({
         work: 25 * 60,
@@ -17,14 +17,25 @@ export default function Pomodoro({widgetModel}) {
         longBreak: 15 * 60
     });
     const [longBreakInterval, setLongBreakInterval] = useState({
-        interval: 3,
-        remain: 3
+        interval: widgetModel.data.longBreakInterval || 3,
+        remain: widgetModel.data.longBreakRemain || 3
     });
     const [autoNext, setAutoNext] = useState(true);
 
-    const [activeMode, setActiveMode] = useState("work");
-    const [isTimerRunning, setIsTimerRunning] = useState(false);
-    const [remainingTime, setRemainingTime] = useState(timerSettings[activeMode]);
+    const [activeMode, setActiveMode] = useState(widgetModel.data.activeMode || "work");
+    const [isTimerRunning, setIsTimerRunning] = useState(() => {
+        if (widgetModel.data.isTimerRunning && widgetModel.data.finishTime) {
+            return (widgetModel.data.finishTime - Date.now() > 0);
+        }
+        return false;
+    });
+    const [remainingTime, setRemainingTime] = useState(() => {
+        if (widgetModel.data.isTimerRunning && widgetModel.data.finishTime) {
+            const diff = Math.round((widgetModel.data.finishTime - Date.now()) / 1000);
+            return Math.max(diff, 0);
+        }
+        return widgetModel.data.savedRemainingTime || timerSettings[activeMode];
+    });
 
     const timerRef = useRef();
 
@@ -46,32 +57,109 @@ export default function Pomodoro({widgetModel}) {
     };
 
     const handleNextMode = () => {
+        let mode;
         if (activeMode === "work") {
                 const nextBreak = witchBreakIsNext();
                 setActiveMode(nextBreak);
                 setRemainingTime(timerSettings[nextBreak]);
+                mode = nextBreak;
         }
         else {
             setActiveMode("work");
             setRemainingTime(timerSettings.work);
+            mode = "work";
         }
+        const isRunning = isTimerRunning;
+        const finishTime = isRunning ? Date.now() + timerSettings[mode] * 1000 : null;
+
+        updateWidget({
+            ...widgetModel,
+            data: {
+                ...widgetModel.data,
+                activeMode: mode, 
+                isTimerRunning: isRunning,
+                finishTime: finishTime,
+                savedRemainingTime: timerSettings[mode],
+                longBreakInterval: longBreakInterval.interval,
+                longBreakRemain: longBreakInterval.remain
+            }
+        });
     }
     
     const handleModeChange = (mode) => {
         setActiveMode(mode);
         setRemainingTime(timerSettings[mode]);
+
+        const isRunning = isTimerRunning;
+        const finishTime = isRunning ? Date.now() + timerSettings[mode] * 1000 : null;
+
+        updateWidget({
+            ...widgetModel,
+            data: {
+                ...widgetModel.data,
+                activeMode: mode, 
+                isTimerRunning: isRunning,
+                finishTime: finishTime,
+                savedRemainingTime: timerSettings[mode],
+                longBreakInterval: longBreakInterval.interval,
+                longBreakRemain: longBreakInterval.remain
+            }
+        });
+    };
+
+    const toggleTimer = () => {
+        const newRunningState = (!isTimerRunning);
+        if (newRunningState) {
+            const finishTime = Date.now() + remainingTime * 1000;
+            updateWidget({
+                ...widgetModel,
+                data: {
+                    ...widgetModel.data,
+                    isTimerRunning: true,
+                    finishTime,
+                    activeMode
+                }
+            })
+        }
+        else {
+            updateWidget({
+                ...widgetModel,
+                data: {
+                    ...widgetModel.data,
+                    isTimerRunning: false,
+                    finishTime: null,
+                    savedRemainingTime: remainingTime,
+                    activeMode
+                }
+            })
+        }
+        setIsTimerRunning(newRunningState);
+        
     }
 
     useEffect(() => {
         if (Notification.permission !== "granted") {
             Notification.requestPermission();
         }
+        const saved = widgetModel;
+        if (saved.isTimerRunning && saved.finishTime) {
+            const now = Date.now();
+            const diff = Math.round((saved.finishTime - now) / 1000);
+
+            if (diff > 0) {
+                setActiveMode(saved.activeMode || "work");
+                setRemainingTime(diff);
+                setIsTimerRunning(true);
+            } else {
+                setRemainingTime(0);
+                setIsTimerRunning(false);
+            }
+        } else if (saved.savedRemainingTime) {
+            setRemainingTime(saved.savedRemainingTime);
+        }
     }, []);
 
-    const alarmSound = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-
     const notify = (title, message) => {
-        alarmSound.play().catch(e => console.log("Ошибка звука:", e));
         if (Notification.permission === "granted") {
             new Notification(title, {
                 body: message,
@@ -151,7 +239,7 @@ export default function Pomodoro({widgetModel}) {
                 <div className={styles.buttons}>
                     <button 
                         className={`${isTimerRunning ? styles.pauseButton : styles.startButton}`}
-                        onClick={() => setIsTimerRunning(!isTimerRunning)}
+                        onClick={toggleTimer}
                     >
                         {isTimerRunning ? <Pause className={styles.pause}/> : <Start className={styles.start}/>}
                     </button>

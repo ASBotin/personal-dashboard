@@ -1,0 +1,16 @@
+.contributionCalendar {
+    display: grid;
+    width:100%;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+} 
+.day {
+    aspect-ratio: 1 / 1;
+    background-color: #777777;
+    border-radius: 5px;
+} 
+.level0 { background-color: #2d333b; }
+.level1 { background-color: #0e4429; }
+.level2 { background-color: #006d32; }
+.level3 { background-color: #26a641; }
+.level4 { background-color: #39d353; }

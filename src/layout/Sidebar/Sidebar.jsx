@@ -13,6 +13,7 @@ export default function Sidebar({isOpen}) {
             <button className={styles.button} onClick = {() => addWidget("weather")}>Погода</button>
             <button className={styles.button} onClick = {() => addWidget("pomodoro")}>Pomodoro</button>
             <button className={styles.button} onClick = {() => addWidget("repositoryTracker")}>Трекер репозитория</button>
+            <button className={styles.button} onClick = {() => addWidget("gitActivityTracker")}>Календарь активности</button>
         </aside> 
     )
 }

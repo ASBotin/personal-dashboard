@@ -14,12 +14,13 @@
     flex-grow: 1;
 }
 .rightSection {
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
 }
 .leftSection {
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

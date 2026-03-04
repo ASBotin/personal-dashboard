@@ -2,6 +2,7 @@ import NoteWidget from "./NoteWidget/NoteWidget";
 import WeatherWidget from "./WeatherWidget/WeatherWidget";
 import Pomodoro from "./Pomodoro/Pomodoro"
 import RepositoryTracker from "./RepositoryTracker/RepositoryTracker";
+import GitActivityTracker from "./GitActivityTracker/GitActivityTracker";
 
 export default function Widget({widgetModel}) {
     switch (widgetModel.type) {
@@ -19,6 +20,10 @@ export default function Widget({widgetModel}) {
             />
         case "repositoryTracker":
             return <RepositoryTracker
+                widgetModel={widgetModel}
+            />
+        case "gitActivityTracker":
+            return <GitActivityTracker
                 widgetModel={widgetModel}
             />
         default:

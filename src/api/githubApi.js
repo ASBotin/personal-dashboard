@@ -6,7 +6,7 @@ const headers = {
     "Accept": "application/vnd.github.v3+json"
 };
 
-export const getReposData = async (owner, repos) => {
+export const fetchReposData = async (owner, repos) => {
     try {
         const response = await fetch(`${BASE_URL}/repos/${owner}/${repos}`, { headers });
         if (!response.ok) throw new Error("Репозиторий не найден");

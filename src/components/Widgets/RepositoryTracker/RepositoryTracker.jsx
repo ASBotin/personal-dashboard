@@ -10,7 +10,7 @@ import Watch from '../../../assets/git/watchers.svg?react';
 
 import { useState, useEffect, useContext, useRef } from 'react';
 import { BoardsContext } from '../../../BoardsContext';
-import { getReposData } from '../../../api/githubApi';
+import { fetchReposData } from '../../../api/githubApi';
 
 
 export default function RepositoryTracker({widgetModel}) {
@@ -42,10 +42,10 @@ export default function RepositoryTracker({widgetModel}) {
         const rep = repos?.repos;
 
         if  (owner && rep) {
-            const fetchReposData = async (silent = false) => {
+            const getReposData = async (silent = false) => {
                 if (!silent) setIsLoading(true);
                 try {
-                    const data = await getReposData(owner, rep);
+                    const data = await fetchReposData(owner, rep);
                     if (data) {
                         setReposData(data);
                     }
@@ -61,7 +61,7 @@ export default function RepositoryTracker({widgetModel}) {
                     if (!silent) setIsLoading(false);
                 }
             }
-            fetchReposData();
+            getReposData();
             updateWidget({
                 ...widgetModel,
                 data: {
@@ -69,7 +69,7 @@ export default function RepositoryTracker({widgetModel}) {
                     repos: { owner, repos: rep }
                 }
             })
-            fetchInterval.current = setInterval(fetchReposData, 600000, true);
+            fetchInterval.current = setInterval(getReposData, 600000, true);
             return () => clearInterval(fetchInterval.current);
         }    
     }, [repos])

@@ -48,8 +48,8 @@
 .container {
     display: flex;
     flex-direction: column;
-    background: #323a52;
-    background: linear-gradient(180deg,rgba(50, 58, 82, 1) 0, rgba(43, 51, 69, 1) 70%);
+    background: #333c54;
+    background: linear-gradient(180deg,rgba(51, 60, 84, 1) 0%, rgba(44, 52, 74, 1) 70%);
     border-radius: 15px;
     padding: 12px;
 }

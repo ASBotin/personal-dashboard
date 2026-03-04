@@ -1,0 +1,26 @@
+.gitActivityTracker {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    background-color: #212631;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); 
+    min-width: 120px;
+    min-height: 154px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    background-color: #252c3b;
+    flex-grow: 1;
+    margin-top: 34px;
+    padding: 12px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    width: 100%;
+}

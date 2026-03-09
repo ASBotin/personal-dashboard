@@ -16,3 +16,14 @@ export const fetchReposData = async (owner, repos) => {
         return null;
     }
 };
+
+export const fetchUserData = async (username) => {
+    try {
+        const response = await fetch(`${BASE_URL}/users/${username}`, { headers });
+        if (!response.ok) throw new Error("Пользователь не найден");
+        return await response.json();
+    } catch (error) {
+        console.error("Github API Error:", error);
+        return null;
+    }
+};

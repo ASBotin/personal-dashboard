@@ -1,4 +1,5 @@
 .contributionCalendar {
+    position: relative;
     display: grid;
     width:100%;
     grid-template-columns: repeat(7, 1fr);
@@ -6,11 +7,34 @@
 } 
 .day {
     aspect-ratio: 1 / 1;
-    background-color: #777777;
+    background-color: #21263185;
+    border: solid 1px #21263185;
     border-radius: 5px;
+    transition: transform 0.2s ease;
 } 
-.level0 { background-color: #2d333b; }
+.day:hover {
+    transform: scale(110%);
+}
+.empty:hover {
+    transform: none;
+}      
+
+.level0 { background-color: #212631; }
 .level1 { background-color: #0e4429; }
 .level2 { background-color: #006d32; }
 .level3 { background-color: #26a641; }
 .level4 { background-color: #39d353; }
+
+.tooltip {
+    position: absolute;
+    padding: 6px 10px;
+    background: #c9d1d9;
+    color: #212631;
+    border: solid 1px #212631;
+    border-radius: 5px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 1000;
+    white-space: nowrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

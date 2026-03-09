@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 .gitActivityTracker {
     display: flex;
     flex-direction: column;
@@ -9,7 +11,6 @@
     box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); 
     min-width: 120px;
     min-height: 154px;
-    overflow: hidden;
     user-select: none;
 }
 
@@ -23,4 +24,173 @@
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
     width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    background: #333c54;
+    background: linear-gradient(180deg,rgba(51, 60, 84, 1) 0%, rgba(44, 52, 74, 1) 70%);
+    border-radius: 15px;
+    padding: 12px;
+}
+.calendarControls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.changeMonthButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    background: #212631;
+    color: #c9d1d9;
+    font-family: 'Inter', sans-serif;
+    line-height: 1;
+    font-weight: 600;
+    font-size: 16px;
+    padding-bottom: 3px;
+    cursor: pointer;    
+}
+.changeMonthButton:hover {
+    background: #282e3b;
+}
+.currentMonth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 140px;
+    height: 30px;
+    border-radius: 15px;
+
+    color: #c9d1d9;
+    border: none;
+    
+    background: #212631;
+    font-weight: 100;
+    font-size: 14px;
+    margin: 0 6px;
+}
+
+.userDataContainer {
+    display: flex;
+    flex-direction: row;
+    background: #333c54;
+    background: linear-gradient(180deg,rgba(51, 60, 84, 1) 0%, rgba(44, 52, 74, 1) 70%);
+    border-radius: 15px;
+    padding: 12px;
+    margin-bottom: 12px;
+    gap: 12px;
+    align-items: center;
+}
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+}
+.submitBtn {
+    background: #323a52;
+    color: #c9d1d9;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 12px;
+}
+.submitBtn:hover {
+    background-color: #444c6b;
+}
+.submitBtn:disabled {
+    background-color: #2a3248;
+    cursor: not-allowed;
+    color: #6e7681;
+}
+.formTitle {
+    margin-top: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #c9d1d9;
+    margin-bottom: 12px;
+}
+.usernameInput {
+    background: none;
+    border: 2px solid #444c6b;
+    border-radius: 15px;
+    padding: 8px 12px;
+    color: #c9d1d9;
+    font-size: 14px;
+    margin-bottom: 12px;
+    outline: none;
+}
+.usernameInput::placeholder {
+    color: #6e7681;
+}
+.loader {
+    color: #6e7681;
+    font-size: 18px;
+    font-weight: 400;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+.errorMessage {
+    color: #ff6b6b;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 8px;
+}  
+.avatarContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+.avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.username {
+    font-size: 22px;
+    font-weight: 600;
+    color: #c9d1d9;
+    cursor: pointer;
+}
+.userLink {
+    color: inherit; 
+    text-decoration: none;
+}
+.userLink:hover {
+    text-decoration: underline;
+}
+.userInfo {
+    color: #abb6be;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 100;
 }

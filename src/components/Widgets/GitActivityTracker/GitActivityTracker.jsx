@@ -1,5 +1,5 @@
 import styles from './GitActivityTracker.module.css';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { BoardsContext } from '../../../BoardsContext';
 
 import { fetchContributionData } from '../../../api/githubContributionApi';
@@ -9,6 +9,11 @@ import ButtonPane from '../../ButtonPane/ButtonPane';
 import ActionButton from '../../ButtonPane/ActionButton/ActionButton';
 import CrossButton from '../../ButtonPane/CrossButton/CrossButton';
 import ContributionCalendar from './contributionCalendar/contributionCalendar';
+
+import Location from '../../../assets/git/location.svg?react';
+import Gist from '../../../assets/git/gist.svg?react';  
+import Followers from '../../../assets/git/followers.svg?react';
+import Repos from '../../../assets/git/repos.svg?react';
 
 export default function GitActivityTracker({widgetModel}) {
     const [username, setUsername] = useState(widgetModel.data.username || "");
@@ -20,6 +25,7 @@ export default function GitActivityTracker({widgetModel}) {
 
     const [error, setError] = useState(null);
     const [usernameInput, setUsernameInput] = useState("");
+    const fetchInterval = useRef(null);
 
     const getDaysInMonth = (date) => {
         if (!contributionData) return [];
@@ -78,7 +84,6 @@ export default function GitActivityTracker({widgetModel}) {
                     const data = await fetchUserData(username);
                     if (!data) throw new Error("Пользователь не найден");
                     setUserData(data);
-                    console.log(data)
                     setError(null);
                 }
                 catch (err) {
@@ -89,12 +94,14 @@ export default function GitActivityTracker({widgetModel}) {
                 }
             }
             getUserData();
-            
             getContributionData();
             updateWidget({
                 ...widgetModel,
                 data: { username }
             })
+            fetchInterval.current = setInterval(getContributionData, 600000, true);
+
+            return () => clearInterval(fetchInterval.current);
         }
     }, [username])
 
@@ -137,6 +144,17 @@ export default function GitActivityTracker({widgetModel}) {
             setUsername(usernameInput);
         }
     };
+
+    const prepareNumber = (num) => {
+        if (num >= 10000 && num < 1000000) {
+            return Math.round((num / 1000) * 10) / 10 + "к";
+        }
+        else if (num > 1000000) {
+            return Math.round(num / 1000) + "к";
+        }
+        return num;
+    }
+
 
     return (
         <div className={styles.gitActivityTracker}>
@@ -203,9 +221,25 @@ export default function GitActivityTracker({widgetModel}) {
                                         {username}
                                     </a>   
                                 </h2>
+                                {userData.location && (
+                                    <div className={styles.location}>
+                                        <Location className={styles.locationIcon}/> 
+                                        {userData.location}
+                                    </div>
+                                )}
                                 <div className={styles.userStats}>
-                                    <div>Public repos: {userData.public_repos}</div>
-                                    <div>Followers: {userData.followers}</div>
+                                    <div className={styles.statItem} title='followers'>
+                                        <Followers className={styles.statsIcon}/>
+                                        {prepareNumber(userData.followers)}
+                                    </div>
+                                    <div className={styles.statItem} title='public repositories'>
+                                        <Repos className={styles.statsIcon}/>
+                                        {prepareNumber(userData.public_repos)}
+                                    </div>
+                                    <div className={styles.statItem} title='public gists'>
+                                        <Gist className={styles.statsIcon}/>
+                                        {prepareNumber(userData.public_gists)}
+                                    </div>
                                 </div>
                             </div>
                         </div>

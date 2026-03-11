@@ -7,6 +7,7 @@ import CrossButton from "../../ButtonPane/CrossButton/CrossButton";
 import Start from '../../../assets/controls/Start.svg?react';
 import Pause from '../../../assets/controls/Pause.svg?react';
 import Next from '../../../assets/controls/Next.svg?react';
+import alertSound from '../../../assets/alert.mp3';
 
 export default function Pomodoro({widgetModel}) {
     const {removeWidget, updateWidget} = useContext(BoardsContext);
@@ -60,18 +61,16 @@ export default function Pomodoro({widgetModel}) {
         let mode;
         if (activeMode === "work") {
                 const nextBreak = witchBreakIsNext();
-                setActiveMode(nextBreak);
-                setRemainingTime(timerSettings[nextBreak]);
                 mode = nextBreak;
         }
         else {
-            setActiveMode("work");
-            setRemainingTime(timerSettings.work);
             mode = "work";
         }
         const isRunning = isTimerRunning;
         const finishTime = isRunning ? Date.now() + timerSettings[mode] * 1000 : null;
 
+        setRemainingTime(timerSettings[mode]);
+        setActiveMode(mode);            
         updateWidget({
             ...widgetModel,
             data: {
@@ -106,7 +105,6 @@ export default function Pomodoro({widgetModel}) {
             }
         });
     };
-
     const toggleTimer = () => {
         const newRunningState = (!isTimerRunning);
         if (newRunningState) {
@@ -132,9 +130,9 @@ export default function Pomodoro({widgetModel}) {
                     activeMode
                 }
             })
+            localStorage.removeItem('active_timer');    
         }
         setIsTimerRunning(newRunningState);
-        
     }
 
     useEffect(() => {
@@ -160,6 +158,8 @@ export default function Pomodoro({widgetModel}) {
     }, []);
 
     const notify = (title, message) => {
+        const audio = new Audio(alertSound);
+        audio.play().catch(e => console.error("Ошибка воспроизведения звука:", e));
         if (Notification.permission === "granted") {
             new Notification(title, {
                 body: message,
@@ -167,6 +167,7 @@ export default function Pomodoro({widgetModel}) {
         } else {
             alert(`${title}: ${message}`);
         }
+        
     };
 
     useEffect(() => {
@@ -181,10 +182,12 @@ export default function Pomodoro({widgetModel}) {
     }, [remainingTime]); 
 
     useEffect(() => {
-        if (isTimerRunning) {
+        if (isTimerRunning && widgetModel.data.finishTime) {
             timerRef.current = setInterval(() => {
                 setRemainingTime(prev => {
-                    if (prev > 1) return (prev - 1);
+                    const now = Date.now();
+                    const diff = Math.round((widgetModel.data.finishTime - now) / 1000);
+                    if (prev > 1) return diff;
 
                     if (!autoNext) {
                         setIsTimerRunning(false);
@@ -196,7 +199,7 @@ export default function Pomodoro({widgetModel}) {
             }, 1000)
         }
         return () => clearInterval(timerRef.current);
-    }, [isTimerRunning, autoNext, activeMode]);
+    }, [isTimerRunning, autoNext, activeMode, widgetModel.data.finishTime]);
 
     return (
         <div className = {styles.pomodoro}>

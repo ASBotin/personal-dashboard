@@ -47,6 +47,7 @@
     width: 100%;
     align-items: center;
     flex-grow: 1;
+    padding-top: 16px;
 }
 
 .startButton, .pauseButton {

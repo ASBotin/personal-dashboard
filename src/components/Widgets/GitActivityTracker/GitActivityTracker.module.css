@@ -189,8 +189,38 @@
     text-decoration: underline;
 }
 .userInfo {
+    font-size: 12px;
+    font-weight: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.userStats {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+.statItem {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #c9d1d9;
+    font-size: 14px;
+}
+.statsIcon {
+    width: 16px;
+    height: 16px;
+    fill: #c9d1d9;
+}
+.locationIcon {
+    width: 14px;
+    height: 14px;
+    fill: #abb6be;
+}
+.location {
+    display: flex;
+    align-items: center;
+    gap: 4px;
     color: #abb6be;
     font-size: 12px;
-    line-height: 1.5;
-    font-weight: 100;
 }

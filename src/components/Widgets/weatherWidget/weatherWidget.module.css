@@ -1,15 +1,5 @@
 .weatherWidget {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
     background-color: #5d7fb3;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); 
-    min-width: 120px;
-    min-height: 154px;
-    overflow: hidden;
     user-select: none;
 }
 .select {

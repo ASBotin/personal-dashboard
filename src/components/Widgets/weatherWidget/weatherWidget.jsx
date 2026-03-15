@@ -84,7 +84,7 @@ export default function WeatherWidget({widgetModel}) {
     }
 
     return (
-        <div className={styles.weatherWidget}>
+        <div className={`${styles.weatherWidget} widgetContainer`}>
             <ButtonPane>
                 <ActionButton 
                     className="weather"
@@ -94,7 +94,7 @@ export default function WeatherWidget({widgetModel}) {
                     className="weather"
                 /> 
             </ButtonPane>
-            <div className={styles.content}>
+            <div className={`${styles.content} widgetContent`}>
                 <AsyncSelect
                     value = {value}
                     loadOptions = {loadOptions}

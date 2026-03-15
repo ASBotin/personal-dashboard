@@ -1,27 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap');
 
 .pomodoro {
-    position: relative;
     background-color: #545e8a;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
-    min-width: 120px;
-    min-height: 154px;
-
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
     user-select: none;
 }
 .content {
     background-color: #6671a5;
-    margin-top: 34px;
-    min-height: 154px;
-    flex-grow: 1;
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
 }
 .timerContainer {
     display:flex;

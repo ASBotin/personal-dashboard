@@ -202,7 +202,7 @@ export default function Pomodoro({widgetModel}) {
     }, [isTimerRunning, autoNext, activeMode, widgetModel.data.finishTime]);
 
     return (
-        <div className = {styles.pomodoro}>
+        <div className = {`${styles.pomodoro} widgetContainer`}>
             <ButtonPane>
                 <ActionButton
                     options = {[{label: "Настройки"}]}
@@ -213,7 +213,7 @@ export default function Pomodoro({widgetModel}) {
                     className = "pomodoro"
                 />
             </ButtonPane>
-            <div className ={styles.content}>
+            <div className = {`${styles.content} widgetContent`}>
                 <div className={styles.modeToggle}>
                     <button 
                         className={`${styles.modeButton} ${activeMode === "work" ? styles.activeMode : ""}`}

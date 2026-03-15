@@ -1,15 +1,5 @@
 .note {
-    position: relative;
     background-color: #977757;
-    border: none;
-    border-radius: 15px;
-    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); 
-    min-width: 120px;
-    min-height: 154px;
-
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
 }
 
 .title {
@@ -50,7 +40,14 @@
 .text::placeholder {
     color: #2a2f3a9f;
 }
-.content, .completedItems {
+
+.content {
+    background-color: #bd9a77;
+    margin-top: 34px;
+    min-height: 154px;
+}
+.completedItems {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
     padding: 16px;
@@ -58,11 +55,6 @@
     border-bottom-right-radius: 15px;
     width: 100%;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.034);
-}
-.content {
-    background-color: #bd9a77;
-    margin-top: 34px;
-    min-height: 154px;
 }
 .hide {
     box-shadow: none;

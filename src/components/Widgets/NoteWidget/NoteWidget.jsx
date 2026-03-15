@@ -130,7 +130,7 @@ export default function NoteWidget({widgetModel}) {
     ];
 
     return (
-        <div className={styles.note}>
+        <div className={`${styles.note} widgetContainer`}>
             <ButtonPane>
                 <ActionButton 
                     options={actionsOptions}
@@ -141,7 +141,7 @@ export default function NoteWidget({widgetModel}) {
                     className="note"
                 /> 
             </ButtonPane>
-            <div className = {`${styles.content} ${(!showCompleted || completed.length === 0 || type === 'text') ? styles.hide : ''}`}>
+            <div className = {`${styles.content} widgetContent ${(!showCompleted || completed.length === 0 || type === 'text') ? styles.hide : ''}`}>
                 <textarea
                     ref={titleRef}
                     rows={1}

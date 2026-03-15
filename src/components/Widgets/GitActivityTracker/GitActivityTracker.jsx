@@ -157,7 +157,7 @@ export default function GitActivityTracker({widgetModel}) {
 
 
     return (
-        <div className={styles.gitActivityTracker}>
+        <div className={`${styles.gitActivityTracker} widgetContainer`}>
             <ButtonPane>            
                 {username && (
                     <ActionButton
@@ -170,7 +170,7 @@ export default function GitActivityTracker({widgetModel}) {
                     className="reposTracker"
                 /> 
             </ButtonPane>
-            <div className = {styles.content}>
+            <div className = {`${styles.content} widgetContent`}>
                 {!username && (
                     <form className={styles.formContainer} onSubmit={handleSubmit}> 
                         <h4 className={styles.formTitle}>Настройка трекера</h4>                        

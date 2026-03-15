@@ -89,7 +89,7 @@ export default function RepositoryTracker({widgetModel}) {
     }
 
     return (
-        <div className={styles.reposTracker}>
+        <div className={`${styles.reposTracker} widgetContainer`}>
             <ButtonPane>
                 {repos && (
                     <ActionButton
@@ -102,7 +102,7 @@ export default function RepositoryTracker({widgetModel}) {
                     className="reposTracker"
                 /> 
             </ButtonPane>
-            <div className = {styles.content}>
+            <div className = {`${styles.content} widgetContent`}>
                 {!repos && (
                     <form className={styles.formContainer} onSubmit={handleSubmit}>
                         <h4 className={styles.formTitle}>Настройка трекера</h4>

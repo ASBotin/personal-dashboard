@@ -1,16 +1,40 @@
-import styles from "./WidgetBoard.module.css" 
-import Widget from "../../components/Widgets/Widget"
+import styles from "./WidgetBoard.module.css";
+import Widget from "../../components/Widgets/Widget";
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import { Responsive as ResponsiveGridLayout } from 'react-grid-layout';
 import { useState, useLayoutEffect, useRef, useContext, useMemo, useCallback } from "react";
 import { BoardsContext } from "../../BoardsContext";
+import { WIDGET_SIZES } from "../../widgetConfig";  
 
 export default function WidgetBoard({ widgets }) {
     const containerRef = useRef(null);
     const [width, setWidth] = useState(0);
     const { setBoards, activeBoardId } = useContext(BoardsContext);
+
+    useLayoutEffect(() => {
+        const root = containerRef.current;
+        if (!root) return;
+
+        const blockDrag = (e) => {
+            if (!e.target.closest('.widget-drag-handle')) {
+                e.stopPropagation();
+                if (e.type === 'touchstart') {
+                    e.preventDefault();
+                }
+            }
+        };
+
+        root.addEventListener('mousedown', blockDrag, true);
+        root.addEventListener('touchstart', blockDrag, { capture: true, passive: false });
+
+        return () => {
+            root.removeEventListener('mousedown', blockDrag, true);
+            root.removeEventListener('touchstart', blockDrag, true);
+        };
+    }, []);
+
 
     useLayoutEffect(() => {
         if (!containerRef.current) return;
@@ -34,13 +58,27 @@ export default function WidgetBoard({ widgets }) {
     }, []);
 
     const currentLayout = useMemo(() => {
-        return widgets.map(w => ({
-            i: String(w.id),
-            x: Number(w.position.x) || 0,
-            y: Number(w.position.y) || 0,
-            w: Number(w.position.w) || 2,
-            h: Number(w.position.h) || 2
-        }));
+        return widgets.map(w => {
+            const config = WIDGET_SIZES[w.type] || {};
+
+            const widths = Object.values(config)?.map(size => size.w);
+            const heights = Object.values(config)?.map(size => size.h);
+
+            const minW = widths.length > 0 ? Math.min(...widths) : 2;
+            const maxW = widths.length > 0 ? Math.max(...widths) : 16;
+            const minH = heights.length > 0 ? Math.min(...heights) : 2;
+            const maxH = heights.length > 0 ? Math.max(...heights) : 12;
+
+            return {
+                i: String(w.id),
+                x: w.position.x,
+                y: w.position.y,
+                w: w.position.w || minW,
+                h: w.position.h || minH,
+                minW, minH, maxW, maxH,
+                isResizable: minW !== maxW || minH !== maxH
+            }
+        });
     }, [widgets]);
 
     const handleActionStop = useCallback((newLayout) => {
@@ -64,36 +102,46 @@ export default function WidgetBoard({ widgets }) {
         <div 
             ref={containerRef} 
             className={styles.widgetBoard} 
-            style={{ 
-                width: '100%', 
-                height: '100%', 
-                minHeight: '80vh',
-                overflowX: 'hidden' 
-            }}
         >
             {width > 0 ? (
                 <ResponsiveGridLayout
                     className="layout"
-                    layouts={{ lg: currentLayout }}
+                    layouts={{
+                        lg: currentLayout,
+                        md: currentLayout,
+                        sm: currentLayout,
+                        xs: currentLayout,
+                        xxs: currentLayout
+                    }}
                     breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
                     cols={{ lg: 16, md: 12, sm: 8, xs: 6, xxs: 2 }}
-                    rowHeight={30}
-                    width={width}
+                    rowHeight={50}
+                    width={Math.floor(width)}
                     draggableHandle=".widget-drag-handle"
-                    onDragStop={handleActionStop}
+                    isDraggable={true}
+                    onDragStart={() => {
+                        document.body.style.cursor = 'grabbing';
+                    }}
+                    onDragStop={(layout) => { 
+                        handleActionStop(layout);
+                        document.body.style.cursor = 'default';
+                    }}
                     onResizeStop={handleActionStop}
-                    measureBeforeMount={false}
-                    useCSSTransforms={true} 
-                    margin={[15, 15]}
+                    useCSSTransforms={false}
+                    measureBeforeMount={true}      
+                    margin={[20, 20]}
                 >
                     {widgets.map(widget => (
-                        <div key={String(widget.id)}>
+                        <div 
+                            key={String(widget.id)}
+                            data-grid={currentLayout.find(l => l.i === String(widget.id))}
+                        >
                             <Widget widgetModel={widget} />
                         </div>
                     ))}
                 </ResponsiveGridLayout>
             ) : (
-                <div style={{ padding: '20px' }}>Загрузка сетки...</div>
+                <div>Загрузка сетки...</div>
             )}
         </div>
     );

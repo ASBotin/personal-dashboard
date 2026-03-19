@@ -1,10 +1,11 @@
+import React from 'react';
 import NoteWidget from "./NoteWidget/NoteWidget";    
 import WeatherWidget from "./WeatherWidget/WeatherWidget";
 import Pomodoro from "./Pomodoro/Pomodoro"
 import RepositoryTracker from "./RepositoryTracker/RepositoryTracker";
 import GitActivityTracker from "./GitActivityTracker/GitActivityTracker";
 
-export default function Widget({widgetModel}) {
+function Widget({widgetModel}) {
     switch (widgetModel.type) {
         case "note":
             return <NoteWidget
@@ -30,3 +31,5 @@ export default function Widget({widgetModel}) {
             return <div>Unknown widget type: {widgetModel.type}</div>;
     }
 }
+
+export default React.memo(Widget);

@@ -4,15 +4,7 @@
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
     background-color: #252c3b;
-    flex-grow: 1;
-    margin-top: 34px;
-    padding: 12px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    width: 100%;
 }
 
 .reposName {

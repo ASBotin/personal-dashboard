@@ -3,6 +3,7 @@
 .gitActivityTracker {
     background-color: #212631;
     user-select: none;
+    max-width: 310px;
 }
 
 .content {
@@ -16,6 +17,8 @@
     background: linear-gradient(180deg,rgba(51, 60, 84, 1) 0%, rgba(44, 52, 74, 1) 70%);
     border-radius: 15px;
     padding: 12px;
+    width: 100%;
+    flex-grow: 1;
 }
 .calendarControls {
     display: flex;
@@ -70,6 +73,7 @@
     margin-bottom: 12px;
     gap: 12px;
     align-items: center;
+    justify-self: start;
 }
 .formContainer {
     display: flex;

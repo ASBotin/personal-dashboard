@@ -86,9 +86,6 @@ export default function WeatherWidget({widgetModel}) {
     return (
         <div className={`${styles.weatherWidget} widgetContainer`}>
             <ButtonPane>
-                <ActionButton 
-                    className="weather"
-                />
                 <CrossButton 
                     onClick = {() => removeWidget(widgetModel.id)}
                     className="weather"
@@ -101,7 +98,8 @@ export default function WeatherWidget({widgetModel}) {
                     onChange = {handleChange}
                     placeholder="Search city"
                     isClearable
-                    className={styles.select}
+                    className={`${styles.select} allow-interaction`}
+                    classNamePrefix="select"
                     noOptionsMessage={() => null}
 
                     components={{

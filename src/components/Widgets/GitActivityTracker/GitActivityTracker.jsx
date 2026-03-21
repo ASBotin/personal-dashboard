@@ -221,12 +221,6 @@ export default function GitActivityTracker({widgetModel}) {
                                         {username}
                                     </a>   
                                 </h2>
-                                {userData.location && (
-                                    <div className={styles.location}>
-                                        <Location className={styles.locationIcon}/> 
-                                        {userData.location}
-                                    </div>
-                                )}
                                 <div className={styles.userStats}>
                                     <div className={styles.statItem} title='followers'>
                                         <Followers className={styles.statsIcon}/>

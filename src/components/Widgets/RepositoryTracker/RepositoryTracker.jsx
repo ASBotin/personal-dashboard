@@ -171,7 +171,6 @@ export default function RepositoryTracker({widgetModel}) {
                                 <span className={styles.statItem}><Watch className={styles.watchIcon} /> {prepareNumber(reposData?.watchers_count)}</span>
                             </div>
                         </div>
-                        
                     </div>
                 )}                
             </div>

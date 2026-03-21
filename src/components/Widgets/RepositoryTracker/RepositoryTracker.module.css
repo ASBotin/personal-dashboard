@@ -1,10 +1,17 @@
 .reposTracker {
     background-color: #212631;
     user-select: none;
+    max-width: 310px;
 }
 
 .content {
     background-color: #252c3b;
+}
+.reposInfo {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .reposName {
@@ -34,9 +41,16 @@
     background: linear-gradient(180deg,rgba(51, 60, 84, 1) 0%, rgba(44, 52, 74, 1) 70%);
     border-radius: 15px;
     padding: 12px;
+    width: 100%;
+}
+.container:not(.details) {
+    flex-grow: 1;
+    justify-content: space-between;
 }
 .details {
     margin-top: 12px;
+    align-items: center;
+    justify-content: center;
 }
 .reposStats {
     display: flex;

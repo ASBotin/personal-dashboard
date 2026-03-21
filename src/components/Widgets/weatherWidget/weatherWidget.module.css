@@ -1,6 +1,7 @@
 .weatherWidget {
     background-color: #5d7fb3;
     user-select: none;
+    max-width: 310px;
 }
 .select {
     width: 100%;

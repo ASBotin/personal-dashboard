@@ -3,9 +3,7 @@
 .pomodoro {
     background-color: #545e8a;
     user-select: none;
-    min-width: 270px;
-    min-height: 245px;
-
+    max-width: 310px;
 }
 .content {
     background-color: #6671a5;
@@ -22,7 +20,7 @@
     padding-bottom: 8px;
 }
 .timer {
-    font-size: 56px;
+    font-size: 48px;
     color: #2d3554;
     font-family: 'Space Grotesk', sans-serif;
     font-variant-numeric: tabular-nums;
@@ -39,8 +37,8 @@
 
 .startButton, .pauseButton {
     grid-column: 2; 
-    width: 48px;
-    height: 48px;
+    width: 42px;
+    height: 42px;
     background: none;
     border: none;
     color: #2d3554;

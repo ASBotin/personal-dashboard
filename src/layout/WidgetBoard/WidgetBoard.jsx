@@ -13,27 +13,7 @@ export default function WidgetBoard({ widgets }) {
     const [width, setWidth] = useState(0);
     const { setBoards, activeBoardId } = useContext(BoardsContext);
 
-    useLayoutEffect(() => {
-        const root = containerRef.current;
-        if (!root) return;
 
-        const blockDrag = (e) => {
-            if (!e.target.closest('.widget-drag-handle')) {
-                e.stopPropagation();
-                if (e.type === 'touchstart') {
-                    e.preventDefault();
-                }
-            }
-        };
-
-        root.addEventListener('mousedown', blockDrag, true);
-        root.addEventListener('touchstart', blockDrag, { capture: true, passive: false });
-
-        return () => {
-            root.removeEventListener('mousedown', blockDrag, true);
-            root.removeEventListener('touchstart', blockDrag, true);
-        };
-    }, []);
 
 
     useLayoutEffect(() => {
@@ -99,6 +79,7 @@ export default function WidgetBoard({ widgets }) {
     }, [activeBoardId, setBoards]);
 
     return (
+        
         <div 
             ref={containerRef} 
             className={styles.widgetBoard} 
@@ -113,12 +94,11 @@ export default function WidgetBoard({ widgets }) {
                         xs: currentLayout,
                         xxs: currentLayout
                     }}
-                    breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-                    cols={{ lg: 16, md: 12, sm: 8, xs: 6, xxs: 2 }}
-                    rowHeight={50}
+                    breakpoints={{ lg: 1400, md: 1200, sm: 900, xs: 600, xxs: 350 }}
+                    cols={{ lg: 15, md: 12, sm: 9, xs: 6, xxs: 3}}
+                    rowHeight={40}
                     width={Math.floor(width)}
-                    draggableHandle=".widget-drag-handle"
-                    isDraggable={true}
+                    dragConfig={{ enabled: true, handle: '.widget-drag-handle' }}
                     onDragStart={() => {
                         document.body.style.cursor = 'grabbing';
                     }}
@@ -127,7 +107,7 @@ export default function WidgetBoard({ widgets }) {
                         document.body.style.cursor = 'default';
                     }}
                     onResizeStop={handleActionStop}
-                    useCSSTransforms={false}
+                    useCSSTransforms={true}
                     measureBeforeMount={true}      
                     margin={[20, 20]}
                 >

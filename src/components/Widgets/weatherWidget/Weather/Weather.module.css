@@ -18,6 +18,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    height: 100%;
 }
 .leftSection {
     width: 50%;
@@ -25,16 +27,18 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
+    height: 100%;
+    justify-content: space-between;
 }
 .icon {
-    width: 80px;
-    height: 80px;
+    width: 65px;
+    height: 65px;
     color: #2e313c;
 }
 .temperature {
     display: inline-block;
-    font-size: 3rem; 
-    font-weight: bold;
+    font-size: 2.8rem; 
+    font-weight: 600;
     color: #2e313c; 
 }
 
@@ -46,15 +50,15 @@
     gap: 5px;
 }
 
-.description, .windspeed, .humidity {
-    color: #2e313c;
-    align-self: flex-start;
-}
 .description {
-    font-size: 1.2rem;
+    color: #2e313c;
+    font-size: 1rem;
     font-weight: 600;
+    align-self: center;
 }
 .humidity, .windspeed {
-    font-size: 0.8rem;
-    font-weight: 100;
+    color: #2e313c;
+    font-size: 0.9rem;
+    font-weight: 400;
+    align-self: flex-start;
 }

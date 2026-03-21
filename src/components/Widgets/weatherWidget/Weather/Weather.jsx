@@ -34,7 +34,7 @@ export default function Weather({ widgetModel }) {
     if (!lat || !lon) {
         return (
             <div className={styles.weatherContainer}>
-                <p>Please select a city to view the weather information.</p>
+                <p className={styles.description}>Please select a city to view the weather information.</p>
             </div>
         );
     }
@@ -81,13 +81,13 @@ export default function Weather({ widgetModel }) {
                     {Math.round(temperature)}°C
                 </div>
                 <div className={styles.details}>
-                    <div className={styles.description}>{description}</div>
                     <p className={styles.humidity}>Humidity: {humidity}%</p>
                     <p className={styles.windspeed}>Wind: {windspeed} m/s</p>
                 </div>
             </div>
             <div className={styles.rightSection}>
                 {Icon ? <Icon className = {styles.icon}/> : null}
+                <div className={styles.description}>{description}</div>
             </div>
         </div>
     );

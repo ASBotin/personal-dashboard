@@ -10,5 +10,9 @@ export const WIDGET_SIZES = {
     },
     gitActivityTracker: {
         standart: {w: 3, h: 7}
+    },
+    note: {
+        min: {w: 3, h: 6},
+        max: {w: 6, h: 12}
     }
 };

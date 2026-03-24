@@ -1,76 +1,141 @@
 .note {
-    background-color: #977757;
+  background-color: #977757;
 }
 
 .title {
-    font-size: 24px;
-    margin-bottom: 8px;
-    color:#2a2f3a;
-    font-weight: 600;
-    background-color: transparent;
-    border: none;
-    width: 100%;
-    height: auto;
-    resize: none;
-    overflow: hidden;
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: #2a2f3a;
+  font-weight: 600;
+  background-color: transparent;
+  border: none;
+  flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  resize: none;
+  overflow: hidden;
 }
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #977757 transparent;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-self: flex-end;
+  flex-shrink: 0;
+  padding-top: 12px;
+  min-height: 0;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 10px;
+  min-height: 100px;
+  flex-shrink: 0;
+}
+
 .text {
-    font-size: 16px;
-    color:#2a2f3a;
-    background-color: transparent;
-    border: none;  
-    width: 100%;
-    height: auto;
-    resize: none;
-    overflow: hidden;
+  font-size: 16px;
+  color: #2a2f3a;
+  background-color: transparent;
+  border: none;
+  width: 100%;
+  height: auto;
+  resize: none;
+  padding-right: 10px;
+  overflow: hidden;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #977757 transparent;
+  padding-bottom: 6px;
 }
-.text:focus, .title:focus {
-    outline: none;
+
+.text:focus,
+.title:focus {
+  outline: none;
 }
+
 .title::placeholder,
 .text::placeholder,
 .title,
 .text {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #2a2f3a;
-}
-.title::placeholder {
-    color: #2a2f3a;
-}
-.text::placeholder {
-    color: #2a2f3a9f;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #2a2f3a;
 }
 
-.content {
-    background-color: #bd9a77;
-    min-height: 154px;
+.title::placeholder {
+  color: #2a2f3a;
 }
+
+.text::placeholder {
+  color: #2a2f3a9f;
+}
+
+.comletedShown {
+  background-color: #bd9a77;
+  min-height: 0;
+  padding-right: 6px !important;
+  box-shadow: 0 7px 8px rgba(0, 0, 0, 0.2);
+  flex-grow: 0 !important; 
+  flex-shrink: 0 !important;
+}
+
+
 .completedItems {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 16px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.034);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 12px 6px 20px 12px !important;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  width: 100%;
+  overflow: hidden;
+  min-height: 0;
 }
-.hide {
-    box-shadow: none;
-    flex-grow: 1;
+
+.completedScrollArea {
+  flex-grow: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #bd9a77 transparent;
 }
+.content {
+  transition: height 0.3s ease;
+}
+
+.completedHidden {
+  background-color: #bd9a77;
+  box-shadow: none;
+  flex-grow: 1;
+  flex-shrink: 1;
+  min-height: 0;
+  padding-right: 6px;
+}
+
 .showCompletedButton {
-    color: #2a2f3a;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 14px;
-    align-self: flex-start;
-    text-align: left;
-    padding: 10px 0 10px 5px;
-    margin-top: auto;
+  color: #2a2f3a;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  align-self: flex-start;
+  justify-self: flex-end;
+  text-align: left;
+  margin-top: auto;
+  user-select: none;
 }
+
 .showCompletedButton:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

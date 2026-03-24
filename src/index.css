@@ -64,6 +64,7 @@ body {
   -webkit-font-smoothing: antialiased;
   border-radius: 15px;
   align-items: center;
+  
 }
 
 .react-grid-item > div {
@@ -81,6 +82,7 @@ body {
   height: 100%;
   flex: 1;
   transform: translateZ(0);
+  margin: 0 auto;
 }
 
 .widgetContent {
@@ -104,4 +106,18 @@ body {
   justify-content: flex-end;
   box-sizing: border-box !important;
   border: none !important; 
+}
+.react-grid-placeholder {
+  background: none !important;
+  border-radius: 15px !important;
+  border: 4px solid #e3eaf5 !important;
+  opacity: 1 !important;
+}
+.react-resizable-handle {
+  bottom: 6px !important;
+  right: 6px !important;
+}
+.react-grid-item.resizing {
+  opacity: 0.6;
+  user-select: none;
 }

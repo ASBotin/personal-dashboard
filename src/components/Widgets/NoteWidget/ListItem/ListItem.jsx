@@ -26,6 +26,19 @@ export default function ListItem({id, text, isCompleted, handleUpdateItem, handl
         autoResize(textRef);
     }, [textareaText]);
 
+    useEffect(()=>{
+        const el = textRef.current;
+        if (!el) return;
+
+        const observer = new ResizeObserver(() => {
+            autoResize(textRef)
+        })
+
+        observer.observe(el);
+
+        return () => observer.disconnect;
+    }, []);
+
     return (
         <div className={styles.listItem}>
             <label className={styles.checkboxContainer}>

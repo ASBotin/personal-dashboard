@@ -13,14 +13,43 @@ export default function NoteWidget({ widgetModel }) {
     const [type, setType] = useState(widgetModel.data.type || "text");
     const [listItems, setListItems] = useState(widgetModel.data.listItems || []);
     const [showCompleted, setShowCompleted] = useState(false);
+    const [animating, setAnimating] = useState(null);
 
     const { updateWidget, removeWidget } = useContext(BoardsContext);
 
     const titleRef = useRef(null);
     const textRef = useRef(null);
+    const scrollRef = useRef(null);
 
     const active = listItems.filter((item) => !item.isCompleted);
     const completed = listItems.filter((item) => item.isCompleted);
+
+    useEffect(() => {
+        if (scrollRef.current && type === "list") {
+            const container = scrollRef.current;
+            container.scrollTo({
+                top: container.scrollHeight,
+                behavior: "smooth"
+            });
+        }
+    }, [active.length, type])
+
+    useEffect(() => {
+        autoResize(titleRef);
+        autoResize(textRef);
+    }, [text, title, type]);
+
+    useEffect(() => {
+        if (!animating) return;
+        const duration = 500;
+
+        const timer = setTimeout(() => {
+            setShowCompleted(prev => !prev);
+            setAnimating(null);
+        }, duration)
+
+        return () => clearTimeout(timer);
+    }, [animating])
 
     function saveChanges(newListItems) {
         const itemsToSave = newListItems || listItems;
@@ -43,11 +72,6 @@ export default function NoteWidget({ widgetModel }) {
         el.style.height = "auto";
         el.style.height = el.scrollHeight + "px";
     }
-
-    useEffect(() => {
-        autoResize(titleRef);
-        autoResize(textRef);
-    }, [text, title, type]);
 
     const handleTypeChange = (newType) => {
         if (newType === type) return;
@@ -145,13 +169,11 @@ export default function NoteWidget({ widgetModel }) {
                     className="note"
                 />
             </ButtonPane>
-            <div className={`${styles.wrapper} ${showCompleted && completed.length > 0 ? styles.isOpen : "" }`}>
+            <div className={`${styles.wrapper} ${showCompleted ? styles.isOpen : ""}`}>
                 <div
-                    className={`widgetContent ${styles.content} ${
-                        !showCompleted || completed.length === 0 || type === "text"
-                            ? styles.completedHidden
-                            : styles.comletedShown
-                    }`}
+                    className={`widgetContent ${styles.content} 
+                    ${!showCompleted || completed.length === 0 || type === "text" ? styles.completedHidden : styles.completedShown}`}
+                    
                 >
                     <textarea
                         ref={titleRef}
@@ -165,10 +187,12 @@ export default function NoteWidget({ widgetModel }) {
                         }}
                         onBlur={() => saveChanges()}
                     />
-                    {!(type === "list" && showCompleted && completed.length > 0) && (
-                        <div className={styles.mainContent}>
-                            {type === "text" && (
-                                <textarea
+                    <div 
+                        className={`${styles.mainContent} ${showCompleted ? styles.mainHidden : ""}`} 
+                        ref={scrollRef}
+                    >
+                        {type === "text" && (
+                            <textarea
                                 ref={textRef}
                                 className={styles.text}
                                 value={text}
@@ -181,46 +205,11 @@ export default function NoteWidget({ widgetModel }) {
                                     saveChanges();
                                     autoResize(textRef);
                                 }}
-                                />
-                            )}
-                            {type === "list" && (
-                                <div className={styles.list}>
-                                    {active.map((item) => (
-                                        <ListItem
-                                        key={item.id}
-                                        id={item.id}
-                                        text={item.text}
-                                        isCompleted={item.isCompleted}
-                                        handleUpdateItem={handleUpdateItem}
-                                        handleDeleteItem={handleDeleteItem}
-                                        />
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    )}
-                    {type === "list" && (
-                        <div className={styles.controls}>
-                            {!(showCompleted && completed.length > 0) && (
-                                <AddListItemButton onAdd={handleAddListItem} />
-                            )}
-                            {completed.length > 0 && (
-                            <button
-                                className={styles.showCompletedButton}
-                                onClick={() => setShowCompleted(!showCompleted)}
-                            >
-                                {!showCompleted ? "+ Показать" : "- Скрыть"} {completed.length}{" "}
-                                {pluralize(completed.length)}
-                            </button>
-                            )}
-                        </div>
-                    )}
-                </div>
-                {type === "list" && showCompleted && completed.length > 0 && (
-                    <div className={styles.completedItems}>
-                        <div className={styles.completedScrollArea}> 
+                            />
+                        )}
+                        {type === "list" && (
                             <div className={styles.list}>
-                                {completed.map((item) => (
+                                {active.map((item) => (
                                     <ListItem
                                         key={item.id}
                                         id={item.id}
@@ -231,9 +220,43 @@ export default function NoteWidget({ widgetModel }) {
                                     />
                                 ))}
                             </div>
+                        )}
+                    </div>
+
+                    {type === "list" && (
+                        <div className={styles.controls}>    
+                            <AddListItemButton 
+                                onAdd={handleAddListItem}
+                                className={`${showCompleted || animating ? styles.alibHidden : ""}`} 
+                            />
+                            {completed.length > 0 && (
+                                <button
+                                    className={styles.showCompletedButton}
+                                    onClick={() => showCompleted ? setAnimating("hiding-completed") : setAnimating("showing-completed")}
+                                >
+                                    {!(showCompleted) ? "+ Показать" : "- Скрыть"} {completed.length}{" "}
+                                    {pluralize(completed.length)}
+                                </button>
+                            )}
+                        </div>
+                    )}
+                </div>
+                <div className={`${styles.completedItems} ${showCompleted ? styles.cs : ""}`}>
+                    <div className={styles.completedScrollArea}> 
+                        <div className={styles.list}>
+                            {completed.map((item) => (
+                                <ListItem
+                                    key={item.id}
+                                    id={item.id}
+                                    text={item.text}
+                                    isCompleted={item.isCompleted}
+                                    handleUpdateItem={handleUpdateItem}
+                                    handleDeleteItem={handleDeleteItem}
+                                />
+                            ))}
                         </div>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );

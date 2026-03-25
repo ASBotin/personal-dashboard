@@ -1,5 +1,6 @@
 .note {
   background-color: #977757;
+  overflow: hidden;
 }
 
 .title {
@@ -24,6 +25,9 @@
   scrollbar-width: thin;
   scrollbar-color: #977757 transparent;
 }
+.mainHidden {
+  display:none;
+}
 
 .controls {
   display: flex;
@@ -44,6 +48,16 @@
   flex-shrink: 0;
 }
 
+.wrapper {
+  display: grid;
+  height: calc(100% - 34px);
+  width: 100%;
+  grid-template-rows: 1fr 0fr;
+  min-height: 0;
+}
+.isOpen {
+  grid-template-rows: min-content 1fr;
+}
 .text {
   font-size: 16px;
   color: #2a2f3a;
@@ -81,7 +95,7 @@
   color: #2a2f3a9f;
 }
 
-.comletedShown {
+.completedShown {
   background-color: #bd9a77;
   min-height: 0;
   padding-right: 6px !important;
@@ -90,27 +104,32 @@
   flex-shrink: 0 !important;
 }
 
-
 .completedItems {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  padding: 12px 6px 20px 12px !important;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
   width: 100%;
   overflow: hidden;
   min-height: 0;
 }
-
+.cs {
+  padding-bottom: 18px;
+  padding-left: 12px;
+  padding-right: 6px;
+  padding-top: 12px;
+}
 .completedScrollArea {
   flex-grow: 1;
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: #bd9a77 transparent;
 }
+
 .content {
-  transition: height 0.3s ease;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .completedHidden {
@@ -138,4 +157,8 @@
 
 .showCompletedButton:hover {
   text-decoration: underline;
+}
+
+.alibHidden {
+  display: none;
 }

@@ -19,20 +19,25 @@ export default function NoteWidget({ widgetModel }) {
 
     const titleRef = useRef(null);
     const textRef = useRef(null);
-    const scrollRef = useRef(null);
+    const mainContentRef = useRef(null);
+
+    const contentRef = useRef(null);
+    const showCompletedButtonRef = useRef(null);
+
 
     const active = listItems.filter((item) => !item.isCompleted);
     const completed = listItems.filter((item) => item.isCompleted);
 
     useEffect(() => {
-        if (scrollRef.current && type === "list") {
-            const container = scrollRef.current;
+        if (animating) return;
+        if (mainContentRef.current && type === "list") {
+            const container = mainContentRef.current;
             container.scrollTo({
                 top: container.scrollHeight,
                 behavior: "smooth"
             });
         }
-    }, [active.length, type])
+    }, [active.length, type, animating])
 
     useEffect(() => {
         autoResize(titleRef);
@@ -41,15 +46,41 @@ export default function NoteWidget({ widgetModel }) {
 
     useEffect(() => {
         if (!animating) return;
-        const duration = 500;
 
+        const content = contentRef.current;
+        
+        const startHeight = content.getBoundingClientRect().height;
+        content.style.height = `${startHeight}px`;
+
+        let finalHeight;
+        if (animating === "showing-completed") {
+            console.log("wassap")
+            content.style.setProperty("flex-grow", "0", "important");
+            const titleHeight = titleRef.current.scrollHeight;
+            const paddingHeight = 24;
+            const showCompletedButtonHeight = showCompletedButtonRef.current.scrollHeight;
+            finalHeight = titleHeight + paddingHeight + showCompletedButtonHeight + 20;
+            console.log("Calculated finalHeight:", finalHeight);
+        } else {
+            finalHeight = content.parentElement.offsetHeight - 34; 
+        }
+        requestAnimationFrame(() => {
+            content.style.transition = 'height 500ms ease-in-out';
+            content.style.height = `${finalHeight}px`;
+        });
+        console.log(startHeight, finalHeight, animating);
+
+        const duration = 260;
         const timer = setTimeout(() => {
             setShowCompleted(prev => !prev);
             setAnimating(null);
-        }, duration)
+            content.style.setProperty("flex-grow", "");
+            content.style.height = "";
+
+        }, duration);
 
         return () => clearTimeout(timer);
-    }, [animating])
+    }, [animating]);
 
     function saveChanges(newListItems) {
         const itemsToSave = newListItems || listItems;
@@ -169,82 +200,45 @@ export default function NoteWidget({ widgetModel }) {
                     className="note"
                 />
             </ButtonPane>
-            <div className={`${styles.wrapper} ${showCompleted ? styles.isOpen : ""}`}>
-                <div
-                    className={`widgetContent ${styles.content} 
-                    ${!showCompleted || completed.length === 0 || type === "text" ? styles.completedHidden : styles.completedShown}`}
-                    
+            <div
+                className={`widgetContent ${styles.content} ${!showCompleted || completed.length === 0 || type === "text" ? styles.completedHidden : styles.completedShown}`}
+                ref={contentRef}
+            >
+                <textarea
+                    ref={titleRef}
+                    rows={1}
+                    className={styles.title}
+                    value={title}
+                    placeholder={type === "text" ? "Заметка" : "Список"}
+                    onChange={(e) => {
+                        setTitle(e.target.value);
+                        autoResize(titleRef);
+                    }}
+                    onBlur={() => saveChanges()}
+                />
+                <div 
+                    className={`${styles.mainContent} ${animating ? styles.fade : ""} ${showCompleted ? styles.mainHidden : ""}`} 
+                    ref={mainContentRef}
                 >
-                    <textarea
-                        ref={titleRef}
-                        rows={1}
-                        className={styles.title}
-                        value={title}
-                        placeholder={type === "text" ? "Заметка" : "Список"}
-                        onChange={(e) => {
-                            setTitle(e.target.value);
-                            autoResize(titleRef);
-                        }}
-                        onBlur={() => saveChanges()}
-                    />
-                    <div 
-                        className={`${styles.mainContent} ${showCompleted ? styles.mainHidden : ""}`} 
-                        ref={scrollRef}
-                    >
-                        {type === "text" && (
-                            <textarea
-                                ref={textRef}
-                                className={styles.text}
-                                value={text}
-                                placeholder="Введите текст заметки..."
-                                onChange={(e) => {
-                                    setText(e.target.value);
-                                    autoResize(textRef);
-                                }}
-                                onBlur={() => {
-                                    saveChanges();
-                                    autoResize(textRef);
-                                }}
-                            />
-                        )}
-                        {type === "list" && (
-                            <div className={styles.list}>
-                                {active.map((item) => (
-                                    <ListItem
-                                        key={item.id}
-                                        id={item.id}
-                                        text={item.text}
-                                        isCompleted={item.isCompleted}
-                                        handleUpdateItem={handleUpdateItem}
-                                        handleDeleteItem={handleDeleteItem}
-                                    />
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {type === "list" && (
-                        <div className={styles.controls}>    
-                            <AddListItemButton 
-                                onAdd={handleAddListItem}
-                                className={`${showCompleted || animating ? styles.alibHidden : ""}`} 
-                            />
-                            {completed.length > 0 && (
-                                <button
-                                    className={styles.showCompletedButton}
-                                    onClick={() => showCompleted ? setAnimating("hiding-completed") : setAnimating("showing-completed")}
-                                >
-                                    {!(showCompleted) ? "+ Показать" : "- Скрыть"} {completed.length}{" "}
-                                    {pluralize(completed.length)}
-                                </button>
-                            )}
-                        </div>
+                    {type === "text" && (
+                        <textarea
+                            ref={textRef}
+                            className={styles.text}
+                            value={text}
+                            placeholder="Введите текст заметки..."
+                            onChange={(e) => {
+                                setText(e.target.value);
+                                autoResize(textRef);
+                            }}
+                            onBlur={() => {
+                                saveChanges();
+                                autoResize(textRef);
+                            }}
+                        />
                     )}
-                </div>
-                <div className={`${styles.completedItems} ${showCompleted ? styles.cs : ""}`}>
-                    <div className={styles.completedScrollArea}> 
+                    {type === "list" && (
                         <div className={styles.list}>
-                            {completed.map((item) => (
+                            {active.map((item) => (
                                 <ListItem
                                     key={item.id}
                                     id={item.id}
@@ -255,6 +249,44 @@ export default function NoteWidget({ widgetModel }) {
                                 />
                             ))}
                         </div>
+                    )}
+                </div>
+
+                {type === "list" && (
+                    <div className={styles.controls}>
+                        <div 
+                            className={`${styles.alib} ${showCompleted || animating ? styles.alibHidden : ""}`}
+                        > 
+                            <AddListItemButton 
+                                onAdd={handleAddListItem}
+                            />
+                        </div>
+                        {completed.length > 0 && (
+                            <button
+                                className={styles.showCompletedButton}
+                                ref={showCompletedButtonRef}
+                                onClick={() => showCompleted ? setAnimating("hiding-completed") : setAnimating("showing-completed")}
+                            >
+                                {!(showCompleted) ? "+ Показать" : "- Скрыть"} {completed.length}{" "}
+                                {pluralize(completed.length)}
+                            </button>
+                        )}
+                    </div>
+                )}
+            </div>
+            <div className={`${styles.completedItems} ${animating ? styles.fade : ""} ${showCompleted ? styles.cs : ""}`}>
+                <div className={styles.completedScrollArea}> 
+                    <div className={styles.list}>
+                        {completed.map((item) => (
+                            <ListItem
+                                key={item.id}
+                                id={item.id}
+                                text={item.text}
+                                isCompleted={item.isCompleted}
+                                handleUpdateItem={handleUpdateItem}
+                                handleDeleteItem={handleDeleteItem}
+                            />
+                        ))}
                     </div>
                 </div>
             </div>

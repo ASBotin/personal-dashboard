@@ -80,15 +80,15 @@ body {
   box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2);
   width: 100%;
   height: 100%;
-  flex: 1;
   transform: translateZ(0);
   margin: 0 auto;
+  flex: 1;
 }
 
 .widgetContent {
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  flex-grow: 1; 
   padding: 12px;
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;

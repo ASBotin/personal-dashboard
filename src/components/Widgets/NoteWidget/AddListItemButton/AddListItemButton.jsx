@@ -1,9 +1,9 @@
 import styles from "./AddListItemButton.module.css";
 
-export default function AddListItem({onAdd, className}) {
+export default function AddListItem({onAdd}) {
     return (
         <button 
-            className={`${styles.addButton} ${className}`}
+            className={styles.addButton}
             onClick={onAdd}
         >
             +

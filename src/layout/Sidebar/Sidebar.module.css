@@ -14,7 +14,20 @@
     align-items: flex-start;
     user-select: none;
 }
-
+.widgetList {
+    width: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #444c6b transparent;
+    margin-top: 26px;
+}
+.preview {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .open {
     transform: translateX(0);
     box-shadow: -7px 0 15px rgba(0, 0, 0, 0.2);
@@ -48,8 +61,4 @@
 
 .button:hover {
     text-decoration: underline;
-}
-
-.button:first-of-type {
-    margin-top: 24px;
 }

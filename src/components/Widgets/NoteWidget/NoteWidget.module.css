@@ -25,10 +25,11 @@
   scrollbar-width: thin;
   scrollbar-color: #977757 transparent;
   opacity: 1;
-  transition: opacity 0.15s ease;
+  transition: opacity 0.2s ease;
 }
 .mainHidden {
-  height: 0
+  height: 0;
+  opacity: 0;
 }
 
 .controls {
@@ -97,7 +98,7 @@
   overflow: hidden;
   min-height: 0;
   opacity: 1;
-  transition: opacity 0.1s ease;
+  transition: opacity 0.2s ease;
 }
 .cs {
   padding-bottom: 18px;
@@ -162,11 +163,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 12px;
-  padding: 0 6px;
+  margin-bottom: 12px;
   height: 24px;
   opacity: 1;
-  transition: all 0.1s ease;
+  transition: opacity 0.1s ease, height 0.1s ease;
 }
 .alibHidden {
   height: 0;

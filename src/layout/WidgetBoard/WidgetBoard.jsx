@@ -13,9 +13,6 @@ export default function WidgetBoard({ widgets }) {
     const [width, setWidth] = useState(0);
     const { setBoards, activeBoardId } = useContext(BoardsContext);
 
-
-
-
     useLayoutEffect(() => {
         if (!containerRef.current) return;
 

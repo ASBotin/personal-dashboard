@@ -136,6 +136,7 @@ export default function WidgetBoard({ widgets }) {
                     dropConfig={dropConfig}
                     onDrop={handleDrop}
                     droppingItem={droppingItem}
+                    style={{ minHeight: '100vh' }}
                 >
                     {widgets.map(widget => (
                         <div 

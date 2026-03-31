@@ -1,5 +1,8 @@
 import styles from './draggableItem.module.css';
 
+import { useState, useRef, useContext } from 'react';
+import { BoardsContext } from '../../../BoardsContext';
+
 import gitActivityTrackerPreview from '../../../assets/widgetPreviews/activityTracker.png';
 import pomodoroPreview from '../../../assets/widgetPreviews/pomodoro.png';
 import repositoryTrackerPreview from '../../../assets/widgetPreviews/repositoryTracker.png';
@@ -14,10 +17,42 @@ const WIDGET_PREVIEWS = {
     note: notePreview
 };
 
-export default function DraggableItem({ type, onDragStart }) {
+export default function DraggableItem({ type }) {
+
+    const [isReadyToDrag, setIsReadyToDrag] = useState(false);
+    const [animating, setAnimating] = useState(false);
+    const timerRef = useRef(null);
+    const {toggleSidebar, setDraggedType} = useContext(BoardsContext);
+
+    const handleMouseDown = () => {
+        setAnimating(true);
+        timerRef.current = setTimeout(() => {
+            setIsReadyToDrag(true);
+            setAnimating(false);
+        }, 300)
+    }
+    const handleMouseUp = () => {
+        clearTimeout(timerRef.current);
+        setAnimating(false);
+        setIsReadyToDrag(false);
+    }
+    const handleDragStart = (e) => {
+        toggleSidebar();
+        setAnimating(false);
+        setIsReadyToDrag(false);
+        setDraggedType(type);
+        e.dataTransfer.setData("text/plain", type);
+    }
+
     return (
-        <div className={styles.draggableItem}>
-            <img src={WIDGET_PREVIEWS[type]} alt={`${type} preview`} className={styles.preview}/>
+        <div 
+            className={`${styles.draggableItem} ${animating ? styles.scaling : ""} ${isReadyToDrag ? styles.ready : ""}`}
+            draggable={isReadyToDrag}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onDragStart={handleDragStart}
+        >
+            <img src={WIDGET_PREVIEWS[type]} alt={`${type} preview`} draggable={isReadyToDrag} className={styles.preview}/>
         </div>
     )
 }

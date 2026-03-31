@@ -11,7 +11,7 @@ import { WIDGET_SIZES } from "../../widgetConfig";
 export default function WidgetBoard({ widgets }) {
     const containerRef = useRef(null);
     const [width, setWidth] = useState(0);
-    const { setBoards, activeBoardId } = useContext(BoardsContext);
+    const { setBoards, activeBoardId, addWidget, draggedType } = useContext(BoardsContext);
 
     useLayoutEffect(() => {
         if (!containerRef.current) return;
@@ -75,8 +75,33 @@ export default function WidgetBoard({ widgets }) {
         }));
     }, [activeBoardId, setBoards]);
 
+    const droppingItem = useMemo(() => {
+        if (!draggedType || !WIDGET_SIZES[draggedType]) {
+            return { i: '__dropping-elem__', w: 3, h: 4 };
+        }
+
+        const config = WIDGET_SIZES[draggedType];
+        const size = config.min || Object.values(config)[0]; 
+
+        return {
+            i: '__dropping-elem__',
+            w: size.w,
+            h: size.h
+        };
+    }, [draggedType]);
+
+    const dropConfig = {
+        enabled: true,
+        defaultItem: { w: 2, h: 2 } 
+    };
+
+    const handleDrop = (layout, item, e) => {
+        const type = e.dataTransfer.getData("text/plain");
+        addWidget(type, { x: item.x, y: item.y, w: item.w, h: item.h });
+        document.body.style.cursor = 'default';
+    };
+
     return (
-        
         <div 
             ref={containerRef} 
             className={styles.widgetBoard} 
@@ -107,6 +132,10 @@ export default function WidgetBoard({ widgets }) {
                     useCSSTransforms={true}
                     measureBeforeMount={true}      
                     margin={[20, 20]}
+                    isDroppable={true}
+                    dropConfig={dropConfig}
+                    onDrop={handleDrop}
+                    droppingItem={droppingItem}
                 >
                     {widgets.map(widget => (
                         <div 

@@ -4,6 +4,12 @@ import { createWidget } from './models/widget';
 import { BoardsContext } from './BoardsContext';
 
 export function BoardsProvider({ children }) {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    function toggleSidebar() {
+        setIsSidebarOpen(prev => !prev);
+    }
+
     const [boards, setBoards] = useState(() => {
         const boardsFromStorage = localStorage.getItem("boardsString");
         if (boardsFromStorage) {
@@ -30,6 +36,7 @@ export function BoardsProvider({ children }) {
             return boards[0].id;
         }
     });
+    const [draggedType, setDraggedType] = useState(null);
 
     useEffect(() => {
         const boardsString = JSON.stringify(boards);
@@ -40,8 +47,10 @@ export function BoardsProvider({ children }) {
         localStorage.setItem("idString", activeBoardId);
     }, [activeBoardId]);
 
-    function addWidget(type) {
-        const newWidget = createWidget(type);
+    function addWidget(type, position = null) {
+        const overrides = position ? { position } : {};
+
+        const newWidget = createWidget(type, overrides);
         setBoards(prev => prev.map(board =>
             board.id === activeBoardId ? {
                 ...board,
@@ -103,7 +112,7 @@ export function BoardsProvider({ children }) {
         ))
     }
 
-    const value = { boards, activeBoardId, setBoards, setActiveBoardId, addWidget, removeWidget, updateWidget, addBoard, removeBoard, renameBoard };
+    const value = { boards, activeBoardId, setBoards, setActiveBoardId, addWidget, removeWidget, updateWidget, addBoard, removeBoard, renameBoard, isSidebarOpen, toggleSidebar, draggedType, setDraggedType };
 
     return (
         <BoardsContext.Provider value={value}>

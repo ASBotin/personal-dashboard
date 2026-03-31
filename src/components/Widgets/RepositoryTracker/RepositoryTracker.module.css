@@ -52,7 +52,7 @@
 }
 .container:not(.details) {
     flex-grow: 1;
-    justify-content: flex-start;
+    justify-content: space-between;
     min-height: 0;
 }
 .details {

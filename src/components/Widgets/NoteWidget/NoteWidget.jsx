@@ -54,13 +54,11 @@ export default function NoteWidget({ widgetModel }) {
 
         let finalHeight;
         if (animating === "showing-completed") {
-            console.log("wassap")
             content.style.setProperty("flex-grow", "0", "important");
             const titleHeight = titleRef.current.scrollHeight;
             const paddingHeight = 24;
             const showCompletedButtonHeight = showCompletedButtonRef.current.scrollHeight;
             finalHeight = titleHeight + paddingHeight + showCompletedButtonHeight + 20;
-            console.log("Calculated finalHeight:", finalHeight);
         } else {
             finalHeight = content.parentElement.offsetHeight - 34; 
         }
@@ -68,7 +66,6 @@ export default function NoteWidget({ widgetModel }) {
             content.style.transition = 'height 500ms ease-in-out';
             content.style.height = `${finalHeight}px`;
         });
-        console.log(startHeight, finalHeight, animating);
 
         const duration = 260;
         const timer = setTimeout(() => {

@@ -13,12 +13,16 @@ export default function Sidebar({isOpen}) {
             <div className={styles.widgetList}>
                 <button className={styles.button} onClick = {() => addWidget("note")}>Заметка</button>
                 <div className={styles.preview}><DraggableItem type="note"/></div>
+
                 <button className={styles.button} onClick = {() => addWidget("weather")}>Погода</button>
                 <div className={styles.preview}><DraggableItem type="weather"/></div>
+
                 <button className={styles.button} onClick = {() => addWidget("pomodoro")}>Pomodoro</button>
                 <div className={styles.preview}><DraggableItem type="pomodoro"/></div>
+
                 <button className={styles.button} onClick = {() => addWidget("repositoryTracker")}>Трекер репозитория</button>
-                <div className={styles.preview}><DraggableItem type="repositoryTracker"/></div>   
+                <div className={styles.preview}><DraggableItem type="repositoryTracker"/></div>
+                   
                 <button className={styles.button} onClick = {() => addWidget("gitActivityTracker")}>Календарь активности</button>
                 <div className={styles.preview}><DraggableItem type="gitActivityTracker"/></div>
             </div>

@@ -1,8 +1,19 @@
 .draggableItem {
     width: 172px;
     height: 172px;
+    transition: transform 0.3s ease;
+    transform: scale(1);
+    cursor: grab;
 }
 .preview {
     width: 100%;
     height: 100%;
+}
+.scaling {
+    transform: scale(1.08) !important;
+}
+.ready {
+    transition: transform 0.1s ease;
+    transform: scale(1.15) !important;
+    cursor: grabbing;
 }

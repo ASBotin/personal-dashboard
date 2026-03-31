@@ -165,10 +165,10 @@ export default function RepositoryTracker({widgetModel}) {
                         </div>
                         <div className={`${styles.container} ${styles.details}`}>
                             <div className={styles.reposStats}>
-                                <span className={styles.statItem}><Star className={styles.starIcon} /> {prepareNumber(reposData?.stargazers_count)}</span>
-                                <span className={styles.statItem}><Fork className={styles.forkIcon} /> {prepareNumber(reposData?.forks_count)}</span>
-                                <span className={styles.statItem}><Issue className={styles.issueIcon} /> {prepareNumber(reposData?.open_issues_count)}</span>
-                                <span className={styles.statItem}><Watch className={styles.watchIcon} /> {prepareNumber(reposData?.watchers_count)}</span>
+                                <span className={styles.statItem} title='stargazers'><Star className={styles.starIcon} /> {prepareNumber(reposData?.stargazers_count)}</span>
+                                <span className={styles.statItem} title='forks'><Fork className={styles.forkIcon} /> {prepareNumber(reposData?.forks_count)}</span>
+                                <span className={styles.statItem} title='issues'><Issue className={styles.issueIcon} /> {prepareNumber(reposData?.open_issues_count)}</span>
+                                <span className={styles.statItem} title='watchers'><Watch className={styles.watchIcon} /> {prepareNumber(reposData?.watchers_count)}</span>
                             </div>
                         </div>
                     </div>

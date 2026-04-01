@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import { createBoard } from './models/board';
 import { createWidget } from './models/widget';
 import { BoardsContext } from './BoardsContext';
+import { WIDGET_SIZES } from './widgetConfig';
 
 export function BoardsProvider({ children }) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -48,9 +49,32 @@ export function BoardsProvider({ children }) {
     }, [activeBoardId]);
 
     function addWidget(type, position = null) {
-        const overrides = position ? { position } : {};
+    const activeBoard = boards.find(b => b.id === activeBoardId);
+        let finalPosition = position;
 
-        const newWidget = createWidget(type, overrides);
+        if (!finalPosition) {
+            const widgets = activeBoard.widgets;
+            const config = WIDGET_SIZES[type];
+            const { w, h } = config.min || Object.values(config)[0];
+
+            if (widgets.length === 0) {
+                finalPosition = { x: 0, y: 0, w, h };
+            } else {
+                const lastWidget = widgets[widgets.length - 1];
+                const nextX = lastWidget.position.x + lastWidget.position.w;
+                
+                const maxCols = 15; 
+                if (nextX + w <= maxCols) {
+                    finalPosition = { x: nextX, y: lastWidget.position.y, w, h };
+                } else {
+                    // Ищем максимальный Y, чтобы прыгнуть под все виджеты
+                    const maxY = Math.max(...widgets.map(w => w.position.y + w.position.h));
+                    finalPosition = { x: 0, y: maxY, w, h };
+                }
+            }
+        }
+
+        const newWidget = createWidget(type, { position: finalPosition });
         setBoards(prev => prev.map(board =>
             board.id === activeBoardId ? {
                 ...board,

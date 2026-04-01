@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "framer-motion": "^12.38.0",
     "lodash-es": "^4.17.23",
     "lodash.debounce": "^4.0.8",
     "react": "^19.1.1",

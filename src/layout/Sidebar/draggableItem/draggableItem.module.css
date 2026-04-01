@@ -1,9 +1,10 @@
 .draggableItem {
     width: 172px;
     height: 172px;
-    transition: transform 0.3s ease;
+    transition: transform 0.35s ease;
     transform: scale(1);
     cursor: grab;
+    user-select: none;
 }
 .preview {
     width: 100%;
@@ -13,7 +14,7 @@
     transform: scale(1.08) !important;
 }
 .ready {
-    transition: transform 0.1s ease;
-    transform: scale(1.15) !important;
+    transition: transform 0.05s ease-out;
+    transform: scale(1.2) !important;
     cursor: grabbing;
 }

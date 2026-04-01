@@ -8,7 +8,15 @@
 .tabs {
     display: flex;
     align-items: center;
+    min-width: 0;
     max-width: calc(100% - 72px);
+}
+
+.tabsList {
+    display: flex;
+    width: 100%; 
+    margin: 0;
+    padding: 0;
 }
 
 .controls {

@@ -67,7 +67,6 @@ export function BoardsProvider({ children }) {
                 if (nextX + w <= maxCols) {
                     finalPosition = { x: nextX, y: lastWidget.position.y, w, h };
                 } else {
-                    // Ищем максимальный Y, чтобы прыгнуть под все виджеты
                     const maxY = Math.max(...widgets.map(w => w.position.y + w.position.h));
                     finalPosition = { x: 0, y: maxY, w, h };
                 }

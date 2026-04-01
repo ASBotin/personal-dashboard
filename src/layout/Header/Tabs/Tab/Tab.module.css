@@ -7,7 +7,6 @@
     align-items: center;
     gap: 5px;
     font-weight: 300;
-    background: none;
     padding: 7px 10px;
     border-radius: 10px;
     transition: all 0.2s ease;
@@ -18,9 +17,10 @@
     max-width: 200px;
     flex: 1 1 auto;
     user-select: none;
+    background-color: #212735;
 }
 .tab:hover {
-    background-color: #e3eaf513;
+    background-color: #303543;
     border-radius: 15px;
 }
 .tab.active {
@@ -52,7 +52,7 @@
 }
 .crossButton:hover, .crossButton.active:hover {
     color: #e3eaf5;
-    background-color: #e3eaf513;
+    background-color: #3d4250;
     border-radius: 50%;
 }
 .crossButton.active {

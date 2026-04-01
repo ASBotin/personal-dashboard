@@ -4,11 +4,13 @@ import Tab from "../Tab/Tab";
 import { useContext, useEffect, useRef, useState } from "react";
 import MoreButton from "./MoreButton/MoreButton";
 
+import { Reorder } from "framer-motion";
+
 const MIN_TAB_WIDTH = 60;
 const CONTROLS_WIDTH = 100;
 
 export default function TabsContainer() {
-    const {boards, activeBoardId, addBoard} = useContext(BoardsContext);
+    const {boards, activeBoardId, addBoard, setBoards} = useContext(BoardsContext);
     const containerRef = useRef(null);
 
     const [containerWidth, setContainerWidth] = useState(0);
@@ -62,19 +64,52 @@ export default function TabsContainer() {
         }
     }
 
+    const handleReorder = (newVisibleOrder) => {
+        const newBoards = [...boards];
+
+        const visibleIds = new Set(visibleTabs.map(b => b.id));
+        
+        const firstVisibleIndex = newBoards.findIndex(b => visibleIds.has(b.id));
+        
+        const filteredBoards = newBoards.filter(b => !visibleIds.has(b.id));
+        filteredBoards.splice(firstVisibleIndex, 0, ...newVisibleOrder);
+        
+        setBoards(filteredBoards);
+    }
+
     return (
         <div ref={containerRef} className = {styles.container}>
             <div className={styles.tabs}>
-                {visibleTabs.map(board => (
-                    <Tab
-                        key = {board.id}
-                        id = {board.id}
-                        name = {board.name}
-                        isActive = {board.id === activeBoardId}
-                        onEditingStart={() => setEditingId(board.id)}
-                        onEditingEnd={() => setEditingId(null)}
-                    />
-                ))}
+                    <Reorder.Group 
+                        axis="x" 
+                        values={visibleTabs} 
+                        onReorder={handleReorder} 
+                        className={styles.tabsList}
+                        style={{ display: 'flex', listStyle: 'none' }} 
+                    >
+                    {visibleTabs.map(board => (
+                        <Reorder.Item
+                            key={board.id}
+                            value={board}
+                            layout
+                            style={{ 
+                                flex: editingId === board.id ? "0 0 200px" : "1 1 auto",
+                                minWidth: `${MIN_TAB_WIDTH}px`,
+                                maxWidth: "200px",
+                                display: "flex"
+                            }} 
+                        >
+                            <Tab
+                                key = {board.id}
+                                id = {board.id}
+                                name = {board.name}
+                                isActive = {board.id === activeBoardId}
+                                onEditingStart={() => setEditingId(board.id)}
+                                onEditingEnd={() => setEditingId(null)}
+                            />
+                        </Reorder.Item>
+                    ))}
+                </Reorder.Group>
             </div>
             <div className={styles.controls}>
                 <button className={styles.addButton} onClick={() => {addBoard()}}>+</button>

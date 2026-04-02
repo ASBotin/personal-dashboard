@@ -94,14 +94,16 @@ export default function WidgetBoard({ widgets }) {
         };
     }, [draggedType]);
 
-    const dropConfig = {
-        enabled: true,
-        defaultItem: { w: 2, h: 2 } 
-    };
-
     const isWidgetBeingDragged = useMemo(() => {
         return !!draggedType && !!WIDGET_SIZES[draggedType];
     }, [draggedType]);
+
+    const dropConfig = {
+        enabled: isWidgetBeingDragged,
+        defaultItem: { w: 2, h: 2 } 
+    };
+
+    
 
     const handleDrop = (layout, item, e) => {
         const type = e.dataTransfer.getData("text/plain");
@@ -143,7 +145,6 @@ export default function WidgetBoard({ widgets }) {
                     useCSSTransforms={true}
                     measureBeforeMount={true}      
                     margin={[20, 20]}
-                    isDroppable={isWidgetBeingDragged}
                     dropConfig={dropConfig}
                     onDrop={handleDrop}
                     droppingItem={droppingItem}

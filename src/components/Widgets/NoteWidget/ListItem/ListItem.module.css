@@ -4,7 +4,7 @@
     align-items: center;
     width: 100%;
     justify-content: flex-start;
-    padding: 0 0 10px 0; 
+    user-select: none;
 }
 .text {
     font-size: 16px;
@@ -56,7 +56,7 @@
     border: 2px solid #2a2f3a;
     border-radius: 4px;
     margin-left: 3px;
-    margin-right: 12px;
+    margin-right: 6px;
     position: relative;
     cursor: pointer;
     display: inline-block;

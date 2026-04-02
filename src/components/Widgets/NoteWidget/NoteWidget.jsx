@@ -6,6 +6,7 @@ import ButtonPane from "../../ButtonPane/ButtonPane";
 import ListItem from "./ListItem/ListItem";
 import AddListItemButton from "./AddListItemButton/AddListItemButton";
 import { BoardsContext } from "../../../BoardsContext";
+import { Reorder} from "framer-motion";
 
 export default function NoteWidget({ widgetModel }) {
     const [title, setTitle] = useState(widgetModel.data.title || "");
@@ -14,6 +15,7 @@ export default function NoteWidget({ widgetModel }) {
     const [listItems, setListItems] = useState(widgetModel.data.listItems || []);
     const [showCompleted, setShowCompleted] = useState(false);
     const [animating, setAnimating] = useState(null);
+    const [focusedItemId, setFocusedItemId] = useState(null);
 
     const { updateWidget, removeWidget } = useContext(BoardsContext);
 
@@ -27,17 +29,6 @@ export default function NoteWidget({ widgetModel }) {
 
     const active = listItems.filter((item) => !item.isCompleted);
     const completed = listItems.filter((item) => item.isCompleted);
-
-    useEffect(() => {
-        if (animating) return;
-        if (mainContentRef.current && type === "list") {
-            const container = mainContentRef.current;
-            container.scrollTo({
-                top: container.scrollHeight,
-                behavior: "smooth"
-            });
-        }
-    }, [active.length, type, animating])
 
     useEffect(() => {
         autoResize(titleRef);
@@ -137,14 +128,26 @@ export default function NoteWidget({ widgetModel }) {
         });
     };
 
-    const handleAddListItem = () => {
+    const handleAddListItem = (afterId = null) => {
         const newItem = {
             id: crypto.randomUUID(),
             text: "",
             isCompleted: false,
         };
-        const newListItems = [...listItems, newItem];
+
+        let newListItems;
+        
+        if (afterId) {
+            const index = listItems.findIndex(item => item.id === afterId);
+            newListItems = [...listItems];
+            newListItems.splice(index + 1, 0, newItem);
+        }
+        else {
+            newListItems = [...active, newItem, ...completed];
+        }
+        
         setListItems(newListItems);
+        setFocusedItemId(newItem.id);
         saveChanges(newListItems);
     };
 
@@ -174,6 +177,12 @@ export default function NoteWidget({ widgetModel }) {
         }
         return "отмеченных пунктов";
     };
+
+    const handleReorder = (newActive) => {
+        const newList = [...newActive, ...completed];
+        setListItems(newList);
+        saveChanges(newList);  
+    }
 
     const actionsOptions = [
         {
@@ -235,16 +244,30 @@ export default function NoteWidget({ widgetModel }) {
                     )}
                     {type === "list" && (
                         <div className={styles.list}>
-                            {active.map((item) => (
-                                <ListItem
-                                    key={item.id}
-                                    id={item.id}
-                                    text={item.text}
-                                    isCompleted={item.isCompleted}
-                                    handleUpdateItem={handleUpdateItem}
-                                    handleDeleteItem={handleDeleteItem}
-                                />
-                            ))}
+                            <Reorder.Group
+                                axis="y"
+                                values={active}
+                                onReorder={handleReorder}
+                                className={styles.reorderList}
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    gap: "12px"
+                                }}
+                            >
+                                {active.map((item) => (
+                                    <ListItem
+                                        key={item.id}
+                                        id={item.id}
+                                        item={item}
+                                        isCompleted={item.isCompleted}
+                                        handleUpdateItem={handleUpdateItem}
+                                        handleDeleteItem={handleDeleteItem}
+                                        handleAddListItem={handleAddListItem}
+                                        focusedItemId={focusedItemId}
+                                    />
+                                ))}
+                            </Reorder.Group>
                         </div>
                     )}
                 </div>
@@ -255,7 +278,7 @@ export default function NoteWidget({ widgetModel }) {
                             className={`${styles.alib} ${showCompleted || animating ? styles.alibHidden : ""}`}
                         > 
                             <AddListItemButton 
-                                onAdd={handleAddListItem}
+                                onAdd={() => handleAddListItem()}
                             />
                         </div>
                         {completed.length > 0 && (
@@ -274,16 +297,26 @@ export default function NoteWidget({ widgetModel }) {
             <div className={`${styles.completedItems} ${animating ? styles.fade : ""} ${showCompleted ? styles.cs : ""}`}>
                 <div className={styles.completedScrollArea}> 
                     <div className={styles.list}>
-                        {completed.map((item) => (
-                            <ListItem
-                                key={item.id}
-                                id={item.id}
-                                text={item.text}
-                                isCompleted={item.isCompleted}
-                                handleUpdateItem={handleUpdateItem}
-                                handleDeleteItem={handleDeleteItem}
-                            />
-                        ))}
+                        <Reorder.Group
+                            axis="y"
+                            values={completed}
+                            className={styles.reorderList}
+                            style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                gap: "12px"
+                            }}
+                        >
+                            {completed.map((item) => (
+                                <ListItem
+                                    key={item.id}
+                                    id={item.id}
+                                    item={item}
+                                    handleUpdateItem={handleUpdateItem}
+                                    handleDeleteItem={handleDeleteItem}
+                                />
+                            ))}
+                        </Reorder.Group>
                     </div>
                 </div>
             </div>

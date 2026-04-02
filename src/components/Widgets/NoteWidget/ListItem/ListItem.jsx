@@ -1,10 +1,34 @@
 import styles from "./ListItem.module.css";
 import { useRef, useState, useEffect} from "react";
+import Grabber from '../../../../assets/controls/grabber.svg?react'
+import { Reorder, useDragControls } from "framer-motion";
 
-export default function ListItem({id, text, isCompleted, handleUpdateItem, handleDeleteItem}) {
+
+export default function ListItem({id, item, handleUpdateItem, handleDeleteItem, handleAddListItem, focusedItemId}) {
     const textRef = useRef(null);
-    const [completed, setCompleted] = useState(isCompleted || false);
-    const [textareaText, setTextareaText] = useState(text || "");
+    
+    const [textareaText, setTextareaText] = useState(item.text || "");
+
+    useEffect(() => {
+        setTextareaText(item.text);
+    }, [item.text]);
+
+    useEffect(() => {
+        if (focusedItemId === id && textRef.current) {
+            textRef.current.focus();
+        }
+    }, [focusedItemId, id]);
+
+    useEffect(() => {
+        if (focusedItemId === id && textRef.current) {
+            textRef.current.focus();
+            // Добавляем скролл к элементу
+            textRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+        }
+    }, [focusedItemId, id]);
 
     function autoResize(ref) {
         const el = ref.current;
@@ -14,11 +38,15 @@ export default function ListItem({id, text, isCompleted, handleUpdateItem, handl
         el.style.height = el.scrollHeight + "px";
     }
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && item.isCompleted) {
             if (!e.shiftKey) {
                 e.preventDefault();
                 e.target.blur();
             }
+        }
+        else if (e.key === 'Enter' && !item.isCompleted) {
+            e.preventDefault();
+            handleAddListItem(id);
         }
     }
 
@@ -39,16 +67,37 @@ export default function ListItem({id, text, isCompleted, handleUpdateItem, handl
         return () => observer.disconnect;
     }, []);
 
+    const controls = useDragControls();
+
     return (
-        <div className={styles.listItem}>
+        <Reorder.Item
+            key={id}
+            value={item}
+            layout
+            dragListener={false}
+            dragControls={controls}
+            className={styles.listItem}
+            style={{
+                display: "flex",
+                flexDirection: "row",
+                gap: "4px",
+                width: "100%",
+                alignItems: "center",
+            }}
+        >
+            {!item.isCompleted && (
+                <Grabber
+                    className={styles.grabber}
+                    onPointerDown={(e) => controls.start(e)}
+                />
+            )}
             <label className={styles.checkboxContainer}>
                 <input 
                     type = "checkbox"
-                    checked = {completed}
+                    checked = {item.isCompleted}
                     className = {styles.realCheckbox}
                     onChange = {() => {
-                        setCompleted(!completed);
-                        handleUpdateItem(id, textareaText, !completed);
+                        handleUpdateItem(id, textareaText, !item.isCompleted);
                     }}
                 />
                 <span className={styles.customCheckbox}></span>  
@@ -56,14 +105,15 @@ export default function ListItem({id, text, isCompleted, handleUpdateItem, handl
             <textarea 
                 ref = {textRef}
                 rows = {1}
-                className = {`${styles.text} ${completed ? styles.completed : ''}`}
+                className = {`${styles.text} ${item.isCompleted ? styles.completed : ''}`}
                 value = {textareaText}
                 onChange = {(e) => {
                     setTextareaText(e.target.value);
                     autoResize(textRef);
                 }}
+                onPointerDown={(e) => e.stopPropagation()}
                 onKeyDown = {handleKeyDown}
-                onBlur = {() => handleUpdateItem(id, textareaText, completed)}
+                onBlur = {() => handleUpdateItem(id, textareaText, item.isCompleted)}
             >
             </textarea>
             <button 
@@ -72,6 +122,6 @@ export default function ListItem({id, text, isCompleted, handleUpdateItem, handl
             >
                 ×        
             </button>
-        </div>
+        </Reorder.Item>
     )
 }

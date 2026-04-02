@@ -22,9 +22,9 @@ export default function NoteWidget({ widgetModel }) {
     const titleRef = useRef(null);
     const textRef = useRef(null);
     const mainContentRef = useRef(null);
-
     const contentRef = useRef(null);
     const showCompletedButtonRef = useRef(null);
+    const addDebounce = useRef(null);
 
 
     const active = listItems.filter((item) => !item.isCompleted);
@@ -129,6 +129,7 @@ export default function NoteWidget({ widgetModel }) {
     };
 
     const handleAddListItem = (afterId = null) => {
+        if (addDebounce.current) return;
         const newItem = {
             id: crypto.randomUUID(),
             text: "",
@@ -148,7 +149,11 @@ export default function NoteWidget({ widgetModel }) {
         
         setListItems(newListItems);
         setFocusedItemId(newItem.id);
-        saveChanges(newListItems);
+        saveChanges(newListItems); 
+
+        addDebounce.current = setTimeout(() => {
+            addDebounce.current = null;    
+        }, 500);
     };
 
     const handleUpdateItem = (id, newText, newIsCompleted) => {

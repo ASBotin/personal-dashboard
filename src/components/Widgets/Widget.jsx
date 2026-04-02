@@ -28,7 +28,8 @@ function Widget({widgetModel}) {
                 widgetModel={widgetModel}
             />
         default:
-            return <div>Unknown widget type: {widgetModel.type}</div>;
+            console.warn(`Unknown widget type: ${widgetModel.type}`);
+            return null;
     }
 }
 

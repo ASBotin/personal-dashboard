@@ -9,6 +9,7 @@
     border-radius: 100%;
     width: 24px;
     height: 24px;
+    user-select: none;
 }
 .addButton:hover {
     background-color: #333333;

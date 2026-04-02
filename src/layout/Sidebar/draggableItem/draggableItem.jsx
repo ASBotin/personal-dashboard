@@ -58,7 +58,11 @@ export default function DraggableItem({ type }) {
         e.dataTransfer.setData("text/plain", type);
     }
 
-
+    const handleDragEnd = () => {
+        setDraggedType(null);
+        setIsReadyToDrag(false);
+        setAnimating(false);
+    };
     return (
         <div 
             className={`${styles.draggableItem} ${animating ? styles.scaling : ""} ${isReadyToDrag ? styles.ready : ""}`}
@@ -67,8 +71,9 @@ export default function DraggableItem({ type }) {
             onMouseUp={handleMouseUp}
             onMouseMove={handleMouseMove}
             onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
         >
-            <img src={WIDGET_PREVIEWS[type]} alt={`${type} preview`} draggable={isReadyToDrag} className={styles.preview}/>
+            <img src={WIDGET_PREVIEWS[type]} alt={`${type} preview`} draggable={false} className={styles.preview}/>
         </div>
     )
 }

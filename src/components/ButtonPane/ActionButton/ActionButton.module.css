@@ -9,7 +9,7 @@
     font-weight: bold;
     cursor: pointer;
     color: #454449a8;
-
+    user-select: none;
 }
 .actionButton:hover {
     color: #000000c5;

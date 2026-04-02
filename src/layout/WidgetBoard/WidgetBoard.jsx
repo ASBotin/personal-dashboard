@@ -11,7 +11,7 @@ import { WIDGET_SIZES } from "../../widgetConfig";
 export default function WidgetBoard({ widgets }) {
     const containerRef = useRef(null);
     const [width, setWidth] = useState(0);
-    const { setBoards, activeBoardId, addWidget, draggedType } = useContext(BoardsContext);
+    const { setBoards, activeBoardId, addWidget, draggedType, setDraggedType } = useContext(BoardsContext);
 
     useLayoutEffect(() => {
         if (!containerRef.current) return;
@@ -77,7 +77,11 @@ export default function WidgetBoard({ widgets }) {
 
     const droppingItem = useMemo(() => {
         if (!draggedType || !WIDGET_SIZES[draggedType]) {
-            return { i: '__dropping-elem__', w: 3, h: 4 };
+            return {
+                i: '__govno__',
+                w:0,
+                h:0,
+            } 
         }
 
         const config = WIDGET_SIZES[draggedType];
@@ -95,16 +99,23 @@ export default function WidgetBoard({ widgets }) {
         defaultItem: { w: 2, h: 2 } 
     };
 
+    const isWidgetBeingDragged = useMemo(() => {
+        return !!draggedType && !!WIDGET_SIZES[draggedType];
+    }, [draggedType]);
+
     const handleDrop = (layout, item, e) => {
         const type = e.dataTransfer.getData("text/plain");
-        addWidget(type, { x: item.x, y: item.y, w: item.w, h: item.h });
+        if (WIDGET_SIZES[type]) {
+            addWidget(type, { x: item.x, y: item.y, w: item.w, h: item.h });
+        }
+        setDraggedType(null);
         document.body.style.cursor = 'default';
     };
 
     return (
         <div 
             ref={containerRef} 
-            className={styles.widgetBoard} 
+            className={styles.widgetBoard}
         >
             {width > 0 ? (
                 <ResponsiveGridLayout
@@ -132,7 +143,7 @@ export default function WidgetBoard({ widgets }) {
                     useCSSTransforms={true}
                     measureBeforeMount={true}      
                     margin={[20, 20]}
-                    isDroppable={true}
+                    isDroppable={isWidgetBeingDragged}
                     dropConfig={dropConfig}
                     onDrop={handleDrop}
                     droppingItem={droppingItem}

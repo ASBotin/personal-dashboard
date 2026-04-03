@@ -40,11 +40,19 @@ export default function Weather({ widgetModel }) {
     }
 
     if (isLoading) {
-        return <div className={styles.loading}>Loading weather...</div>;
+        return (
+            <div className={styles.weatherContainer}>
+                <div className={styles.loader}>Loading weather...</div>
+            </div>
+        )
     }
 
     if (!weatherData) {
-        return null;
+        return (
+            <div className={styles.weatherContainer}>
+                <div className={styles.error}>Failed to fetch weather information from Open-meteo api. Check internet connection or turn on VPN</div>
+            </div>
+        )
     }
 
     const { temperature, description, windspeed, code, humidity } = weatherData;

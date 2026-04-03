@@ -4,6 +4,7 @@
     font-size: 24px;
     cursor: pointer;
     color: #454449a8;
+    user-select: none;
 }
 .crossButton:hover {
     color: #000000c5;

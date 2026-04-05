@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",                // Cтандарт JS 
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // Библиотеки типов, доступные в проекте
+    "module": "ESNext",                // Система импортов
+    "skipLibCheck": true,              // Не проверять типы внутри node_modules
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,                    // Vite генерирует код сам
+    "jsx": "react-jsx",                // Поддержка JSX
+
+    /* Linting / Strictness */
+    "strict": true,                    // ВКЛЮЧАЕТ ВСЕ ПРОВЕРКИ
+    "noUnusedLocals": true,            // Ругаться, если переменная создана, но не используется
+    "noUnusedParameters": true,        // Ругаться на неиспользуемые аргументы функций
+    "noFallthroughCasesInSwitch": true // Запрет на switch без break
+  },
+  "include": ["src"],                  // Где лежат файлы для проверки
+}

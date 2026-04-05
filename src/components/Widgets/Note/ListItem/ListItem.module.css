@@ -1,0 +1,79 @@
+.listItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+    user-select: none;
+}
+.text {
+    font-size: 16px;
+    color:#2a2f3a;
+    background-color: transparent;
+    border: none;  
+    width: 100%;
+    height: auto;
+    resize: none;
+    overflow: hidden;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.text:focus {
+    outline: none;
+}
+.completed {
+    text-decoration: line-through;
+}
+.deleteItem {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #2a2f3a80;
+    font-size: 14px;
+    opacity: 0;
+    transition: all 0.2s ease-in-out;
+}
+.listItem:hover .deleteItem {
+    opacity: 1;
+}
+.text:focus + .deleteItem {
+    opacity: 1;
+}
+.deleteItem:hover {
+    color: #000000c5;
+}
+.checkboxContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.realCheckbox {
+    position: absolute;  
+    opacity: 0;
+}
+.customCheckbox {
+    width: 14px;
+    height: 14px;
+    border: 2px solid #2a2f3a;
+    border-radius: 4px;
+    margin-left: 3px;
+    margin-right: 6px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+.customCheckbox::after {
+    position: absolute;
+}
+.realCheckbox:checked + .customCheckbox {
+    background-color: #2a2f3a;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23be966e'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+}
+.grabber {
+    width: 20px;
+    height: 20px;
+    color: #2a2f3a;
+    cursor: grab;
+}
+.grabber:active {
+    cursor: grabbing;
+}

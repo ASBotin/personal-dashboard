@@ -105,6 +105,7 @@ export default function Note({ widgetModel }: { widgetModel: WidgetModel }) {
         el.style.height = "auto";
         el.style.height = el.scrollHeight + "px";
     }
+    
 
     const handleTypeChange = (newType: string) => {
         if (newType === type) return;

@@ -19,7 +19,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    min-height: 0;
     height: 100%;
+    overflow: hidden;
 }
 .leftSection {
     width: 50%;
@@ -31,9 +33,12 @@
     justify-content: space-between;
 }
 .icon {
-    width: 65px;
-    height: 65px;
+    width: 100%;
+    max-height: 65px; 
+    flex: 1 1 auto;
+    display: block;
     color: #2e313c;
+    margin: 0 auto;
 }
 .temperature {
     display: inline-block;
@@ -55,6 +60,9 @@
     font-size: 1rem;
     font-weight: 600;
     align-self: center;
+    line-height: 1.1;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 .humidity, .windspeed, .loader, .error {
     color: #2e313c;

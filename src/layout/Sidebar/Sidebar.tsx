@@ -1,10 +1,10 @@
 import styles from "./Sidebar.module.css";
 import { BoardsContext } from "../../BoardsContext";
 import { useContext } from "react";
-import DraggableItem from "./draggableItem/DraggableItem";
+import DraggableItem from "./DraggableItem/draggableItem";
 
 export default function Sidebar({isOpen} : {isOpen: boolean}) {
-
+ 
     const {addWidget} = useContext(BoardsContext)
 
     return (
@@ -25,6 +25,9 @@ export default function Sidebar({isOpen} : {isOpen: boolean}) {
                    
                 <button className={styles.button} onClick = {() => addWidget("gitActivityTracker")}>Календарь активности</button>
                 <div className={styles.preview}><DraggableItem type="gitActivityTracker"/></div>
+
+                <button className={styles.button} onClick = {() => addWidget("gitIssuesPR")}>Git Issues/PR</button>
+                <div className={styles.preview}><DraggableItem type="gitIssuesPR"/></div>
             </div>
         </aside> 
     )

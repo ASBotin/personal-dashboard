@@ -1,6 +1,6 @@
 import {createContext, Dispatch, SetStateAction} from 'react';
 import { BoardModel } from './models/boardModel';
-import { WidgetModel, WidgetType } from './models/widgetModel' 
+import { WidgetModel, WidgetType } from './models/widgetModel'; 
 
 export interface BoardsContextProps {
     boards: BoardModel[];

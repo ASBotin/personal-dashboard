@@ -4,7 +4,9 @@ import WeatherWidget from "./Weather/Weather";
 import Pomodoro from "./Pomodoro/Pomodoro"
 import RepositoryTracker from "./RepositoryTracker/RepositoryTracker";
 import GitActivityTracker from "./GitActivityTracker/GitActivityTracker";
+import GitIssuesPR from './GitIssuesPR/GitIssuesPR';
 import { WidgetModel } from "../../models/widgetModel";
+
 
 interface WidgetProps {
     readonly widgetModel: WidgetModel;
@@ -30,6 +32,10 @@ function Widget({widgetModel}: WidgetProps) {
             />
         case "gitActivityTracker":
             return <GitActivityTracker
+                widgetModel={widgetModel}
+            />
+        case "gitIssuesPR":
+            return <GitIssuesPR
                 widgetModel={widgetModel}
             />
         default:

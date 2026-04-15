@@ -1,4 +1,4 @@
-import styles from './draggableItem.module.css';
+import styles from './DraggableItem.module.css';
 
 import { useState, useRef, useContext, useEffect } from 'react';
 import { BoardsContext } from '../../../BoardsContext';
@@ -18,7 +18,7 @@ const WIDGET_PREVIEWS = {
     note: notePreview
 };
 
-export default function DraggableItem({ type }: { type: WidgetType }) {
+export default function DraggableItem({ type }: { readonly type: WidgetType }) {
 
     const [isReadyToDrag, setIsReadyToDrag] = useState(false);
     const [animating, setAnimating] = useState(false);

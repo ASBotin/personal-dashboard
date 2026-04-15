@@ -14,5 +14,8 @@ export const WIDGET_SIZES = {
     note: {
         min: {w: 3, h: 6},
         max: {w: 6, h: 12}
+    },
+    gitIssuesPR: {
+        standart: {w: 6, h: 8}
     }
 };

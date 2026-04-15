@@ -43,7 +43,7 @@ export default function Weather({ widgetModel }: { readonly widgetModel: WidgetM
     if (!lat || !lon) {
         return (
             <div className={styles.weatherContainer}>
-                <p className={styles.description}>Please select a city to view the weather information.</p>
+                <p className={styles.error}>Please select a city to view the weather information.</p>
             </div>
         );
     }

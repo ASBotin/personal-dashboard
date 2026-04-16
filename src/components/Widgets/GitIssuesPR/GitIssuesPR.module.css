@@ -64,13 +64,50 @@
 .formSubtitle {
     font-size: 16px;
     font-weight: 400;
-    color: #c9d1d9;
-    margin-bottom: 12px;
 }
 .formSubtitleContainer {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
+    justify-content: left;
     width: 100%;
+    color: #c9d1d9;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.tooltipWrapper {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: help;
+}
+.question {
+    width: 14px;
+    height: 14px;
+    align-self: center;
+}
+.tooltipWrapper:after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 150%; 
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    transition: transform 0.15s ease-in-out;
+    padding: 6px 10px;
+    background: #c9d1d9;
+    color: #212631;
+    border: solid 1px #212631;
+    border-radius: 5px;
+    font-size: 12px;
+    width: 240px; 
+    white-space: normal; 
+    text-align: center;
+    pointer-events: none;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 1001;
+}
+.tooltipWrapper:hover::after {
+    transform: translateX(-50%) scale(1);
 }
 .loader {
     color: #6e7681;

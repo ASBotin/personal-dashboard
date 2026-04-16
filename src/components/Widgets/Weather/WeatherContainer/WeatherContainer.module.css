@@ -63,6 +63,7 @@
     line-height: 1.1;
     flex-grow: 0;
     flex-shrink: 0;
+    text-align: center;
 }
 .humidity, .windspeed, .loader, .error {
     color: #2e313c;

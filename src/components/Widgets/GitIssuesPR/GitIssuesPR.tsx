@@ -6,11 +6,13 @@ import ActionButton from "../../ButtonPane/ActionButton/ActionButton";
 import { useContext, useState, useEffect, FormEvent } from "react";
 import { BoardsContext } from "../../../BoardsContext";
 import { fetchIssuesPRData } from "../../../api/githubApi";
-import Question from "../../../assets/git/question.svg?react";
-import Comments from "../../../assets/git/comments.svg?react";
+import IssuePR from "./IssuePR/IssuePR";
 
-interface IssuePR {
+import Question from "../../../assets/git/question.svg?react";
+
+export interface Issue {
     id: number;
+    number: number;
     title: string;
     body: string;
     html_url: string;
@@ -19,13 +21,30 @@ interface IssuePR {
         login: string;
     };
     comments: number;
+    created_at: string;
+    author_association: string;
 }
 
+export interface PR {
+    id: number;
+    number: number;
+    title: string;
+    body: string;
+    html_url: string;
+    user: {
+        html_url: string;
+        login: string;
+    };
+    comments: number;
+    created_at: string;
+    author_association: string;
+    draft: boolean;
+}
 
 interface IssuesPRData {
-    issues: IssuePR[];
+    issues: Issue[];
     issuesTotal: number;
-    pullRequests: IssuePR[];
+    pullRequests: PR[];
     pullRequestsTotal: number;
 }
 
@@ -45,6 +64,8 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
 
     const [error, setError] = useState<string | null>(null);
 
+    const [activeTab, setActiveTab] = useState<"issues" | "pullRequests">("issues");
+
     useEffect(() => {
         if (!username && !(owner && repo)) {
             setIssuesPRData(undefined);
@@ -56,13 +77,10 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                     const data : IssuesPRData = await fetchIssuesPRData(username, owner, repo);
                     if (data) {
                         setIssuesPRData(data);
+                        console.log("Fetched data:", data);
                     }
                     else {
                         setError("Данные не найдены");
-                        setUsername("");
-                        setOwner("");
-                        setRepo("");
-                        setIssuesPRData(undefined);
                     }
                 }
                 catch (err) {
@@ -170,6 +188,46 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                             Начать отслеживание
                         </button>
                     </form>
+                    
+                )}
+                {isLoading && (
+                    <div className={styles.loader}>Загрузка...</div>
+                )}
+                {issuesPRData && (
+                    <div className={styles.tabs}>
+                        <button 
+                            className={`${styles.tab} ${activeTab === 'issues' ? styles.active : ""}`}
+                            onClick={() => setActiveTab('issues')}
+                        >Issues</button>
+                        <div className={styles.separator}/>
+                        <button 
+                            className={`${styles.tab} ${activeTab === 'pullRequests' ? styles.active : ""}`}
+                            onClick={() => setActiveTab('pullRequests')}
+                        >Pull Requests</button>  
+                    </div>  
+                )}
+                {issuesPRData && activeTab === "issues" && (
+                    <div className={styles.listContainer}>
+                        {issuesPRData.issues.length === 0 ? (
+                            <div className={styles.noData}>Нет открытых issues</div>
+                        ) : (
+                            issuesPRData.issues.map((issue: Issue) => (
+                                <IssuePR key={issue.id} issuePRData={issue} />
+                            ))
+                        )}
+
+                    </div>
+                )}
+                {issuesPRData && activeTab === "pullRequests" && (
+                    <div className={styles.listContainer}>
+                        {issuesPRData.pullRequests.length === 0 ? (
+                            <div className={styles.noData}>Нет открытых pull requests</div>
+                        ) : (
+                            issuesPRData.pullRequests.map((pr: PR) => (
+                                <IssuePR key={pr.id} issuePRData={pr} />
+                            ))
+                        )}
+                    </div>
                 )}
             </div> 
         </div>

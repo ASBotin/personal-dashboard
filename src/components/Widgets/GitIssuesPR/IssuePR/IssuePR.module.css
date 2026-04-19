@@ -1,0 +1,80 @@
+.issuePR {
+    display: flex;
+    flex-direction: row;
+    background: #333c54;
+    background: linear-gradient(180deg,rgba(51, 60, 84, 1) 0%, rgba(44, 52, 74, 1) 70%);
+    border-radius: 15px;
+    padding: 12px;
+    width: calc(100% - 6px);
+    margin-right: 6px;
+    gap: 12px;
+    user-select: text !important;
+}
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.link {
+    color: inherit; 
+    text-decoration: none;
+}
+.link:hover {
+    text-decoration: underline;
+}
+.title {
+    font-size: 18px;
+    font-weight: 400;
+    color: #c9d1d9;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.details {
+    display: flex;
+    gap: 6px;
+    color: #abb6be;
+    align-items: center;
+}
+.number {
+    font-size: 12px;
+    color: #7f8991;
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.mainIcon {
+    width: 20px;
+    height: 20px;
+}
+.smallIcon {
+    width: 14px;
+    height: 14px;
+}
+.greenIcon {
+    color: #26a641;
+}
+.grayIcon {
+    color: #abb6be;
+}
+.association {
+    font-size: 10px;
+    border: solid 1px #abb6be;
+    border-radius: 15px;
+    padding: 2px 4px;
+    margin-right: 6px;
+}
+.meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.comments {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}

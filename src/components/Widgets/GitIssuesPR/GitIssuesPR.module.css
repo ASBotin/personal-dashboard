@@ -4,6 +4,7 @@
 }
 .content {
     background-color: #252c3b;
+    padding-right: 6px !important;
 }
 .formContainer {
     display: flex;
@@ -124,4 +125,45 @@
     font-size: 14px;
     font-weight: 400;
     margin-top: 8px;
-}    
+}
+.tabs {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 12px;
+}
+.tab {
+    width:50%;
+    color: #66799e;
+    background-color: transparent;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+    font-weight: 100;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    transition: all 0.2s ease;
+    border-radius: 15px;
+}
+.tab:hover {
+    background-color: #c9d1d913;
+}
+.separator {
+    background-color: #c9d1d983;
+    width: 2px;
+    height: 14px;
+}
+.active {
+    font-weight: 600;
+    color: #c9d1d9;
+}
+.listContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #444c6b transparent;
+}

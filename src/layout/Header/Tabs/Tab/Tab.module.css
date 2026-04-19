@@ -11,7 +11,7 @@
     border-radius: 10px;
     transition: all 0.2s ease;
     justify-content: space-between;
-
+    border-radius: 15px;
     width: 200px;
     min-width: 60px;
     max-width: 200px;
@@ -22,7 +22,7 @@
 }
 .tab:hover {
     background-color: #303543;
-    border-radius: 15px;
+    
 }
 .tab.active {
     color: #e3eaf5;

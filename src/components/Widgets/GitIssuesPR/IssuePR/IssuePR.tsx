@@ -1,18 +1,17 @@
 import styles from "./IssuePR.module.css";
-import { Issue, PR } from "../GitIssuesPR";
+import { IssuePRData } from "../GitIssuesPR";
 import IssueIcon from "../../../../assets/git/issue.svg?react";
 import PRIcon from "../../../../assets/git/git-pull-request.svg?react";
 import DraftPRIcon from "../../../../assets/git/git-pull-request-draft.svg?react";
 import CommentIcon from "../../../../assets/git/comments.svg?react";
 
 
-export default function IssuePR({issuePRData}: {readonly issuePRData: Issue | PR}) {
+export default function IssuePR({issuePRData}: {readonly issuePRData: IssuePRData}) {
     const prepareDate = (dateString: string): string => {
         const date = new Date(dateString);
         const now = new Date();
         const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-        // Если прошло меньше минуты
         if (diffInSeconds < 60) return 'just now';
 
         const diffInMinutes = Math.floor(diffInSeconds / 60);
@@ -62,7 +61,7 @@ export default function IssuePR({issuePRData}: {readonly issuePRData: Issue | PR
                         {<a href={issuePRData.user.html_url} target="_blank" rel="noreferrer" className={styles.link}>
                             <span> {issuePRData.user.login}</span>
                         </a>} 
-                        <span>{" "}posted {prepareDate(issuePRData.created_at)}</span>
+                        <span>posted {prepareDate(issuePRData.created_at)}</span>
                     </div>
                     {issuePRData.comments > 0 && (
                         <>

@@ -16,6 +16,7 @@ export const WIDGET_SIZES = {
         max: {w: 6, h: 12}
     },
     gitIssuesPR: {
-        standart: {w: 8, h: 12}
+        min: {w: 6, h: 10},
+        max: {w: 10, h: 16}
     }
 };

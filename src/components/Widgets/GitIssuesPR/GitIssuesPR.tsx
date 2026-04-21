@@ -3,29 +3,15 @@ import { WidgetModel } from "../../../models/widgetModel";
 import ButtonPane from "../../ButtonPane/ButtonPane";
 import CrossButton from "../../ButtonPane/CrossButton/CrossButton";
 import ActionButton from "../../ButtonPane/ActionButton/ActionButton";
-import { useContext, useState, useEffect, FormEvent } from "react";
+import { useContext, useState, useEffect, FormEvent, useRef } from "react";
 import { BoardsContext } from "../../../BoardsContext";
 import { fetchIssuesPRData } from "../../../api/githubApi";
 import IssuePR from "./IssuePR/IssuePR";
 
 import Question from "../../../assets/git/question.svg?react";
 
-export interface Issue {
-    id: number;
-    number: number;
-    title: string;
-    body: string;
-    html_url: string;
-    user: {
-        html_url: string;
-        login: string;
-    };
-    comments: number;
-    created_at: string;
-    author_association: string;
-}
 
-export interface PR {
+export interface IssuePRData {
     id: number;
     number: number;
     title: string;
@@ -38,33 +24,36 @@ export interface PR {
     comments: number;
     created_at: string;
     author_association: string;
-    draft: boolean;
+    draft?: boolean;
 }
 
 interface IssuesPRData {
-    issues: Issue[];
+    issues: IssuePRData[];
     issuesTotal: number;
-    pullRequests: PR[];
+    pullRequests: IssuePRData[];
     pullRequestsTotal: number;
 }
 
 export default function GitIssuesPR({widgetModel}: {readonly widgetModel: WidgetModel}) {
-    const {removeWidget} = useContext(BoardsContext);
+    const {removeWidget, updateWidget} = useContext(BoardsContext);
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [issuesPRData, setIssuesPRData] = useState<IssuesPRData | undefined>(undefined);
 
-    const [username, setUsername] = useState<string>("");
-    const [owner, setOwner] = useState<string>("");
-    const [repo, setRepo] = useState<string>("");
+    const [username, setUsername] = useState<string>(widgetModel.data.username || "");
+    const [owner, setOwner] = useState<string>(widgetModel.data.owner || "");
+    const [repo, setRepo] = useState<string>(widgetModel.data.repo || "");
+    const [page, setPage] = useState<number>(1);
 
     const [usernameInput, setUsernameInput] = useState<string>("");
     const [ownerInput, setOwnerInput] = useState<string>("");
     const [repoInput, setRepoInput] = useState<string>("");
-
+    
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     const [activeTab, setActiveTab] = useState<"issues" | "pullRequests">("issues");
+
+    const fetchInterval = useRef<undefined | ReturnType<typeof setInterval>>(undefined);
 
     useEffect(() => {
         if (!username && !(owner && repo)) {
@@ -72,12 +61,19 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
         }
         else if (username || (owner && repo)) {
             const getIssuesPR = async (silent = false) => {
-                setIsLoading(true);
+                if (!silent) setIsLoading(true);
                 try {
-                    const data : IssuesPRData = await fetchIssuesPRData(username, owner, repo);
+                    const data : IssuesPRData | null = await fetchIssuesPRData(username, owner, repo, page, activeTab);
+
                     if (data) {
-                        setIssuesPRData(data);
-                        console.log("Fetched data:", data);
+                        setIssuesPRData(prev => {
+                            return {
+                                issues: page === 1 ? data.issues : (activeTab === 'issues' ? data.issues : prev?.issues || []),
+                                pullRequests: page === 1 ? data.pullRequests : (activeTab === 'pullRequests' ? data.pullRequests : prev?.pullRequests || []),
+                                issuesTotal: data.issuesTotal || prev?.issuesTotal || 0,
+                                pullRequestsTotal: data.pullRequestsTotal || prev?.pullRequestsTotal || 0,
+                            };
+                        });
                     }
                     else {
                         setError("Данные не найдены");
@@ -96,8 +92,27 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                 }
             }
             getIssuesPR();
+            updateWidget({
+                ...widgetModel,
+                data: {
+                    owner,
+                    repo,
+                    username
+                }
+            })
+            fetchInterval.current = setInterval(getIssuesPR, 60000, true);
+
+            return () => clearInterval(fetchInterval.current);
         } 
-    }, [username, owner, repo]);
+    }, [username, owner, repo, page, activeTab]);
+
+    const getTotalPages = (): number => {
+        if (!issuesPRData) return 0;
+        const totalItems = activeTab === "issues" 
+            ? issuesPRData.issuesTotal 
+            : issuesPRData.pullRequestsTotal;
+        return Math.ceil(totalItems / 20);
+    }
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
@@ -112,7 +127,7 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
     };
 
     const actionsOptions = [
-        { label: "Сменить пользователя", onClick: () => {
+        { label: "Изменить данные", onClick: () => {
             setUsername("");
             setRepo("");
             setOwner("");
@@ -133,6 +148,7 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                     className="reposTracker"
                 /> 
             </ButtonPane>
+            
             <div className = {`${styles.content} widgetContent`}>
                 {(!username && !(owner && repo)) && (
                     <form className={styles.formContainer} onSubmit={handleSubmit}>
@@ -169,6 +185,7 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                                 >
                                     <Question className={styles.question}/>
                                 </div>
+                                
                             </div>
                             <input
                                 type="text"
@@ -190,40 +207,106 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                     </form>
                     
                 )}
-                {isLoading && (
-                    <div className={styles.loader}>Загрузка...</div>
-                )}
                 {issuesPRData && (
                     <div className={styles.tabs}>
                         <button 
                             className={`${styles.tab} ${activeTab === 'issues' ? styles.active : ""}`}
-                            onClick={() => setActiveTab('issues')}
+                            onClick={() => {
+                                setActiveTab('issues');
+                                setPage(1);
+                            }}
                         >Issues</button>
                         <div className={styles.separator}/>
                         <button 
                             className={`${styles.tab} ${activeTab === 'pullRequests' ? styles.active : ""}`}
-                            onClick={() => setActiveTab('pullRequests')}
+                            onClick={() => {
+                                setActiveTab('pullRequests');
+                                setPage(1);
+                            }}
                         >Pull Requests</button>  
                     </div>  
                 )}
-                {issuesPRData && activeTab === "issues" && (
+                {issuesPRData && (
+                    <div className={styles.navPane}>
+                        <div className={styles.leftNav}>
+                            <div className={styles.info}>
+                                {owner && repo && (
+                                    <span className={styles.infoLink}>
+                                        <a href={`https://github.com/${owner}/${repo}`} className={styles.link} target="_blank" rel="noreferrer">
+                                            {owner}/{repo}
+                                        </a>
+                                    </span>
+                                )}
+                                {username && (
+                                    <span className={styles.infoLink}>
+                                        <a href={`https://github.com/${username}`} className={styles.link} target="_blank" rel="noreferrer">
+                                            @{username}
+                                        </a>
+                                    </span>
+                                )}
+                            </div>
+                            <div className={styles.controlWrappper}>
+                                {page > 2 && (
+                                    <button
+                                        className={styles.navButton}
+                                        onClick={() => setPage(1)}  
+                                    >
+                                        ◀◀
+                                    </button>
+                                )}
+                                {page > 1 && (
+                                    <button
+                                        className={styles.navButton}
+                                        onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+                                    >
+                                        ◀
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                        <span className={styles.pageInfo}>{page} / {getTotalPages()}</span>
+                        <div className={styles.rightNav}>
+                            {page < getTotalPages() && (
+                                <>
+                                <button
+                                    className={styles.navButton}
+                                    onClick={() => setPage((prev) => Math.min(prev + 1, getTotalPages()))}
+                                >
+                                    ▶
+                                </button>
+                                <button
+                                    className={styles.navButton}
+                                    onClick={() => setPage(getTotalPages())}
+                                >
+                                    ▶▶
+                                </button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                )}
+                {isLoading &&(
+                    <div className={styles.loader}>Загрузка...</div>
+                )}
+                {issuesPRData && activeTab === "issues" && !isLoading && (
                     <div className={styles.listContainer}>
+
                         {issuesPRData.issues.length === 0 ? (
                             <div className={styles.noData}>Нет открытых issues</div>
                         ) : (
-                            issuesPRData.issues.map((issue: Issue) => (
+                            issuesPRData.issues.map((issue: IssuePRData) => (
                                 <IssuePR key={issue.id} issuePRData={issue} />
                             ))
                         )}
 
                     </div>
                 )}
-                {issuesPRData && activeTab === "pullRequests" && (
+                {issuesPRData && activeTab === "pullRequests" && !isLoading && (
                     <div className={styles.listContainer}>
                         {issuesPRData.pullRequests.length === 0 ? (
                             <div className={styles.noData}>Нет открытых pull requests</div>
                         ) : (
-                            issuesPRData.pullRequests.map((pr: PR) => (
+                            issuesPRData.pullRequests.map((pr: IssuePRData) => (
                                 <IssuePR key={pr.id} issuePRData={pr} />
                             ))
                         )}

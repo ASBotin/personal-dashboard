@@ -29,45 +29,82 @@ export const fetchUserData = async (username: string) => {
 };
 
 export const fetchIssuesPRData = async (
-    username?: string, 
-    owner?: string, 
-    repo?: string, 
-    page: number = 1
+    username?: string,
+    owner?: string,
+    repo?: string,
+    page: number = 1,
+    activeTab: 'issues' | 'pullRequests' = 'issues'
 ) => {
-    const userPart = username ? `author:${username}` : "";
-    const repoPart = (owner && repo) ? `repo:${owner}/${repo}` : "";
-    
-    if (!userPart && !repoPart) return { issues: [], issuesTotal: 0, pullRequests: [], pullRequestsTotal: 0 };
+    const isRepoMode = !!(owner && repo);
 
-    const fetchByType = async (type: 'issue' | 'pr') => {
+    // Вспомогательная функция для загрузки самих данных через List API
+    const fetchListItems = async (type: 'issue' | 'pr', targetPage: number) => {
+        const endpoint = type === 'pr' ? 'pulls' : 'issues';
+        const url = `${BASE_URL}/repos/${owner}/${repo}/${endpoint}?state=open&per_page=20&page=${targetPage}`;
+        const res = await fetch(url, { headers });
+        if (!res.ok) throw new Error(`List API Error: ${res.status}`);
+        let items = await res.json();
+        if (type === 'issue') items = items.filter((item: any) => !item.pull_request);
+        return items;
+    };
+
+    // Вспомогательная функция для поиска 
+    const fetchSearchItems = async (type: 'issue' | 'pr', targetPage: number) => {
+        const userPart = username ? `author:${username}` : "";
+        const repoPart = (owner && repo) ? `repo:${owner}/${repo}` : "";
         const query = `is:${type} state:open ${userPart} ${repoPart}`.trim();
-        const url = `${BASE_URL}/search/issues?q=${encodeURIComponent(query)}&per_page=20&page=${page}`;
-        
-        const response = await fetch(url, { headers });
-        if (!response.ok) throw new Error(`Github Search Error for ${type}`);
-        
-        const data = await response.json();
-        
-        return {
-            items: data.items || [],
-            totalCount: data.total_count || 0
-        };
+        const url = `${BASE_URL}/search/issues?q=${encodeURIComponent(query)}&per_page=20&page=${targetPage}`;
+        const res = await fetch(url, { headers });
+        const data = await res.json();
+        return { items: data.items || [], total: data.total_count || 0 };
     };
 
     try {
-        const [issuesRes, prRes] = await Promise.all([
-            fetchByType('issue'),
-            fetchByType('pr')
-        ]);
+        if (isRepoMode && !username) {
+            if (page === 1) {
+                // На 1 странице берем и данные, и точные счетчики через Search
+                const qI = `is:issue state:open repo:${owner}/${repo}`;
+                const qP = `is:pr state:open repo:${owner}/${repo}`;
+                
+                const [countI, countP, itemsI, itemsP] = await Promise.all([
+                    fetch(`${BASE_URL}/search/issues?q=${encodeURIComponent(qI)}&per_page=1`, { headers }).then(r => r.json()),
+                    fetch(`${BASE_URL}/search/issues?q=${encodeURIComponent(qP)}&per_page=1`, { headers }).then(r => r.json()),
+                    fetchListItems('issue', 1),
+                    fetchListItems('pr', 1)
+                ]);
 
-        return { 
-            issues: issuesRes.items, 
-            issuesTotal: issuesRes.totalCount,
-            pullRequests: prRes.items,
-            pullRequestsTotal: prRes.totalCount
-        };
-    } catch (error) {
-        console.error("Github API Error:", error);
-        return { issues: [], issuesTotal: 0, pullRequests: [], pullRequestsTotal: 0 };
+                return {
+                    issues: itemsI,
+                    issuesTotal: countI.total_count || 0,
+                    pullRequests: itemsP,
+                    pullRequestsTotal: countP.total_count || 0
+                };
+            } else {
+                // На страницах > 1 только данные активной вкладки
+                const items = await fetchListItems(activeTab === 'issues' ? 'issue' : 'pr', page);
+                return {
+                    issues: activeTab === 'issues' ? items : [],
+                    issuesTotal: 0, 
+                    pullRequests: activeTab === 'pullRequests' ? items : [],
+                    pullRequestsTotal: 0
+                };
+            }
+        } else {
+            if (page === 1) {
+                const [i, p] = await Promise.all([fetchSearchItems('issue', 1), fetchSearchItems('pr', 1)]);
+                return { issues: i.items, issuesTotal: i.total, pullRequests: p.items, pullRequestsTotal: p.total };
+            } else {
+                const res = await fetchSearchItems(activeTab === 'issues' ? 'issue' : 'pr', page);
+                return {
+                    issues: activeTab === 'issues' ? res.items : [],
+                    issuesTotal: res.total,
+                    pullRequests: activeTab === 'pullRequests' ? res.items : [],
+                    pullRequestsTotal: res.total
+                };
+            }
+        }
+    } catch (e) {
+        console.error(e);
+        return null;
     }
 };

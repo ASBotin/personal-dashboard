@@ -1,7 +1,7 @@
 import styles from "./Sidebar.module.css";
 import { BoardsContext } from "../../BoardsContext";
 import { useContext } from "react";
-import DraggableItem from "./DraggableItem/draggableItem";
+import DraggableItem from "./DraggableItem/DraggableItem";
 
 export default function Sidebar({isOpen} : {isOpen: boolean}) {
  

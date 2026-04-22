@@ -24,6 +24,7 @@ export interface IssuePRData {
     comments: number;
     created_at: string;
     author_association: string;
+    repository_url: string;
     draft?: boolean;
 }
 
@@ -55,6 +56,7 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
 
     const fetchInterval = useRef<undefined | ReturnType<typeof setInterval>>(undefined);
 
+    let userOnlyMode: boolean = (username && !owner && !repo) ? true : false
     useEffect(() => {
         if (!username && !(owner && repo)) {
             setIssuesPRData(undefined);
@@ -64,7 +66,7 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                 if (!silent) setIsLoading(true);
                 try {
                     const data : IssuesPRData | null = await fetchIssuesPRData(username, owner, repo, page, activeTab);
-
+                    console.log("Fetched data:", data);
                     if (data) {
                         setIssuesPRData(prev => {
                             return {
@@ -74,6 +76,7 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                                 pullRequestsTotal: data.pullRequestsTotal || prev?.pullRequestsTotal || 0,
                             };
                         });
+                        userOnlyMode = (username && !owner && !repo) ? true : false;
                     }
                     else {
                         setError("Данные не найдены");
@@ -295,7 +298,11 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                             <div className={styles.noData}>Нет открытых issues</div>
                         ) : (
                             issuesPRData.issues.map((issue: IssuePRData) => (
-                                <IssuePR key={issue.id} issuePRData={issue} />
+                                <IssuePR 
+                                    key={issue.id} 
+                                    issuePRData={issue}
+                                    userOnlyMode={userOnlyMode}
+                                />
                             ))
                         )}
 
@@ -307,7 +314,11 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                             <div className={styles.noData}>Нет открытых pull requests</div>
                         ) : (
                             issuesPRData.pullRequests.map((pr: IssuePRData) => (
-                                <IssuePR key={pr.id} issuePRData={pr} />
+                                <IssuePR 
+                                    key={pr.id} 
+                                    issuePRData={pr}
+                                    userOnlyMode={userOnlyMode} 
+                                />
                             ))
                         )}
                     </div>

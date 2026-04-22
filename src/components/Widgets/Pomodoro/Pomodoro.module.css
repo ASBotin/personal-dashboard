@@ -89,3 +89,56 @@
     background: linear-gradient(180deg,rgba(143, 159, 207, 1) 0%, rgba(124, 137, 189, 1) 100%);
     border-radius: 15px;
 }
+
+.settingsForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    color: #e3eaf5;
+}
+
+.settingItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.settingItemRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.settingItem input[type="number"] {
+    background: #151920;
+    border: 1px solid #30363d;
+    color: #e3eaf5;
+    padding: 8px;
+    border-radius: 6px;
+    outline: none;
+}
+
+.settingItem input[type="number"]:focus {
+    border-color: #58a6ff;
+}
+
+input[type="number"] {
+    color-scheme: dark; 
+    background: none;
+}
+
+.saveButton {
+    margin-top: 10px;
+    background: #151920;
+    color: #e3eaf5;
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.saveButton:hover {
+    background: #181c25;
+}

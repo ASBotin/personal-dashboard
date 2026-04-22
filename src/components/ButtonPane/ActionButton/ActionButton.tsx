@@ -3,8 +3,8 @@ import { useState, useRef, useEffect } from 'react';
 import { WidgetType } from '../../../models/widgetModel';
 
 interface ActionButtonProps {
-    options?: { label: string; onClick: () => void; isActive?: boolean }[];
-    className?: string;
+    readonly options?: { label: string; onClick: () => void; isActive?: boolean }[];
+    readonly className?: string;
 }
 
 export default function ActionButton({options, className}: ActionButtonProps) {

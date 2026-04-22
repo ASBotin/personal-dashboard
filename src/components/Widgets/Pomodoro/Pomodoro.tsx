@@ -9,23 +9,27 @@ import Pause from '../../../assets/controls/Pause.svg?react';
 import Next from '../../../assets/controls/Next.svg?react';
 import alertSound from '../../../assets/alert.mp3';
 import { WidgetModel } from '../../../models/widgetModel';
+import Modal from "../../../layout/Modal/Modal";
 
 type PomodoroMode = "work" | "shortBreak" | "longBreak";
 
-
 export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetModel }) {
     const {removeWidget, updateWidget} = useContext(BoardsContext);
-
-    const [timerSettings, setTimerSettings] = useState({
-        work: 25 * 60,
-        shortBreak: 5 * 60,
-        longBreak: 15 * 60
-    });
+    
     const [longBreakInterval, setLongBreakInterval] = useState({
         interval: widgetModel.data.longBreakInterval || 3,
         remain: widgetModel.data.longBreakRemain || 3
     });
-    const [autoNext, setAutoNext] = useState<boolean>(true);
+    const [autoNext, setAutoNext] = useState<boolean>(widgetModel.data.timerSettings?.autoNext !== undefined ? widgetModel.data.timerSettings?.autoNext : true);
+
+    const [timerSettings, setTimerSettings] = useState({
+        work: widgetModel.data.timerSettings?.work || 25 * 60,
+        shortBreak: widgetModel.data.timerSettings?.shortBreak || 5 * 60,
+        longBreak: widgetModel.data.timerSettings?.longBreak || 15 * 60,
+        autoNext: widgetModel.data.timerSettings?.autoNext !== undefined ? widgetModel.data.timerSettings?.autoNext : autoNext
+    });
+
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
     const [activeMode, setActiveMode] = useState<PomodoroMode>(widgetModel.data.activeMode || "work");
     const [isTimerRunning, setIsTimerRunning] = useState(() => {
@@ -80,6 +84,7 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
             data: {
                 ...widgetModel.data,
                 activeMode: mode, 
+                timerSettings: timerSettings,
                 isTimerRunning: isRunning,
                 finishTime: finishTime,
                 savedRemainingTime: timerSettings[mode],
@@ -100,7 +105,8 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
             ...widgetModel,
             data: {
                 ...widgetModel.data,
-                activeMode: mode, 
+                activeMode: mode,
+                timerSettings: timerSettings,
                 isTimerRunning: isRunning,
                 finishTime: finishTime,
                 savedRemainingTime: timerSettings[mode],
@@ -117,6 +123,7 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
                 ...widgetModel,
                 data: {
                     ...widgetModel.data,
+                    timerSettings: timerSettings,
                     isTimerRunning: true,
                     finishTime,
                     activeMode
@@ -128,6 +135,7 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
                 ...widgetModel,
                 data: {
                     ...widgetModel.data,
+                    timerSettings: timerSettings,
                     isTimerRunning: false,
                     finishTime: null,
                     savedRemainingTime: remainingTime,
@@ -205,9 +213,20 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
         return () => clearInterval(timerRef.current);
     }, [isTimerRunning, autoNext, activeMode, widgetModel.data.finishTime]);
 
+    const actionsOptions = [
+        {
+            label: "Настройки",
+            onClick: () => {setIsSettingsOpen(true)},
+        },
+    ];
+
     return (
         <div className = {`${styles.pomodoro} widgetContainer`}>
             <ButtonPane>
+                <ActionButton
+                    options={actionsOptions}
+                    className = "pomodoro"
+                />
                 <CrossButton
                     onClick={() => removeWidget(widgetModel.id)}
                     className = "pomodoro"
@@ -256,6 +275,68 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
                     )}
                 </div>
             </div>
+            <Modal
+                isOpen={isSettingsOpen}
+                onClose={() => setIsSettingsOpen(false)}
+                title="Настройки Pomodoro"
+            >
+                <div className={styles.settingsForm}>
+                    <div className={styles.settingItem}>
+                        <label>Рабочее время (мин)</label>
+                        <input 
+                            type="number" 
+                            value={timerSettings.work / 60} 
+                            onChange={(e) => setTimerSettings({...timerSettings, work: Number(e.target.value) * 60})}
+                        />
+                    </div>
+                    <div className={styles.settingItem}>
+                        <label>Короткий перерыв (мин)</label>
+                        <input 
+                            type="number" 
+                            value={timerSettings.shortBreak / 60} 
+                            onChange={(e) => setTimerSettings({...timerSettings, shortBreak: Number(e.target.value) * 60})}
+                        />
+                    </div>
+                    <div className={styles.settingItem}>
+                        <label>Длинный перерыв (мин)</label>
+                        <input 
+                            type="number" 
+                            value={timerSettings.longBreak / 60} 
+                            onChange={(e) => setTimerSettings({...timerSettings, longBreak: Number(e.target.value) * 60})}
+                        />
+                    </div>
+                    <div className={styles.settingItemRow}>
+                        <label>Автоматический переход</label>
+                        <input 
+                            type="checkbox" 
+                            checked={timerSettings.autoNext} 
+                            onChange={(e) => {
+                                setTimerSettings({...timerSettings, autoNext: e.target.checked});
+                                setAutoNext(e.target.checked);
+                            }}
+                        />
+                    </div>
+                    
+                    <button 
+                        className={styles.saveButton}
+                        onClick={() => {
+                            updateWidget({
+                                ...widgetModel,
+                                data: {
+                                    ...widgetModel.data,
+                                    timerSettings: timerSettings
+                                }
+                            });
+                            if (!isTimerRunning) {
+                                setRemainingTime(timerSettings[activeMode]);
+                            }
+                            setIsSettingsOpen(false);
+                        }}
+                    >
+                        Сохранить настройки
+                    </button>
+                </div>
+            </Modal>
         </div>
     )
 }

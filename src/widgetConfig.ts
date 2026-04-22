@@ -13,10 +13,10 @@ export const WIDGET_SIZES = {
     },
     note: {
         min: {w: 3, h: 6},
-        max: {w: 6, h: 12}
+        max: {w: 6, h: 14}
     },
     gitIssuesPR: {
         min: {w: 6, h: 10},
-        max: {w: 10, h: 16}
+        max: {w: 10, h: 14}
     }
 };

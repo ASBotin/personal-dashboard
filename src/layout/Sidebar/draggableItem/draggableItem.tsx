@@ -9,13 +9,15 @@ import pomodoroPreview from '../../../assets/widgetPreviews/pomodoro.png';
 import repositoryTrackerPreview from '../../../assets/widgetPreviews/repositoryTracker.png';
 import weatherPreview from '../../../assets/widgetPreviews/weather.png';
 import notePreview from '../../../assets/widgetPreviews/note.png';
+import gitIssuesPRPreview from '../../../assets/widgetPreviews/gitIssuePR.png'
 
 const WIDGET_PREVIEWS = {
     gitActivityTracker: gitActivityTrackerPreview,
     pomodoro: pomodoroPreview,
     repositoryTracker: repositoryTrackerPreview,
     weather: weatherPreview,
-    note: notePreview
+    note: notePreview,
+    gitIssuesPR: gitIssuesPRPreview
 };
 
 export default function DraggableItem({ type }: { readonly type: WidgetType }) {

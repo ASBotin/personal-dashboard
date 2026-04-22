@@ -6,7 +6,7 @@ import DraftPRIcon from "../../../../assets/git/git-pull-request-draft.svg?react
 import CommentIcon from "../../../../assets/git/comments.svg?react";
 
 
-export default function IssuePR({issuePRData}: {readonly issuePRData: IssuePRData}) {
+export default function IssuePR({issuePRData, userOnlyMode}: {readonly issuePRData: IssuePRData, readonly userOnlyMode : boolean}) {
     const prepareDate = (dateString: string): string => {
         const date = new Date(dateString);
         const now = new Date();
@@ -30,6 +30,14 @@ export default function IssuePR({issuePRData}: {readonly issuePRData: IssuePRDat
         };
         return `on ${date.toLocaleDateString('en-US', options)}`;
     };
+
+    const getRepoName = (url: string) :string => {
+        const parts = url.split('/');
+        const owner = parts[4];
+        const repo = parts[5];
+
+        return `${owner}/${repo}`;
+    }
 
     return (
         <div className={styles.issuePR}>
@@ -62,6 +70,14 @@ export default function IssuePR({issuePRData}: {readonly issuePRData: IssuePRDat
                             <span> {issuePRData.user.login}</span>
                         </a>} 
                         <span>posted {prepareDate(issuePRData.created_at)}</span>
+                        {userOnlyMode && (
+                            <>
+                                <span>·</span>
+                                <a href={issuePRData.repository_url} target="_blank" rel="noreferrer" className={styles.link}>
+                                    <span>{getRepoName(issuePRData.repository_url)}</span>
+                                </a>
+                            </>
+                        )}
                     </div>
                     {issuePRData.comments > 0 && (
                         <>

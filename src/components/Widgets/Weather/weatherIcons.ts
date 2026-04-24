@@ -1,17 +1,17 @@
-import Clear_day from '../../../../assets/weatherIcons/clear_day.svg?react';
-import Clear_night from '../../../../assets/weatherIcons/clear_night.svg?react';
-import Cloudy from '../../../../assets/weatherIcons/cloudy.svg?react';
-import Fog from '../../../../assets/weatherIcons/fog.svg?react';
-import Partly_cloudy_day from '../../../../assets/weatherIcons/partly_cloudy_day.svg?react';
-import Partly_cloudy_night from '../../../../assets/weatherIcons/partly_cloudy_night.svg?react';
-import Rain from '../../../../assets/weatherIcons/rain.svg?react';
-import Snow from '../../../../assets/weatherIcons/snow.svg?react';
-import Thunderstorm from '../../../../assets/weatherIcons/thunderstorm.svg?react';
-import Heavy_rain from '../../../../assets/weatherIcons/heavy_rain.svg?react';
-import Drizzle from '../../../../assets/weatherIcons/drizzle.svg?react';
-import Blizzard from '../../../../assets/weatherIcons/blizzard.svg?react';
-import Hail from '../../../../assets/weatherIcons/hail.svg?react';
-import Sleet from '../../../../assets/weatherIcons/sleet.svg?react';
+import Clear_day from '../../../assets/weatherIcons/clear_day.svg?react';
+import Clear_night from '../../../assets/weatherIcons/clear_night.svg?react';
+import Cloudy from '../../../assets/weatherIcons/cloudy.svg?react';
+import Fog from '../../../assets/weatherIcons/fog.svg?react';
+import Partly_cloudy_day from '../../../assets/weatherIcons/partly_cloudy_day.svg?react';
+import Partly_cloudy_night from '../../../assets/weatherIcons/partly_cloudy_night.svg?react';
+import Rain from '../../../assets/weatherIcons/rain.svg?react';
+import Snow from '../../../assets/weatherIcons/snow.svg?react';
+import Thunderstorm from '../../../assets/weatherIcons/thunderstorm.svg?react';
+import Heavy_rain from '../../../assets/weatherIcons/heavy_rain.svg?react';
+import Drizzle from '../../../assets/weatherIcons/drizzle.svg?react';
+import Blizzard from '../../../assets/weatherIcons/blizzard.svg?react';
+import Hail from '../../../assets/weatherIcons/hail.svg?react';
+import Sleet from '../../../assets/weatherIcons/sleet.svg?react';
 
 interface WeatherIconMapping {
     codes: number[];

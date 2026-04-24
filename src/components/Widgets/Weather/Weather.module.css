@@ -1,6 +1,8 @@
 .weather {
     background-color: #5d7fb3;
-    user-select: none;
+    overflow: hidden;
+}
+.standart {
     max-width: 310px;
 }
 .select {
@@ -8,4 +10,12 @@
 }
 .content {
     background-color: #7399cc;
+    user-select: none;
+}
+.weatherWrapper {
+    display: grid;
+    grid-template-columns: 1fr 0fr;
+}
+.large {
+    grid-template-columns: 1fr 1.5fr;
 }

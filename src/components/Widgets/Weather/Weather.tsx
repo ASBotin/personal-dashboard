@@ -4,11 +4,13 @@ import {weatherApi} from '../../../api/weatherApi'
 import {useState, useMemo, useContext} from 'react'; 
 import AsyncSelect from 'react-select/async';
 import { SingleValue, ActionMeta, StylesConfig } from 'react-select';
-import WeatherContainer from './WeatherContainer/WeatherContainer';
+import CurrentWeatherContainer from './CurrentWeatherContainer/CurrentWeatherContainer';
 import { debounce } from 'lodash-es';
 import ButtonPane from "../../ButtonPane/ButtonPane";
 import { BoardsContext } from '../../../BoardsContext';
 import { WidgetModel } from '../../../models/widgetModel';
+import { WIDGET_SIZES } from '../../../widgetConfig';
+import WeeklyWeatherContainer from './WeeklyWeatherContainer/WeeklyWeatherContainer';
 
 interface Option {
     label: string;
@@ -65,6 +67,7 @@ export default function Weather({widgetModel} : {readonly widgetModel: WidgetMod
             }
         })
     }
+    const isLarge = widgetModel.position.w === WIDGET_SIZES.weather.large.w;
 
     const selectStyle: StylesConfig<Option, false> = {
         control: (base) => ({
@@ -105,7 +108,7 @@ export default function Weather({widgetModel} : {readonly widgetModel: WidgetMod
     }
 
     return (
-        <div className={`${styles.weather} widgetContainer`}>
+        <div className={`${styles.weather} ${isLarge ? "" : styles.standart} widgetContainer`}>
             <ButtonPane>
                 <CrossButton 
                     onClick = {() => removeWidget(widgetModel.id)}
@@ -117,7 +120,7 @@ export default function Weather({widgetModel} : {readonly widgetModel: WidgetMod
                     value = {value}
                     loadOptions = {loadOptions}
                     onChange = {handleChange}
-                    placeholder="Search city"
+                    placeholder="Выберите город..."
                     isClearable
                     className={`${styles.select} allow-interaction`}
                     classNamePrefix="select"
@@ -129,9 +132,16 @@ export default function Weather({widgetModel} : {readonly widgetModel: WidgetMod
                     }}
                     styles = {selectStyle}
                 />
-                <WeatherContainer
-                    widgetModel={widgetModel}
-                />
+                <div className={`${styles.weatherWrapper} ${isLarge ? styles.large : ""}`}>
+                    <CurrentWeatherContainer
+                        widgetModel={widgetModel}
+                    />
+                    {isLarge && (
+                        <WeeklyWeatherContainer
+                            widgetModel={widgetModel}
+                        />
+                    )}
+                </div>
             </div>
         </div>
     )

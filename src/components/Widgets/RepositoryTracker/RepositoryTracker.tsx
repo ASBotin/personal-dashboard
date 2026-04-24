@@ -13,6 +13,7 @@ import { BoardsContext } from '../../../BoardsContext';
 import { fetchReposData } from '../../../api/githubApi';
 
 import { WidgetModel } from '../../../models/widgetModel';
+import { WIDGET_SIZES } from '../../../widgetConfig';
 
 interface ReposData {
     html_url: string;
@@ -38,6 +39,9 @@ export default function RepositoryTracker({widgetModel}: {widgetModel: WidgetMod
     const [error, setError] = useState<string | null>(null);
 
     const fetchInterval = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+
+    const h = widgetModel.position.h;
+    const isSmall : boolean = (h === WIDGET_SIZES.repositoryTracker.small.h);
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault(); 
@@ -154,8 +158,8 @@ export default function RepositoryTracker({widgetModel}: {widgetModel: WidgetMod
                         Загрузка...
                     </div>
                 )}
-                {repos && !isLoading && reposData && (
-                    <div className={styles.reposInfo}>
+                <div className={styles.reposInfo}>
+                    {repos && !isLoading && reposData && !isSmall && (
                         <div className={styles.container}>
                             <h2 className={styles.reposName}>
                                 <a 
@@ -176,6 +180,22 @@ export default function RepositoryTracker({widgetModel}: {widgetModel: WidgetMod
                                 </div>
                             </div>
                         </div>
+                    )}
+                    {repos && !isLoading && reposData && isSmall && (
+                        <div className={styles.nameWrapper}>
+                            <h2 className={styles.reposNameSmall}>
+                                <a 
+                                    href={reposData.html_url} 
+                                    target="_blank" 
+                                    rel="noreferrer" 
+                                    className={styles.repoLink}
+                                >
+                                    {repos.owner}/{reposData.name}
+                                </a>
+                            </h2>
+                        </div>
+                    )}
+                    {repos && !isLoading && reposData && (
                         <div className={`${styles.container} ${styles.details}`}>
                             <div className={styles.reposStats}>
                                 <span className={styles.statItem} title='stargazers'><Star className={styles.starIcon} /> {prepareNumber(reposData?.stargazers_count)}</span>
@@ -184,8 +204,8 @@ export default function RepositoryTracker({widgetModel}: {widgetModel: WidgetMod
                                 <span className={styles.statItem} title='watchers'><Watch className={styles.watchIcon} /> {prepareNumber(reposData?.watchers_count)}</span>
                             </div>
                         </div>
-                    </div>
-                )}                
+                    )}
+                </div>                
             </div>
         </div>
     )

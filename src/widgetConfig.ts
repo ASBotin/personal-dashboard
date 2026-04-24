@@ -3,13 +3,15 @@ export const WIDGET_SIZES = {
         standart: { w: 3, h: 4 },
     },
     repositoryTracker: {
-        standart: {w: 3, h: 6} 
+        standart: {w: 3, h: 6},
+        small: {w: 3, h: 3} 
     },
     weather: {
-        standart: {w: 3, h: 4}
+        standart: {w: 3, h: 4},
+        large: {w: 7, h: 4}
     },
     gitActivityTracker: {
-        standart: {w: 3, h: 7}
+        standart: {w: 3, h: 7},
     },
     note: {
         min: {w: 3, h: 6},

@@ -66,7 +66,6 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                 if (!silent) setIsLoading(true);
                 try {
                     const data : IssuesPRData | null = await fetchIssuesPRData(username, owner, repo, page, activeTab);
-                    console.log("Fetched data:", data);
                     if (data) {
                         setIssuesPRData(prev => {
                             return {

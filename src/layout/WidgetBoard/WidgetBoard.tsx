@@ -108,7 +108,40 @@ export default function WidgetBoard({ widgets }: {readonly widgets: WidgetModel[
         defaultItem: { w: 2, h: 2 } 
     };
 
-    
+    const handleResize = (
+        _layout: readonly LayoutItem[], 
+        _oldItem: LayoutItem | null, 
+        newItem: LayoutItem | null,
+        placeholder: LayoutItem | null
+    ) => {
+        // 1. Проверяем, что newItem существует (без него логика невозможна)
+        if (!newItem) return;
+
+        const widget = widgets.find(w => w.id === newItem.i);
+        if (!widget) return;
+
+        const flexibleTypes: WidgetType[] = ['note', 'gitIssuesPR'];
+        if (flexibleTypes.includes(widget.type)) return;
+
+        const sizes = WIDGET_SIZES[widget.type as keyof typeof WIDGET_SIZES];
+        if (!sizes) return;
+
+        const availablePresets = Object.values(sizes);
+        
+        const closest = availablePresets.reduce((prev, curr) => {
+            const prevDist = Math.abs(prev.w - newItem.w) + Math.abs(prev.h - newItem.h);
+            const currDist = Math.abs(curr.w - newItem.w) + Math.abs(curr.h - newItem.h);
+            return currDist < prevDist ? curr : prev;
+        });
+
+        newItem.w = closest.w;
+        newItem.h = closest.h;
+
+        if (placeholder) {
+            placeholder.w = closest.w;
+            placeholder.h = closest.h;
+        }
+    };
 
     const handleDrop = (layout: Layout, item: LayoutItem | undefined, e: Event) => {
         const dragEvent = e as unknown as React.DragEvent;
@@ -148,6 +181,7 @@ export default function WidgetBoard({ widgets }: {readonly widgets: WidgetModel[
                         handleActionStop(layout);
                         document.body.style.cursor = 'default';
                     }}
+                    onResize={handleResize}
                     onResizeStop={handleActionStop}    
                     margin={[20, 20]}
                     dropConfig={dropConfig}

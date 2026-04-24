@@ -1,7 +1,7 @@
-import styles from './WeatherContainer.module.css';
+import styles from './CurrentWeatherContainer.module.css';
 import { weatherApi } from '../../../../api/weatherApi';
 import { useState, useEffect, useRef } from 'react'; 
-import { weatherIcons } from './weatherIcons';
+import { weatherIcons } from '../weatherIcons';
 import { WidgetModel } from '../../../../models/widgetModel';
 
 interface WeatherData {
@@ -12,7 +12,7 @@ interface WeatherData {
     humidity: number;
 }
 
-export default function Weather({ widgetModel }: { readonly widgetModel: WidgetModel }) {
+export default function CurrentWeatherContainer({ widgetModel }: { readonly widgetModel: WidgetModel }) {
     const { lat, lon } = widgetModel.data;
     const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -43,7 +43,7 @@ export default function Weather({ widgetModel }: { readonly widgetModel: WidgetM
     if (!lat || !lon) {
         return (
             <div className={styles.weatherContainer}>
-                <p className={styles.error}>Please select a city to view the weather information.</p>
+                <p className={styles.error}>Выберите город для отслеживания погоды</p>
             </div>
         );
     }
@@ -51,7 +51,7 @@ export default function Weather({ widgetModel }: { readonly widgetModel: WidgetM
     if (isLoading) {
         return (
             <div className={styles.weatherContainer}>
-                <div className={styles.loader}>Loading weather...</div>
+                <div className={styles.loader}>Загрузка...</div>
             </div>
         )
     }
@@ -59,7 +59,7 @@ export default function Weather({ widgetModel }: { readonly widgetModel: WidgetM
     if (!weatherData) {
         return (
             <div className={styles.weatherContainer}>
-                <div className={styles.error}>Failed to fetch weather information from Open-meteo api. Check internet connection or turn VPN on</div>
+                <div className={styles.error}>Не удалось получить данные от Open-meteo api. Проверьте соединение с интернетом</div>
             </div>
         )
     }
@@ -98,8 +98,8 @@ export default function Weather({ widgetModel }: { readonly widgetModel: WidgetM
                     {Math.round(temperature)}°C
                 </div>
                 <div className={styles.details}>
-                    <p className={styles.humidity}>Humidity: {humidity}%</p>
-                    <p className={styles.windspeed}>Wind: {windspeed} m/s</p>
+                    <p className={styles.humidity}>Влажн.: {humidity}%</p>
+                    <p className={styles.windspeed}>Ветер: {windspeed} m/s</p>
                 </div>
             </div>
             <div className={styles.rightSection}>

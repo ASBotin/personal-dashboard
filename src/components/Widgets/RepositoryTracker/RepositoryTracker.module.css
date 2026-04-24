@@ -179,4 +179,15 @@
     font-size: 14px;
     font-weight: 400;
     margin-top: 8px;
-}       
+}
+.nameWrapper {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+.reposNameSmall {
+    font-size: 18px;
+    font-weight: 400;
+    color: #c9d1d9;
+    cursor: pointer;
+}

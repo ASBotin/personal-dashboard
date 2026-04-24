@@ -1,0 +1,28 @@
+.weatherContainer {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    background: #a2c6f5;
+    background: linear-gradient(180deg,rgba(162, 198, 245, 1) 0%, rgba(152, 192, 245, 1) 67%, rgba(138, 180, 235, 1) 88%);
+    border-radius: 15px;
+    margin-top: 12px;
+    border: 1px solid #2e313c3a;
+    margin-left: 12px;
+    flex-grow: 1;
+}
+.day {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    color: #2e313c;
+}
+.temps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 5px;
+}

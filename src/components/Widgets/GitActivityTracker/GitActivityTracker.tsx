@@ -291,5 +291,4 @@ export default function GitActivityTracker({widgetModel}: {readonly widgetModel:
             </div>
         </div>
     )
-}     
-
+} 

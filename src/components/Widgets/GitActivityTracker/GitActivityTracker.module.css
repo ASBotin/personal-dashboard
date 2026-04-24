@@ -3,6 +3,9 @@
 .gitActivityTracker {
     background-color: #212631;
     user-select: none;
+    
+}
+.standart {
     max-width: 310px;
 }
 

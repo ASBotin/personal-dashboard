@@ -50,7 +50,7 @@ export default function IssuePR({issuePRData, userOnlyMode}: {readonly issuePRDa
     }
 
     const handleAddToNote = (widgetModel: WidgetModel) => {
-        const taskText = `[#${issuePRData.number}] ${issuePRData.title} \n ${issuePRData.html_url}`;
+        const taskText = `[${issuePRData.title} \n${issuePRData.html_url}`;
 
         let currentItems = [];
 

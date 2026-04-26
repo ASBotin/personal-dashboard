@@ -4,9 +4,19 @@ import IssueIcon from "../../../../assets/git/issue.svg?react";
 import PRIcon from "../../../../assets/git/git-pull-request.svg?react";
 import DraftPRIcon from "../../../../assets/git/git-pull-request-draft.svg?react";
 import CommentIcon from "../../../../assets/git/comments.svg?react";
-
+import AddToNoteIcon from "../../../../assets/git/add-to-note.svg?react"; 
+import Modal from "../../../../layout/Modal/Modal";
+import { useState, useContext } from "react";
+import { BoardsContext } from "../../../../BoardsContext";
+import { BoardModel } from "../../../../models/boardModel";
+import { WidgetModel } from "../../../../models/widgetModel";
 
 export default function IssuePR({issuePRData, userOnlyMode}: {readonly issuePRData: IssuePRData, readonly userOnlyMode : boolean}) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const { getActiveBoard, addWidget, updateWidget } = useContext(BoardsContext);
+    const activeBoard : BoardModel | undefined = getActiveBoard();
+    
+
     const prepareDate = (dateString: string): string => {
         const date = new Date(dateString);
         const now = new Date();
@@ -37,6 +47,52 @@ export default function IssuePR({issuePRData, userOnlyMode}: {readonly issuePRDa
         const repo = parts[5];
 
         return `${owner}/${repo}`;
+    }
+
+    const handleAddToNote = (widgetModel: WidgetModel) => {
+        const taskText = `[#${issuePRData.number}] ${issuePRData.title} \n ${issuePRData.html_url}`;
+
+        let currentItems = [];
+
+        if (widgetModel.data.type === 'list') {
+            currentItems = [...(widgetModel.data.listItems || [])];
+        } else {
+            const text = widgetModel.data.text?.trim() || "";
+            if (text) {
+                currentItems = text.split("\n")
+                    .filter((line: string) => line.trim() !== "")
+                    .map((line: string) => ({
+                        id: crypto.randomUUID(),
+                        text: line,
+                        isCompleted: false,
+                    }));
+            }
+        }
+
+        const newItem = {
+            id: crypto.randomUUID(),
+            text: taskText,
+            isCompleted: false,
+        };
+
+        updateWidget({
+            ...widgetModel,
+            data: {
+                ...widgetModel.data,
+                type: 'list',
+                listItems: [...currentItems, newItem],
+                text: "" 
+            }
+        });
+
+        setIsModalOpen(false);
+    }
+
+    const handleAddToNewNote = () => {
+        const newNote = addWidget('note');
+        if (!newNote) throw console.error("Не удалось создать заметку");
+        handleAddToNote(newNote);
+        setIsModalOpen(false);
     }
 
     return (
@@ -86,7 +142,44 @@ export default function IssuePR({issuePRData, userOnlyMode}: {readonly issuePRDa
                         </>
                     )}
                 </div>
+                
             </div>
+            <div className={styles.addToNote}>
+                <button 
+                    className={styles.addToNoteButton} 
+                    onClick={() => setIsModalOpen(true)}
+                    title="Добавить в список"
+                >
+                    <AddToNoteIcon className={styles.noteIcon}/>
+                </button>
+            </div>
+            <Modal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title="Добавить в список"
+            >
+                <div className={styles.notesList}>
+                    {activeBoard?.widgets.map(w => (
+                        w.type === 'note' ?
+                            <button 
+                                key={w.id}
+                                className={styles.noteButton}
+                                onClick={() => handleAddToNote(w)}
+                            >
+                                {w.data.title ? w.data.title : (w.data.type === 'list' ? "Список" : "Заметка")}
+                            </button>
+                        : null
+                    ))}
+                </div>
+                <div className={styles.buttonWrapper}>
+                    <button 
+                        className={styles.newNoteButton}
+                        onClick={() => handleAddToNewNote()}
+                    >
+                        + Добавить в новый список
+                    </button>
+                </div>
+            </Modal>
         </div>
     )
 }

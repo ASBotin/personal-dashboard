@@ -1,5 +1,5 @@
 import styles from "./Note.module.css";
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect, useContext, use } from "react";
 import CrossButton from "../../ButtonPane/CrossButton/CrossButton";
 import ActionButton from "../../ButtonPane/ActionButton/ActionButton";
 import ButtonPane from "../../ButtonPane/ButtonPane";
@@ -37,7 +37,6 @@ export default function Note({ widgetModel }: { widgetModel: WidgetModel }) {
     const showCompletedButtonRef = useRef<HTMLButtonElement | null>(null);
     const addDebounce = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
-
     const active = listItems.filter((item) => !item.isCompleted);
     const completed = listItems.filter((item) => item.isCompleted);
 
@@ -45,6 +44,11 @@ export default function Note({ widgetModel }: { widgetModel: WidgetModel }) {
         autoResize(titleRef);
         autoResize(textRef);
     }, [text, title, type]);
+
+    useEffect(() => {
+        setType(widgetModel.data?.type || 'text');
+        setListItems(widgetModel.data?.listItems || []);
+    }, [widgetModel.data]);
 
     useEffect(() => {
         if (!animating) return;
@@ -114,14 +118,14 @@ export default function Note({ widgetModel }: { widgetModel: WidgetModel }) {
         let updatedListItems = [...listItems];
 
         if (newType === "list") {
-        if (text.trim()) {
-            const lines = text.split("\n").filter((line: string) => line.trim() !== "");
-            updatedListItems = lines.map((line: string) => ({
-                id: crypto.randomUUID(),
-                text: line,
-                isCompleted: false,
-            }));
-        }
+            if (text.trim()) {
+                const lines = text.split("\n").filter((line: string) => line.trim() !== "");
+                updatedListItems = lines.map((line: string) => ({
+                    id: crypto.randomUUID(),
+                    text: line,
+                    isCompleted: false,
+                }));
+            }
         } else if (newType === "text") {
             if (listItems.length > 0) {
                 updatedText = active.map((item: ListItemModel) => item.text).join("\n");

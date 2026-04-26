@@ -79,6 +79,10 @@ export default function GitIssuesPR({widgetModel}: {readonly widgetModel: Widget
                     }
                     else {
                         setError("Данные не найдены");
+                        setUsername("");
+                        setOwner("");
+                        setRepo("");
+                        setIssuesPRData(undefined);
                     }
                 }
                 catch (err) {

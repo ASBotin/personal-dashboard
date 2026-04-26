@@ -9,6 +9,7 @@
     margin-right: 6px;
     gap: 12px;
     user-select: text !important;
+    align-items: center;
 }
 .wrapper {
     display: flex;
@@ -77,4 +78,66 @@
     display: flex;
     gap: 6px;
     align-items: center;
+}
+.addToNote {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+}
+.addToNoteButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    border-radius: 15px;
+    color: #abb6be;
+    transition: all 0.2s ease;
+    padding: 7px;
+    cursor: pointer;
+}
+.addToNoteButton:hover {
+    background-color: #c9d1d913;
+}
+.noteIcon {
+    width: 16px;
+    height: 16px;
+}
+.notesList {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+}
+.buttonWrapper {
+    margin-top: 24px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.newNoteButton, .noteButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #c9d1d9;
+    font-size: 18px;
+    font-weight: 200;
+    cursor: pointer;
+}
+.newNoteButton {
+    transition: all 0.2s ease;
+    padding: 7px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+.newNoteButton:hover {
+    background-color: #c9d1d913;
+}
+.noteButton:hover {
+    text-decoration: underline;
 }

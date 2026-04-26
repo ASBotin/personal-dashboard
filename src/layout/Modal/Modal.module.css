@@ -31,13 +31,14 @@
 
 .title {
     margin: 0;
-    font-size: 1.1rem;
+    font-size: 22px;
     color: #e3eaf5;
 }
 
 .body {
-    padding: 16px;
+    padding: 12px;
     color: #e3eaf5;
+    max-height: 600px;
 }
 
 .closeBtn {

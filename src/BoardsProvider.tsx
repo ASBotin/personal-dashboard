@@ -86,6 +86,8 @@ export function BoardsProvider({ children }: BoardsProviderProps) {
                 widgets: [...board.widgets, newWidget]
             } : board
         ))
+
+        return newWidget;
     }
 
     function removeWidget(id: string) {
@@ -141,6 +143,10 @@ export function BoardsProvider({ children }: BoardsProviderProps) {
         ))
     }
 
+    function getActiveBoard(): BoardModel | undefined {
+        return boards.find(board => board.id === activeBoardId);
+    }
+
     const value: BoardsContextProps = useMemo(() => ({ 
         boards, 
         activeBoardId,
@@ -155,7 +161,8 @@ export function BoardsProvider({ children }: BoardsProviderProps) {
         removeBoard, 
         renameBoard, 
         toggleSidebar, 
-        setDraggedType 
+        setDraggedType,
+        getActiveBoard
     }), [boards, activeBoardId, isSidebarOpen, draggedType]);
 
     return (

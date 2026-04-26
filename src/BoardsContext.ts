@@ -9,7 +9,7 @@ export interface BoardsContextProps {
     draggedType: string | null;
     setBoards: Dispatch<SetStateAction<BoardModel[]>>;
     setActiveBoardId: Dispatch<SetStateAction<string>>;
-    addWidget: (type: WidgetType, position?: { x: number; y: number; w: number; h: number }) => void;
+    addWidget: (type: WidgetType, position?: { x: number; y: number; w: number; h: number }) => WidgetModel | void;
     removeWidget: (id: string) => void;
     updateWidget: (updatedWidget: WidgetModel) => void;
     addBoard: () => void;
@@ -17,6 +17,7 @@ export interface BoardsContextProps {
     renameBoard: (id: string, newName: string) => void;
     toggleSidebar: () => void;
     setDraggedType: Dispatch<SetStateAction<string | null>>;
+    getActiveBoard: () => BoardModel | undefined;
 }
 
 export const BoardsContext = createContext<BoardsContextProps>({} as BoardsContextProps); 

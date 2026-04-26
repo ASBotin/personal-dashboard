@@ -114,7 +114,6 @@ export default function WidgetBoard({ widgets }: {readonly widgets: WidgetModel[
         newItem: LayoutItem | null,
         placeholder: LayoutItem | null
     ) => {
-        // 1. Проверяем, что newItem существует (без него логика невозможна)
         if (!newItem) return;
 
         const widget = widgets.find(w => w.id === newItem.i);

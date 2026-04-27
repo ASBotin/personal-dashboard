@@ -120,7 +120,7 @@ export default function RepositoryTracker({widgetModel}: {widgetModel: WidgetMod
                 /> 
             </ButtonPane>
             <div className = {`${styles.content} widgetContent`}>
-                {!repos && (
+                {!repos && !isSmall && (
                     <form className={styles.formContainer} onSubmit={handleSubmit}>
                         <h4 className={styles.formTitle}>Настройка трекера</h4>
                         
@@ -151,6 +151,38 @@ export default function RepositoryTracker({widgetModel}: {widgetModel: WidgetMod
                         >
                             Начать отслеживание
                         </button>
+                    </form>
+                )}
+                {!repos && isSmall && (
+                    <form className={styles.smallFormContainer} onSubmit={handleSubmit}>
+                        <div className={styles.inputGroup}>
+                            <input 
+                                type="text" 
+                                placeholder="Владелец" 
+                                value={ownerInput}
+                                onChange={(e) => setOwnerInput(e.target.value)}
+                                className={styles.repoInput}
+                                required
+                            />
+                            <input 
+                                type="text" 
+                                placeholder="Репозиторий" 
+                                value={repoInput}
+                                onChange={(e) => setRepoInput(e.target.value)}
+                                className={styles.repoInput}
+                                required
+                            />
+                            {error && <div className={styles.errorMessage}>{error}</div>}
+                        </div>
+                        <div className={styles.smallBtnWraper}>
+                            <button 
+                                type="submit" 
+                                className={styles.smallSubmitBtn}
+                                disabled={!ownerInput || !repoInput}
+                            >
+                                ▶
+                            </button>
+                        </div>
                     </form>
                 )}
                 {repos && isLoading && (

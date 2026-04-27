@@ -50,7 +50,7 @@ export default function IssuePR({issuePRData, userOnlyMode}: {readonly issuePRDa
     }
 
     const handleAddToNote = (widgetModel: WidgetModel) => {
-        const taskText = `[${issuePRData.title} \n${issuePRData.html_url}`;
+        const taskText = `[${issuePRData.title} \n \n${issuePRData.html_url}`;
 
         let currentItems = [];
 
@@ -123,7 +123,9 @@ export default function IssuePR({issuePRData, userOnlyMode}: {readonly issuePRDa
                     <div className={styles.meta}>
                         {issuePRData.author_association === 'NONE' ? "" : <span className={styles.association}>{issuePRData.author_association}</span>} 
                         {<a href={issuePRData.user.html_url} target="_blank" rel="noreferrer" className={styles.link}>
-                            <span> {issuePRData.user.login}</span>
+                            {!userOnlyMode && (
+                                <span>{issuePRData.user.login}</span>
+                            )}
                         </a>} 
                         <span>posted {prepareDate(issuePRData.created_at)}</span>
                         {userOnlyMode && (

@@ -1,4 +1,4 @@
-export type WidgetType  = 'pomodoro' | 'weather' | 'note' | 'gitActivityTracker' | 'repositoryTracker' | 'gitIssuesPR';
+export type WidgetType  = 'pomodoro' | 'weather' | 'note' | 'gitActivityTracker' | 'repositoryTracker' | 'gitIssuesPR' | 'bookmarks';
 
 export interface WidgetModel {
     id: string;

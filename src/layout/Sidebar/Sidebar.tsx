@@ -26,6 +26,9 @@ export default function Sidebar({isOpen} : {isOpen: boolean}) {
                 <button className={styles.button} onClick = {() => addWidget("pomodoro")}>Pomodoro</button>
                 <div className={styles.preview}><DraggableItem type="pomodoro"/></div>
 
+                <button className={styles.button} onClick = {() => addWidget("bookmarks")}>Закладки</button>
+                <div className={styles.preview}><DraggableItem type="bookmarks"/></div>
+
                 <button className={styles.button} onClick = {() => addWidget("weather")}>Погода</button>
                 <div className={styles.preview}><DraggableItem type="weather"/></div>
             </div>

@@ -93,14 +93,14 @@
 .settingsForm {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
     color: #e3eaf5;
 }
 
 .settingItem {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 6px;
 }
 
 .settingItemRow {
@@ -119,7 +119,7 @@
 }
 
 .settingItem input[type="number"]:focus {
-    border-color: #58a6ff;
+    border-color: #e3eaf5;
 }
 
 input[type="number"] {

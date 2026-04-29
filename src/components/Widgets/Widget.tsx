@@ -6,6 +6,7 @@ import RepositoryTracker from "./RepositoryTracker/RepositoryTracker";
 import GitActivityTracker from "./GitActivityTracker/GitActivityTracker";
 import GitIssuesPR from './GitIssuesPR/GitIssuesPR';
 import { WidgetModel } from "../../models/widgetModel";
+import Bookmarks from './Bookmarks/Bookmarks';
 
 
 interface WidgetProps {
@@ -36,6 +37,10 @@ function Widget({widgetModel}: WidgetProps) {
             />
         case "gitIssuesPR":
             return <GitIssuesPR
+                widgetModel={widgetModel}
+            />
+        case "bookmarks":
+            return <Bookmarks
                 widgetModel={widgetModel}
             />
         default:

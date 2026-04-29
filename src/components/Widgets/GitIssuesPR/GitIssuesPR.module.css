@@ -46,6 +46,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-bottom: 12px;
+    width: 256px;
 }
 .submitBtn:hover {
     background-color: #444c6b;

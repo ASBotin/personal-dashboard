@@ -10,6 +10,7 @@ import repositoryTrackerPreview from '../../../assets/widgetPreviews/repositoryT
 import weatherPreview from '../../../assets/widgetPreviews/weather.png';
 import notePreview from '../../../assets/widgetPreviews/note.png';
 import gitIssuesPRPreview from '../../../assets/widgetPreviews/gitIssuePR.png'
+import bookmarksPreview from '../../../assets/widgetPreviews/bookmarks.png';
 
 const WIDGET_PREVIEWS = {
     gitActivityTracker: gitActivityTrackerPreview,
@@ -17,7 +18,8 @@ const WIDGET_PREVIEWS = {
     repositoryTracker: repositoryTrackerPreview,
     weather: weatherPreview,
     note: notePreview,
-    gitIssuesPR: gitIssuesPRPreview
+    gitIssuesPR: gitIssuesPRPreview,
+    bookmarks: bookmarksPreview
 };
 
 export default function DraggableItem({ type }: { readonly type: WidgetType }) {

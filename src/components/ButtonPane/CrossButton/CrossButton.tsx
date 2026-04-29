@@ -1,8 +1,8 @@
 import styles from './CrossButton.module.css';
 
 interface CrossButtonProps {
-    onClick: () => void;
-    className?: string;
+    readonly onClick: () => void;
+    readonly className?: string;
 }
 
 export default function CrossButton({ onClick, className }: CrossButtonProps) {

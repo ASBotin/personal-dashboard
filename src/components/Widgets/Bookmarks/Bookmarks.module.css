@@ -1,0 +1,164 @@
+.bookmarks {
+    background-color: #545e8a;
+    user-select: none;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+}
+.content {
+    display: grid !important;
+    grid-template-rows: 10fr 1fr;
+
+    background-color: #6671a5;
+    height: calc(100% - 34px);
+
+    overflow: hidden;
+    padding-right: 6px !important;
+}
+.buttonContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.bookmarksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    overflow-x: hidden;
+    gap: 12px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #8f9fcf transparent;
+    width: 100%;
+    padding-right: 6px;
+}
+.gridEl {
+    aspect-ratio: 1 / 1;
+    padding: 6px;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    width: 100%;
+    border-radius: 20px;
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.gridEl:hover {
+    background-color: #8f9fcf79;
+}
+
+.bookmark {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    text-decoration: none;
+    min-width: 0;
+    overflow: hidden;
+}
+.favicon {
+    width: 32px;
+    height: 32px;
+}
+.title {
+    display: block;
+    text-align: center;
+    color: #2d3554;
+    width: 100%;
+    white-space: nowrap;   
+    overflow: hidden;    
+    text-overflow: ellipsis;
+    align-self: center;
+}
+.addButton {
+    border: none;
+    background: #8f9fcf;
+    background: linear-gradient(180deg,rgba(143, 159, 207, 1) 0%, rgba(124, 137, 189, 1) 100%);
+    border-radius: 15px;
+    color: #2d3554;
+    font-size: 16px;
+    padding: 8px;
+    cursor: pointer;
+    width: 100%;
+}
+.addButton:hover {
+    background: #7e8ebf;
+    background: linear-gradient(180deg, rgba(126, 142, 191, 1) 0%, rgba(108, 120, 171, 1) 100%);
+}
+.modalContent {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.formContainer {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.formItem input {
+    background: #151920;
+    border: 1px solid #30363d;
+    color: #e3eaf5;
+    padding: 8px;
+    border-radius: 6px;
+    outline: none;
+    width: 100%;
+}
+
+.formItem input:focus {
+    border-color: #e3eaf5;
+}
+
+.saveButton {
+    margin-top: 10px;
+    background: #151920;
+    color: #e3eaf5;
+    border: none;
+    padding: 10px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.2s;
+    width: 100%;
+}
+
+.saveButton:hover {
+    background: #181c25;
+}
+
+.deleteButton {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    right: 2px;
+    top: 2px;
+    border-radius: 50%;
+    color: #2d3554;
+    border: none;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 1px 5px;
+    background-color: transparent;
+    opacity: 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.deleteButton:hover {
+    background-color: #8f9fcf9f;
+}
+
+.gridEl:hover .deleteButton {
+    opacity: 1;
+}

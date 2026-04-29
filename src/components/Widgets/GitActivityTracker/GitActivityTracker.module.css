@@ -104,6 +104,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-bottom: 12px;
+    width: 200px;
 }
 .submitBtn:hover {
     background-color: #444c6b;
@@ -129,6 +130,7 @@
     font-size: 14px;
     margin-bottom: 12px;
     outline: none;
+    width: 200px;
 }
 .usernameInput::placeholder {
     color: #6e7681;

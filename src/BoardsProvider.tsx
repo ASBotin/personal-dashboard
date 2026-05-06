@@ -11,6 +11,7 @@ interface BoardsProviderProps {
 
 export function BoardsProvider({ children }: BoardsProviderProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     function toggleSidebar() {
         setIsSidebarOpen(prev => !prev);

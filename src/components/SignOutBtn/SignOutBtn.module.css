@@ -1,0 +1,27 @@
+.signOutBtn {
+    position: fixed;
+    top: 9px;
+    right: 45px;
+    display: flex;
+    flex-direction: column;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    z-index: 1001;
+    color: #e3eaf5;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+}
+.signOutBtn:hover {
+    background-color: #e3eaf513;
+}
+.signOutIcon {
+    width: 14px;
+    height: 14px;
+    transform:rotate(180deg);
+}

@@ -93,3 +93,26 @@
     cursor: not-allowed;
     color: #6e7681;
 }
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #6e7681;
+    font-size: 14px;
+    margin-top: 4px;
+    user-select: none;
+}
+
+.checkboxContainer input {
+    cursor: pointer;
+    accent-color: #444c6b;
+}
+
+.errorMessage {
+    color: #ff6b6b;
+    font-size: 14px;
+    font-weight: 400;
+    min-height: 20px;
+    text-align: center;
+}

@@ -1,8 +1,8 @@
 .container {
     display: flex;
     align-items: center;
-    width: calc(100% - 30px);
-    max-width: calc(100% - 30px);
+    width: calc(100% - 60px);
+    max-width: calc(100% - 60px);
 }
 
 .tabs {

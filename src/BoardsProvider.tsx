@@ -4,6 +4,7 @@ import { WidgetModel, createWidget, WidgetType } from './models/widgetModel';
 import { BoardsContext, BoardsContextProps } from './BoardsContext';
 import { WIDGET_SIZES } from './widgetConfig';
 
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface BoardsProviderProps {
     readonly children: ReactNode;   
@@ -12,47 +13,79 @@ interface BoardsProviderProps {
 export function BoardsProvider({ children }: BoardsProviderProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-
-    function toggleSidebar() {
-        setIsSidebarOpen(prev => !prev);
-    }
-
-    const [boards, setBoards] = useState<BoardModel[]>(() => {
-        const boardsFromStorage = localStorage.getItem("boardsString");
-        if (boardsFromStorage) {
-            try {
-                const restoredBoards = JSON.parse(boardsFromStorage);
-                return restoredBoards;
-            }
-            catch (err) {
-                console.error("failed parsing boards:", err);
-                return [createBoard()]; 
-            }
-        }
-        else {
-            return [createBoard()];
-        }
-    });
-
-    const [activeBoardId, setActiveBoardId] = useState<string>(() => {
-        const activeIdFromStorage = localStorage.getItem("idString");
-        if (activeIdFromStorage) {
-            return activeIdFromStorage;
-        }
-        else {
-            return boards[0].id;
-        }
-    });
+    const [boards, setBoards] = useState<BoardModel[]>([] as BoardModel[]);
     const [draggedType, setDraggedType] = useState<string | null>(null);
+    const [activeBoardId, setActiveBoardId] = useState<string>("");
+    
+    useEffect(() => {
+        const loadBoards = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_URL}/boards`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const finalBoards = (data && data.length > 0) ? data : [createBoard()];
+                    setBoards(finalBoards);
+
+                    const savedId = localStorage.getItem("idString");
+                    if (savedId && finalBoards.some((b: BoardModel) => b.id === savedId)) {
+                        setActiveBoardId(savedId);
+                    } else {
+                        setActiveBoardId(finalBoards[0].id);
+                    }
+                } else if (response.status === 401) {
+                    // Токен невалиден
+                    localStorage.removeItem('token');
+                    window.location.href = '/auth';
+                }
+            } catch (err) {
+                console.error("Fetch error:", err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        loadBoards();
+    }, []);
 
     useEffect(() => {
-        const boardsString = JSON.stringify(boards);
-        localStorage.setItem("boardsString", boardsString);
-    }, [boards]);
+        const saveToBackend = async () => {
+            const token = localStorage.getItem('token');
+            // Не сохраняем, если данных нет или мы еще в процессе первичной загрузки
+            if (!token || isLoading || boards.length === 0) return;
+
+            try {
+                await fetch(`${API_URL}/boards`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify(boards)
+                });
+            } catch (err) {
+                console.error("Save error:", err);
+            }
+        };
+
+        saveToBackend();
+    }, [boards, isLoading]);
 
     useEffect(() => {
         localStorage.setItem("idString", activeBoardId);
     }, [activeBoardId]);
+
+    function toggleSidebar() {
+        setIsSidebarOpen(prev => !prev);
+    }
 
     function addWidget(type: WidgetType, position: { x: number; y: number; w: number; h: number } | null = null) {
         const activeBoard = boards.find(b => b.id === activeBoardId);

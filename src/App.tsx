@@ -20,12 +20,12 @@ export default function App() {
     <BrowserRouter>
         <Routes>
           <Route 
-            path="/login" 
+            path="/auth" 
             element={ isAuthenticated ? <Navigate to="/"/> : <AuthPage onLogin={() => setIsAuthenticated(true)}/> }
           />
           <Route
             path="/"
-            element={ isAuthenticated ? <BoardsProvider><DashBoardLayout /></BoardsProvider> : <Navigate to="/login"/> }
+            element={ isAuthenticated ? <BoardsProvider><DashBoardLayout /></BoardsProvider> : <Navigate to="/auth"/> }
           />   
         </Routes>
     </BrowserRouter>

@@ -7,11 +7,15 @@ import { BoardModel } from "../../../../models/boardModel";
 
 import { Reorder } from "framer-motion";
 
-const MIN_TAB_WIDTH = 60;
-const CONTROLS_WIDTH = 100;
+const MIN_TAB_WIDTH = 80;
+const CONTROLS_WIDTH = 150;
 
 export default function TabsContainer() {
     const {boards, activeBoardId, addBoard, setBoards} = useContext(BoardsContext);
+
+    if (boards.length > 0 && !activeBoardId) {
+        return null; 
+    }
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -56,12 +60,19 @@ export default function TabsContainer() {
             visibleTabs = boards.slice(0, maxVisibleTabs);
             hiddenTabs = boards.slice(maxVisibleTabs);
         } else {
-            const firstPart = boards.slice(0, maxVisibleTabs - 1);
-            const activeTab = boards[activeIndex];
-            
-            visibleTabs = [...firstPart, activeTab];
-            
-            hiddenTabs = boards.filter(b => !visibleTabs.find(v => v.id === b.id));
+            const safeActiveIndex = activeIndex === -1 ? 0 : activeIndex;
+
+            if (safeActiveIndex < maxVisibleTabs) {
+                visibleTabs = boards.slice(0, maxVisibleTabs);
+                hiddenTabs = boards.slice(maxVisibleTabs);
+            } else {
+                const firstPart = boards.slice(0, maxVisibleTabs - 1);
+                const activeTab = boards[safeActiveIndex];
+                
+                visibleTabs = [...firstPart, activeTab].filter(Boolean);
+                
+                hiddenTabs = boards.filter(b => !visibleTabs.find(v => v.id === b.id));
+            }
         }
     }
 

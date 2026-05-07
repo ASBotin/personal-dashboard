@@ -43,7 +43,6 @@ export default function AuthPage({ onLogin }: { onLogin: () => void }) {
                 setEmailInput("");
                 setPasswordInput("");
                 setConfirmInput("");
-                alert("Регистрация успешна! Теперь войдите.");
             } else {
                 localStorage.setItem('token', data.token);
                 onLogin();

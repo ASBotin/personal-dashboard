@@ -48,7 +48,7 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
 
     const timerRef = useRef<number | undefined>(undefined);
 
-    const witchBreakIsNext = () => {
+    const whichBreakIsNext = () => {
         if (longBreakInterval.remain > 0) {
             setLongBreakInterval(prev => ({
                 interval: prev.interval,
@@ -68,7 +68,7 @@ export default function Pomodoro({widgetModel}: { readonly widgetModel: WidgetMo
     const handleNextMode = () => {
         let mode: PomodoroMode;
         if (activeMode === "work") {
-                const nextBreak = witchBreakIsNext();
+                const nextBreak = whichBreakIsNext();
                 mode = nextBreak;
         }
         else {

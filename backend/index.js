@@ -17,7 +17,6 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/boards', boardRoutes);
 
-// Подключение к БД
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/dashboard_db';
 
 mongoose.connect(mongoUri)

@@ -5,8 +5,6 @@ The project features customizable widget-based workspaces, tab-separated dashboa
 
 ## Live Demo
 
-You can use a live demo at the link:
-
 https://project-knrs8.vercel.app
 
 ## Preview
@@ -69,7 +67,7 @@ Deployment:
 ### Clone Repository
 
 ```bash
-git clone https://github.com/your-username/personal-dashboard.git
+git clone https://github.com/asbotin/personal-dashboard.git
 cd personal-dashboard
 ```
 
@@ -138,3 +136,11 @@ JWT_SECRET=your_secret_key
 CLIENT_URL=http://localhost:5173
 ```
 
+## What I Learned
+
+- Building modular React architecture for scalable UI
+- Managing complex widget state and interactions
+- Fullstack application deployment workflow
+- Working with MongoDB Atlas and cloud infrastructure
+- Production environment configuration
+- REST API integration with external services

@@ -3,13 +3,19 @@ import styles from './AuthPage.module.css';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export default function AuthPage({ onLogin }: { onLogin: () => void }) {
+export default function AuthPage({
+    onLogin,
+    initialError
+}: {
+    onLogin: () => void;
+    initialError?: string | null;
+}) {
     const [isRegistering, setIsRegistering] = useState<boolean>(false);
     const [emailInput, setEmailInput] = useState<string>("");
     const [passwordInput, setPasswordInput] = useState<string>("");
     const [confirmInput, setConfirmInput] = useState<string>("");
     const [showPassword, setShowPassword] = useState<boolean>(false); // Чекбокс
-    const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(initialError ?? null);
 
     // Маппинг ошибок с бэкенда
     const translateError = (err: string) => {
